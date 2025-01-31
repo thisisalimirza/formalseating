@@ -1,7 +1,17 @@
 <?php
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Start session and load dependencies
 session_start();
 require_once 'includes/config.php';
 require_once 'includes/auth.php';
+
+// Log environment for debugging
+error_log("Environment: " . getenv('APP_ENV'));
+error_log("Database URL: " . (getenv('DATABASE_URL') ? 'Set' : 'Not Set'));
 
 // Redirect to login if not authenticated
 if (!isAuthenticated()) {
@@ -13,9 +23,7 @@ $user = getCurrentUser();
 
 // Get current settings
 try {
-    $pdo = new PDO("sqlite:database.sqlite");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
+    // Use the PDO instance from config.php
     $stmt = $pdo->query("SELECT * FROM settings");
     $settings = [];
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
