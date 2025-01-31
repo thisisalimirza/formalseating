@@ -26,4 +26,5 @@ logs/
 *.db
 
 # Configuration files with sensitive data
-config.php 
+/config.php
+!/includes/config.php 
