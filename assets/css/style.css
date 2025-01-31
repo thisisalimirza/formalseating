@@ -1,0 +1,389 @@
+/* Custom styles for the seating app */
+
+/* Smooth transitions */
+* {
+    transition: background-color 0.2s ease;
+}
+
+/* Toggle switch styles */
+.relative {
+    position: relative;
+}
+
+input[type="checkbox"].sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+input[type="checkbox"] + .block {
+    transition: background-color 0.2s ease;
+}
+
+input[type="checkbox"]:checked + .block {
+    background-color: #3B82F6;
+}
+
+input[type="checkbox"] + .block .dot {
+    transition: transform 0.2s ease;
+}
+
+input[type="checkbox"]:checked + .block .dot {
+    transform: translateX(100%);
+    background-color: #ffffff;
+}
+
+/* Seating map styles */
+#seating-map {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: 800px;
+    padding: 4rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: center center;
+    -webkit-overflow-scrolling: touch;
+    background: #F9FAFB;
+}
+
+/* Table styles */
+.table {
+    position: absolute;
+    background: #E5E7EB;
+    border: 2px solid #D1D5DB;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    touch-action: manipulation;
+}
+
+.table > div {
+    font-size: 0.875rem;
+    white-space: nowrap;
+    color: #374151;
+}
+
+.table:hover {
+    background: #D1D5DB;
+}
+
+/* Seat styles */
+.seat-btn {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+    background: #F3F4F6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    transition: all 0.2s ease;
+}
+
+.seat-btn:hover {
+    background-color: #E5E7EB;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* Responsive Design - Updated for smoother transitions */
+@media (max-width: 1600px) {
+    #seating-map {
+        max-width: 100%;
+        transform: scale(0.95);
+        padding: 3.5rem;
+    }
+}
+
+@media (max-width: 1200px) {
+    #seating-map {
+        transform: scale(0.9);
+        padding: 3rem;
+        min-height: 700px;
+    }
+    
+    .table {
+        width: 110px;
+        height: 110px;
+    }
+    
+    .seat-btn {
+        width: 30px;
+        height: 30px;
+        min-width: 30px;
+        min-height: 30px;
+    }
+}
+
+@media (max-width: 992px) {
+    #seating-map {
+        transform: scale(0.85);
+        padding: 2.5rem;
+        min-height: 650px;
+    }
+    
+    .table {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .seat-btn {
+        width: 28px;
+        height: 28px;
+        min-width: 28px;
+        min-height: 28px;
+    }
+}
+
+@media (max-width: 768px) {
+    #seating-map {
+        transform: scale(0.8);
+        padding: 2rem;
+        min-height: 600px;
+    }
+    
+    .table {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .table > div {
+        font-size: 0.75rem;
+    }
+    
+    .seat-btn {
+        width: 26px;
+        height: 26px;
+        min-width: 26px;
+        min-height: 26px;
+    }
+}
+
+@media (max-width: 576px) {
+    #seating-map {
+        transform: scale(0.7);
+        padding: 1.5rem;
+        min-height: 550px;
+    }
+    
+    .table {
+        width: 85px;
+        height: 85px;
+    }
+    
+    .seat-btn {
+        width: 24px;
+        height: 24px;
+        min-width: 44px; /* Maintain touch target size */
+        min-height: 44px;
+    }
+}
+
+/* iPhone and small mobile devices */
+@media (max-width: 430px) {
+    #seating-map {
+        transform: scale(0.6);
+        padding: 1rem;
+        min-height: 500px;
+    }
+    
+    .table {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .table > div {
+        font-size: 0.7rem;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+    #seating-map {
+        transform: scale(0.5);
+        padding: 0.75rem;
+        min-height: 450px;
+    }
+    
+    .table {
+        width: 75px;
+        height: 75px;
+    }
+}
+
+/* Ensure proper touch targets on mobile */
+@media (hover: none) and (pointer: coarse) {
+    .seat-btn {
+        min-width: 44px !important;
+        min-height: 44px !important;
+    }
+}
+
+/* Prevent content overflow on small screens */
+@media (max-height: 600px) {
+    #seating-map {
+        min-height: 400px;
+    }
+}
+
+/* Prevent zooming on iOS */
+@media screen and (max-width: 430px) {
+    input, select, textarea {
+        font-size: 16px !important; /* Prevent auto-zoom on iOS */
+    }
+}
+
+/* Better touch feedback */
+@media (hover: none) {
+    .seat-btn:active {
+        background-color: #D1D5DB;
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+    
+    .table:active {
+        background-color: #D1D5DB;
+    }
+}
+
+/* Improved scrolling on mobile */
+@supports (-webkit-overflow-scrolling: touch) {
+    body {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    #seating-map {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Toast animation */
+@keyframes slideIn {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+/* Focus styles */
+:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* Disable outline for mouse users */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Better form input focus */
+input:focus {
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+/* Prevent text selection on interactive elements */
+button, 
+.seat-btn,
+.table {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Improved accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* Venue tab styles */
+.venue-tab {
+    transition: all 0.2s ease;
+    border-color: transparent;
+    color: #6B7280;
+}
+
+.venue-tab:hover {
+    color: #374151;
+    border-color: #D1D5DB;
+}
+
+.venue-tab.active {
+    border-color: #3B82F6;
+    color: #2563EB;
+}
+
+/* Remove the black box in the bottom right */
+#toast {
+    z-index: 50;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+#toast.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+} 
