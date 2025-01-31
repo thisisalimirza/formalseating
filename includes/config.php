@@ -27,4 +27,15 @@ if (APP_ENV === 'development') {
     ini_set('log_errors', 1);
     ini_set('error_log', 'php://stderr');
 }
+
+// Create database connection
+try {
+    $dsn = "pgsql:host=" . DB_HOST . ";port=5432;dbname=" . DB_NAME;
+    $pdo = new PDO($dsn, DB_USER, DB_PASS);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Database connection failed: " . $e->getMessage());
+    die("Could not connect to the database. Please try again later.");
+}
 ?> 
