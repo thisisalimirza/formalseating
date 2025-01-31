@@ -1,9 +1,7 @@
 <?php
 // Database configuration
-define('DB_HOST', getenv('DB_HOST'));     // Database host from Heroku
-define('DB_NAME', getenv('DB_NAME'));     // Database name from Heroku
-define('DB_USER', getenv('DB_USER'));     // Database username from Heroku
-define('DB_PASS', getenv('DB_PASSWORD')); // Database password from Heroku
+$databaseUrl = getenv('DATABASE_URL');
+$dbConfig = parse_url($databaseUrl);
 
 // Application settings
 define('APP_URL', 'https://seating-app-1738294124-e7b13f1dc901.herokuapp.com');  // Heroku app URL
@@ -30,8 +28,15 @@ if (APP_ENV === 'development') {
 
 // Create database connection
 try {
-    $dsn = "pgsql:host=" . DB_HOST . ";port=5432;dbname=" . DB_NAME;
-    $pdo = new PDO($dsn, DB_USER, DB_PASS);
+    $dsn = sprintf(
+        "pgsql:host=%s;port=%d;dbname=%s;user=%s;password=%s",
+        $dbConfig['host'],
+        isset($dbConfig['port']) ? $dbConfig['port'] : 5432,
+        ltrim($dbConfig['path'], '/'),
+        $dbConfig['user'],
+        $dbConfig['pass']
+    );
+    $pdo = new PDO($dsn);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
