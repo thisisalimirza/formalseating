@@ -1,5 +1,5 @@
 {
-    "name": "seating-app",
+    "name": "alimirza/seatingapp",
     "description": "A seating arrangement application for events",
     "type": "project",
     "require": {
