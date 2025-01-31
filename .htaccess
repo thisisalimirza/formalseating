@@ -1,0 +1,20 @@
+# Deny access to database file
+<Files database.sqlite>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Deny access to .git directory
+RedirectMatch 404 /\.git
+
+# Protect sensitive files
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Enable rewrite engine
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [L] 
