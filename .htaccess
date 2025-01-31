@@ -13,8 +13,30 @@ RedirectMatch 404 /\.git
     Deny from all
 </FilesMatch>
 
-# Enable rewrite engine
 RewriteEngine On
+RewriteBase /
+
+# Allow HTTP methods
+<LimitExcept GET POST PUT DELETE OPTIONS>
+    Order deny,allow
+    Deny from all
+</LimitExcept>
+
+# Handle Authorization Header
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Redirect to HTTPS
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Handle front controller pattern
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^ index.php [L] 
+RewriteRule ^ index.php [QSA,L]
+
+# Enable Cross-Origin Resource Sharing (CORS)
+Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+Header set Access-Control-Allow-Headers "Content-Type, Authorization" 
