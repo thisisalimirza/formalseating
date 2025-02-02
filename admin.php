@@ -223,14 +223,28 @@ try {
                         // Get table assignments
                         try {
                             $stmt = $pdo->query("
+                                WITH AllTables AS (
+                                    SELECT DISTINCT number as table_num
+                                    FROM (
+                                        SELECT generate_series(1, 45) as number
+                                    ) t
+                                ),
+                                OccupiedSeats AS (
+                                    SELECT 
+                                        FLOOR((s.seat_id - 1) / 10) + 1 as table_num,
+                                        GROUP_CONCAT(u.name ORDER BY s.seat_id SEPARATOR ', ') as seated_users,
+                                        COUNT(*) as occupied_seats
+                                    FROM seats s
+                                    JOIN users u ON s.user_id = u.id
+                                    GROUP BY FLOOR((s.seat_id - 1) / 10)
+                                )
                                 SELECT 
-                                    FLOOR((s.seat_id - 1) / 10) + 1 as table_num,
-                                    GROUP_CONCAT(u.name ORDER BY s.seat_id) as seated_users,
-                                    COUNT(*) as occupied_seats
-                                FROM seats s
-                                JOIN users u ON s.user_id = u.id
-                                GROUP BY FLOOR((s.seat_id - 1) / 10)
-                                ORDER BY table_num
+                                    at.table_num,
+                                    COALESCE(os.seated_users, '') as seated_users,
+                                    COALESCE(os.occupied_seats, 0) as occupied_seats
+                                FROM AllTables at
+                                LEFT JOIN OccupiedSeats os ON at.table_num = os.table_num
+                                ORDER BY at.table_num
                             ");
                             
                             $tableAssignments = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -238,12 +252,12 @@ try {
                             foreach ($tableAssignments as $table) {
                                 echo "<tr>";
                                 echo "<td class='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>Table {$table['table_num']}</td>";
-                                echo "<td class='px-6 py-4 text-sm text-gray-500'>" . htmlspecialchars($table['seated_users']) . "</td>";
+                                echo "<td class='px-6 py-4 text-sm text-gray-500'>" . ($table['seated_users'] ? htmlspecialchars($table['seated_users']) : 'No attendees') . "</td>";
                                 echo "<td class='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>" . (10 - $table['occupied_seats']) . " seats available</td>";
                                 echo "</tr>";
                             }
                         } catch (PDOException $e) {
-                            echo "<tr><td colspan='3' class='px-6 py-4 text-sm text-red-500'>Error loading table assignments</td></tr>";
+                            echo "<tr><td colspan='3' class='px-6 py-4 text-sm text-red-500'>Error loading table assignments: " . htmlspecialchars($e->getMessage()) . "</td></tr>";
                         }
                         ?>
                     </tbody>
