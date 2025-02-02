@@ -87,8 +87,8 @@ try {
                     <label class="flex items-center cursor-pointer">
                         <div class="relative">
                             <input type="checkbox" id="show-names" class="sr-only" <?php echo ($settings['show_occupied_names'] ?? '0') === '1' ? 'checked' : ''; ?>>
-                            <div class="block bg-gray-200 w-14 h-8 rounded-full"></div>
-                            <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
+                            <div class="block bg-gray-200 w-14 h-8 rounded-full transition-colors duration-200"></div>
+                            <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-200" style="transform: <?php echo ($settings['show_occupied_names'] ?? '0') === '1' ? 'translateX(24px)' : 'translateX(0)'; ?>"></div>
                         </div>
                         <div class="ml-3 text-gray-700">Show names on occupied seats</div>
                     </label>
@@ -154,24 +154,41 @@ try {
     <script>
         // Toggle show names setting
         document.getElementById('show-names').addEventListener('change', async function(e) {
+            const toggle = this;
+            const dot = toggle.parentElement.querySelector('.dot');
+            
             try {
                 const response = await fetch('api/update_settings.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `key=show_occupied_names&value=${e.target.checked ? '1' : '0'}`
+                    body: `key=show_occupied_names&value=${toggle.checked ? '1' : '0'}`
                 });
 
-                if (!response.ok) {
-                    throw new Error('Failed to update setting');
+                const data = await response.json();
+                if (!response.ok || !data.success) {
+                    throw new Error(data.error || 'Failed to update setting');
                 }
 
-                // Reload the page to reflect changes
-                window.location.reload();
+                // Update the toggle visual state
+                if (toggle.checked) {
+                    toggle.parentElement.querySelector('.block').classList.add('bg-blue-600');
+                    dot.style.transform = 'translateX(24px)';
+                } else {
+                    toggle.parentElement.querySelector('.block').classList.remove('bg-blue-600');
+                    dot.style.transform = 'translateX(0)';
+                }
+
+                // Reload the page after a short delay to show the animation
+                setTimeout(() => {
+                    window.location.reload();
+                }, 300);
             } catch (error) {
                 console.error('Error updating setting:', error);
                 alert('Failed to update setting. Please try again.');
+                // Revert the toggle state
+                toggle.checked = !toggle.checked;
             }
         });
 
