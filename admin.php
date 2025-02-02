@@ -222,23 +222,22 @@ try {
                         <?php
                         // Get table assignments
                         try {
-                            // First create a temporary table with numbers 1-45
+                            // Create a PHP array of table numbers
+                            $tableNumbers = range(1, 45);
+                            $placeholders = str_repeat('(?),', count($tableNumbers) - 1) . '(?)';
+                            
+                            // Create temporary table
                             $pdo->exec("
                                 CREATE TEMPORARY TABLE IF NOT EXISTS table_numbers (
                                     table_num INT PRIMARY KEY
-                                );
-                                
-                                TRUNCATE table_numbers;
-                                
-                                INSERT INTO table_numbers (table_num)
-                                WITH RECURSIVE numbers AS (
-                                    SELECT 1 as n
-                                    UNION ALL
-                                    SELECT n + 1 FROM numbers WHERE n < 45
                                 )
-                                SELECT n FROM numbers;
                             ");
+                            
+                            // Prepare and execute insert
+                            $stmt = $pdo->prepare("INSERT INTO table_numbers (table_num) VALUES " . $placeholders);
+                            $stmt->execute($tableNumbers);
 
+                            // Query for table assignments
                             $stmt = $pdo->query("
                                 SELECT 
                                     tn.table_num,
