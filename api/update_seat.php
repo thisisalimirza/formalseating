@@ -22,7 +22,7 @@ if (!isset($_POST['seat_id']) || !isset($_POST['occupied'])) {
 }
 
 $seatId = filter_var($_POST['seat_id'], FILTER_VALIDATE_INT);
-$occupied = $_POST['occupied'] === '1';
+$occupied = $_POST['occupied'] === '1' ? 'true' : 'false';
 
 if ($seatId === false) {
     http_response_code(400);
@@ -70,7 +70,7 @@ try {
     // Update seat
     $stmt = $pdo->prepare("
         UPDATE seats 
-        SET occupied = ?, user_id = ? 
+        SET occupied = ?::boolean, user_id = ? 
         WHERE seat_id = ?
     ");
     $stmt->execute([$occupied, $occupied ? $user['id'] : null, $seatId]);
