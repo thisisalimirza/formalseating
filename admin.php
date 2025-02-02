@@ -242,10 +242,10 @@ try {
                                 SELECT 
                                     tn.table_num,
                                     COALESCE(
-                                        GROUP_CONCAT(
-                                            DISTINCT u.name 
-                                            ORDER BY s.seat_id 
-                                            SEPARATOR ', '
+                                        string_agg(
+                                            DISTINCT u.name,
+                                            ', ' 
+                                            ORDER BY MIN(s.seat_id)
                                         ),
                                         ''
                                     ) as seated_users,
