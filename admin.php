@@ -13,9 +13,7 @@ $user = getCurrentUser();
 
 // Get current settings
 try {
-    $pdo = new PDO("sqlite:database.sqlite");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
+    // Get current settings
     $stmt = $pdo->query("SELECT * FROM settings");
     $settings = [];
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -26,23 +24,20 @@ try {
     $stmt = $pdo->query("
         SELECT 
             COUNT(*) as total_users,
-            SUM(CASE WHEN plus_one = 1 THEN 1 ELSE 0 END) as plus_one_count
+            SUM(CASE WHEN plus_one = true THEN 1 ELSE 0 END) as plus_one_count
         FROM users
     ");
     $userStats = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Get seat statistics per venue
-    $stmt = $pdo->prepare("
+    // Get seat statistics
+    $stmt = $pdo->query("
         SELECT 
-            venue,
             COUNT(*) as occupied_seats,
             COUNT(DISTINCT user_id) as unique_users
         FROM seats 
-        WHERE occupied = 1
-        GROUP BY venue
+        WHERE occupied = true
     ");
-    $stmt->execute();
-    $venueStats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $seatStats = $stmt->fetch(PDO::FETCH_ASSOC);
 
 } catch (PDOException $e) {
     $error = "Database error: " . $e->getMessage();
@@ -118,26 +113,19 @@ try {
                 </dl>
             </div>
 
-            <!-- Venue Statistics -->
+            <!-- Seat Statistics -->
             <div class="bg-white shadow rounded-lg p-6">
-                <h2 class="text-lg font-medium text-gray-900 mb-4">Venue Statistics</h2>
-                <div class="space-y-4">
-                    <?php foreach ($venueStats as $stat): ?>
+                <h2 class="text-lg font-medium text-gray-900 mb-4">Seat Statistics</h2>
+                <dl class="grid grid-cols-1 gap-4">
                     <div>
-                        <h3 class="text-sm font-medium text-gray-500"><?php echo htmlspecialchars(ucfirst($stat['venue'])); ?></h3>
-                        <dl class="mt-2 grid grid-cols-2 gap-4">
-                            <div>
-                                <dt class="text-xs text-gray-500">Occupied Seats</dt>
-                                <dd class="text-2xl font-semibold text-gray-900"><?php echo $stat['occupied_seats']; ?></dd>
-                            </div>
-                            <div>
-                                <dt class="text-xs text-gray-500">Unique Users</dt>
-                                <dd class="text-2xl font-semibold text-gray-900"><?php echo $stat['unique_users']; ?></dd>
-                            </div>
-                        </dl>
+                        <dt class="text-sm font-medium text-gray-500">Occupied Seats</dt>
+                        <dd class="mt-1 text-3xl font-semibold text-gray-900"><?php echo $seatStats['occupied_seats']; ?></dd>
                     </div>
-                    <?php endforeach; ?>
-                </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Unique Users with Seats</dt>
+                        <dd class="mt-1 text-3xl font-semibold text-gray-900"><?php echo $seatStats['unique_users']; ?></dd>
+                    </div>
+                </dl>
             </div>
         </div>
 
@@ -151,7 +139,7 @@ try {
                             <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                             <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                             <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plus One</th>
-                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Venue</th>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Selected Seats</th>
                             <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
@@ -200,7 +188,7 @@ try {
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${user.name}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.email}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.plus_one ? 'Yes' : 'No'}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.venue || 'None'}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.seats ? user.seats.join(', ') : 'None'}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <button onclick="togglePlusOne(${user.id})" class="text-blue-600 hover:text-blue-900 mr-2">
                                 Toggle Plus One
@@ -260,7 +248,7 @@ try {
             }
         }
 
-        // Initial load
+        // Initialize
         loadUsers();
     </script>
 </body>

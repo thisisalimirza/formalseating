@@ -14,26 +14,38 @@ try {
     $pdo = new PDO("sqlite:../database.sqlite");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Get users with their venue information
+    // Get users with their seat information
     $stmt = $pdo->query("
         SELECT 
             u.id,
             u.name,
             u.email,
             u.plus_one,
-            s.venue
+            ARRAY_AGG(s.seat_id ORDER BY s.seat_id) FILTER (WHERE s.seat_id IS NOT NULL) as seats
         FROM users u
         LEFT JOIN (
-            SELECT DISTINCT user_id, venue
+            SELECT user_id, seat_id
             FROM seats
-            WHERE occupied = 1
+            WHERE occupied = true
         ) s ON u.id = s.user_id
+        GROUP BY u.id, u.name, u.email, u.plus_one
         ORDER BY u.name
     ");
 
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Convert string representation of array to actual array
+    foreach ($users as &$user) {
+        if ($user['seats'] !== null) {
+            // Remove the curly braces and split the string
+            $seats = trim($user['seats'], '{}');
+            $user['seats'] = $seats ? explode(',', $seats) : null;
+        }
+    }
+    
     echo json_encode($users);
 } catch (PDOException $e) {
+    error_log("Database error in get_users.php: " . $e->getMessage());
     http_response_code(500);
     echo json_encode(['error' => 'Database error']);
 }

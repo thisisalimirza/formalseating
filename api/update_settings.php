@@ -29,14 +29,18 @@ if (!in_array($key, $allowedKeys)) {
 }
 
 try {
-    $pdo = new PDO("sqlite:../database.sqlite");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    $stmt = $pdo->prepare("INSERT OR REPLACE INTO settings (key, value, updated_at) VALUES (?, ?, CURRENT_TIMESTAMP)");
+    // Use the PDO instance from config.php
+    $stmt = $pdo->prepare("
+        INSERT INTO settings (key, value, updated_at) 
+        VALUES (?, ?, CURRENT_TIMESTAMP) 
+        ON CONFLICT (key) 
+        DO UPDATE SET value = EXCLUDED.value, updated_at = CURRENT_TIMESTAMP
+    ");
     $stmt->execute([$key, $value]);
 
     echo json_encode(['success' => true]);
 } catch (PDOException $e) {
+    error_log("Database error in update_settings.php: " . $e->getMessage());
     http_response_code(500);
     echo json_encode(['error' => 'Database error']);
 }

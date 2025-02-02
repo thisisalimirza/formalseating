@@ -10,28 +10,20 @@ if (!isAuthenticated()) {
     exit();
 }
 
-// Get venue parameter
-$venue = isset($_GET['venue']) ? $_GET['venue'] : 'venue1';
-if (!in_array($venue, ['venue1', 'venue2'])) {
-    http_response_code(400);
-    echo json_encode(['error' => 'Invalid venue']);
-    exit();
-}
-
 try {
-    // Get all occupied seats for the specific venue
-    $stmt = $pdo->prepare("SELECT seat_id, user_id FROM seats WHERE venue = ? AND occupied = true");
-    $stmt->execute([$venue]);
+    // Get all occupied seats
+    $stmt = $pdo->prepare("
+        SELECT seat_id, user_id 
+        FROM seats 
+        WHERE occupied = true
+    ");
+    $stmt->execute();
+    $seats = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    $occupiedSeats = [];
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $occupiedSeats[$row['seat_id']] = $row['user_id'];
-    }
-    
-    echo json_encode($occupiedSeats);
+    echo json_encode($seats);
 } catch (PDOException $e) {
-    error_log("Error fetching seats: " . $e->getMessage());
+    error_log("Database error in get_seats.php: " . $e->getMessage());
     http_response_code(500);
-    echo json_encode(['error' => 'Internal server error']);
+    echo json_encode(['error' => 'Database error']);
 }
 ?> 
