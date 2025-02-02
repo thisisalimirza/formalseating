@@ -40,7 +40,7 @@ try {
         <div class="container mx-auto px-4">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between py-4">
                 <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-6 mb-2 sm:mb-0">
-                    <h1 class="text-xl font-bold text-gray-900">UCHC Formal 2025</h1>
+                    <h1 class="text-xl font-bold text-gray-900">Medical School Formal</h1>
                     <p class="text-gray-600 text-sm sm:border-l sm:border-gray-300 sm:pl-6">Welcome, <?php echo htmlspecialchars($user['name']); ?></p>
                 </div>
                 <div class="flex gap-2 w-full sm:w-auto">
@@ -94,18 +94,9 @@ try {
     </main>
 
     <!-- Toast notification -->
-    <div id="toast" class="fixed bottom-4 right-4 transform transition-transform duration-300 translate-y-full z-50">
-        <div class="flex items-center p-4 mb-4 text-sm rounded-lg shadow-lg min-w-[300px]" role="alert">
-            <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg me-3">
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"></svg>
-            </div>
-            <span id="toast-message" class="flex-1"></span>
-            <button type="button" class="ms-auto -mx-1.5 -my-1.5 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 inline-flex items-center justify-center h-8 w-8 text-gray-500 hover:text-gray-900" onclick="hideToast()">
-                <span class="sr-only">Close</span>
-                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                </svg>
-            </button>
+    <div id="toast" class="fixed bottom-4 right-4 transform transition-transform duration-300 translate-y-full">
+        <div class="bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg">
+            <span id="toast-message"></span>
         </div>
     </div>
 
@@ -134,44 +125,13 @@ try {
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toast-message');
 
-        // Enhanced toast notification system
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toast-message');
-            const icon = toast.querySelector('svg');
-            const alert = toast.querySelector('[role="alert"]');
-            
-            // Configure based on type
-            switch(type) {
-                case 'error':
-                    alert.className = 'flex items-center p-4 mb-4 text-red-800 bg-red-50 rounded-lg shadow-lg min-w-[300px]';
-                    icon.innerHTML = '<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 1-1 1 1 0 0 1-1 1Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/>';
-                    break;
-                case 'success':
-                    alert.className = 'flex items-center p-4 mb-4 text-green-800 bg-green-50 rounded-lg shadow-lg min-w-[300px]';
-                    icon.innerHTML = '<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>';
-                    break;
-                case 'warning':
-                    alert.className = 'flex items-center p-4 mb-4 text-yellow-800 bg-yellow-50 rounded-lg shadow-lg min-w-[300px]';
-                    icon.innerHTML = '<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 1-1 1 1 0 0 1-1 1Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/>';
-                    break;
-                default:
-                    alert.className = 'flex items-center p-4 mb-4 text-blue-800 bg-blue-50 rounded-lg shadow-lg min-w-[300px]';
-                    icon.innerHTML = '<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>';
-            }
-            
+        // Show toast message
+        function showToast(message, duration = 3000) {
             toastMessage.textContent = message;
             toast.classList.remove('translate-y-full');
-            
-            // Auto-hide after duration unless it's an error
-            if (type !== 'error') {
-                setTimeout(hideToast, 5000);
-            }
-        }
-
-        function hideToast() {
-            const toast = document.getElementById('toast');
-            toast.classList.add('translate-y-full');
+            setTimeout(() => {
+                toast.classList.add('translate-y-full');
+            }, duration);
         }
 
         // Create seat element
@@ -373,22 +333,19 @@ try {
             }
         }
 
-        // Enhanced seat click handler
+        // Handle seat click
         async function handleSeatClick(seatId) {
             const seat = document.querySelector(`[data-seat-id="${seatId}"]`);
             const isSelected = selectedSeats.includes(seatId);
             const isOccupied = occupiedSeats[seatId] && occupiedSeats[seatId] !== userId;
 
             if (isOccupied) {
-                showToast('This seat is already taken by another attendee', 'error');
+                showToast('This seat is already taken');
                 return;
             }
 
             if (!isSelected && selectedSeats.length >= maxSeats) {
-                const message = maxSeats === 1 
-                    ? 'You can only select 1 seat. To select more seats, contact an admin to enable plus one.'
-                    : 'You can only select 2 seats with your plus one option.';
-                showToast(message, 'error');
+                showToast(`You can only select ${maxSeats} seat${maxSeats > 1 ? 's' : ''}`);
                 return;
             }
 
@@ -398,12 +355,12 @@ try {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `seat_id=${seatId}&occupied=${!isSelected ? '1' : '0'}`,
+                    body: `seat_id=${seatId}&occupied=${!isSelected ? 1 : 0}`,
                 });
 
-                const data = await response.json();
                 if (!response.ok) {
-                    throw new Error(data.error || 'Failed to update seat');
+                    const data = await response.json();
+                    throw new Error(data.message || 'Failed to update seat');
                 }
 
                 if (isSelected) {
@@ -411,33 +368,31 @@ try {
                     seat.classList.remove('bg-blue-500', 'hover:bg-blue-600');
                     seat.classList.add('bg-gray-200', 'hover:bg-gray-300');
                     delete occupiedSeats[seatId];
-                    showToast('Seat unselected successfully', 'success');
                 } else {
                     selectedSeats.push(seatId);
                     seat.classList.remove('bg-gray-200', 'hover:bg-gray-300');
                     seat.classList.add('bg-blue-500', 'hover:bg-blue-600');
                     occupiedSeats[seatId] = userId;
-                    showToast('Seat selected successfully', 'success');
                 }
             } catch (error) {
-                console.error('Error updating seat:', error);
-                showToast(error.message || 'Failed to update seat. Please try again.', 'error');
+                showToast(error.message);
             }
         }
 
-        // Enhanced seat status loading
+        // Load initial seat status
         async function loadSeatStatus() {
             try {
                 const response = await fetch('api/get_seats.php');
-                if (!response.ok) {
-                    throw new Error('Failed to load seats');
-                }
+                if (!response.ok) throw new Error('Failed to load seats');
                 const seats = await response.json();
 
                 occupiedSeats = {};
                 selectedSeats = [];
 
+                console.log('Loaded seats:', seats); // Debug log
+
                 seats.forEach(seat => {
+                    // Convert string IDs to integers
                     const seatId = parseInt(seat.seat_id);
                     const occupantId = parseInt(seat.user_id);
                     
@@ -455,45 +410,32 @@ try {
                         }
                     }
                 });
+
+                console.log('Occupied seats:', occupiedSeats); // Debug log
             } catch (error) {
                 console.error('Error loading seats:', error);
-                showToast('Failed to load seat status. Please refresh the page.', 'error');
+                showToast('Failed to load seat status');
             }
         }
 
-        // Add error handling for resize observer
-        let resizeTimeout;
+        // Add resize observer for more responsive updates
         const resizeObserver = new ResizeObserver(entries => {
-            try {
-                for (const entry of entries) {
-                    if (entry.target === seatingMap) {
-                        clearTimeout(resizeTimeout);
-                        resizeTimeout = setTimeout(() => {
-                            createSeatingLayout();
-                            loadSeatStatus();
-                        }, 250);
-                    }
+            for (const entry of entries) {
+                if (entry.target === seatingMap) {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        createSeatingLayout();
+                        loadSeatStatus();
+                    }, 250);
                 }
-            } catch (error) {
-                console.error('Error handling resize:', error);
-                showToast('Failed to update layout. Please refresh the page.', 'error');
             }
         });
 
-        try {
-            resizeObserver.observe(seatingMap);
-        } catch (error) {
-            console.error('Failed to initialize resize observer:', error);
-        }
+        resizeObserver.observe(seatingMap);
 
-        // Initialize with error handling
-        try {
-            createSeatingLayout();
-            loadSeatStatus();
-        } catch (error) {
-            console.error('Error initializing seating map:', error);
-            showToast('Failed to initialize seating map. Please refresh the page.', 'error');
-        }
+        // Initialize
+        createSeatingLayout();
+        loadSeatStatus();
     </script>
 </body>
 </html> 
