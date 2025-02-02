@@ -151,7 +151,7 @@ try {
             const y = Math.round(tableY + seatDistance * Math.sin(angle));
 
             const seat = document.createElement('button');
-            seat.className = 'absolute rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none seat-btn';
+            seat.className = 'absolute rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none seat-btn transition-colors duration-200';
             seat.style.cssText = `
                 width: ${config.seatRadius * 2}px;
                 height: ${config.seatRadius * 2}px;
@@ -185,12 +185,6 @@ try {
                     tooltip.classList.add('opacity-0', 'invisible');
                 });
             }
-
-            // Add seat number
-            const seatNumber = document.createElement('span');
-            seatNumber.className = 'absolute inset-0 flex items-center justify-center text-xs font-medium text-gray-700';
-            seatNumber.textContent = seatIndex + 1;
-            seat.appendChild(seatNumber);
 
             seat.addEventListener('click', () => handleSeatClick(seatId));
             return seat;
