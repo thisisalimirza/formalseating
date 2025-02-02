@@ -100,11 +100,16 @@ input[type="checkbox"]:checked + .block .dot {
 }
 
 /* Tooltip styles */
-.seat-btn > div {
-    pointer-events: none;
+.tooltip {
+    position: absolute;
     white-space: nowrap;
     z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+}
+
+.seat-btn .tooltip {
+    bottom: calc(100% + 8px) !important;
+    transform: translateX(-50%);
 }
 
 .seat-btn:hover > div {
@@ -147,7 +152,7 @@ input[type="checkbox"]:checked + .block .dot {
     .seat-btn .tooltip {
         font-size: 0.75rem;
         padding: 0.25rem 0.5rem;
-        bottom: 120% !important;
+        bottom: calc(100% + 8px) !important;
     }
     
     /* Adjust legend text size */

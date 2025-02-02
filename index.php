@@ -180,15 +180,24 @@ try {
                 `;
 
                 const tooltip = document.createElement('div');
-                tooltip.className = 'absolute transform -translate-x-1/2 px-2 py-1 text-sm text-white bg-gray-900 rounded whitespace-nowrap opacity-0 invisible transition-all duration-200 pointer-events-none';
+                tooltip.className = 'tooltip absolute transform -translate-x-1/2 px-2 py-1 text-sm text-white bg-gray-900 rounded whitespace-nowrap opacity-0 invisible transition-all duration-200 pointer-events-none';
                 tooltip.style.cssText = `
-                    bottom: ${config.seatRadius * 2 + 16}px;
+                    bottom: calc(100% + 8px);
+                    left: 50%;
+                    z-index: 1000;
                     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
                 `;
 
                 // Add tooltip arrow
                 const arrow = document.createElement('div');
-                arrow.className = 'absolute left-1/2 -bottom-1 transform -translate-x-1/2 rotate-45 w-2 h-2 bg-gray-900';
+                arrow.className = 'absolute left-1/2 bottom-0 transform -translate-x-1/2 translate-y-full';
+                arrow.style.cssText = `
+                    width: 0;
+                    height: 0;
+                    border-left: 6px solid transparent;
+                    border-right: 6px solid transparent;
+                    border-top: 6px solid #111827;
+                `;
                 tooltip.appendChild(arrow);
 
                 tooltipContainer.appendChild(tooltip);
@@ -208,22 +217,6 @@ try {
                             tooltip.textContent = data.name;
                             tooltip.appendChild(arrow);
                             tooltip.classList.remove('opacity-0', 'invisible');
-                            
-                            // Ensure tooltip is fully visible
-                            const tooltipRect = tooltip.getBoundingClientRect();
-                            const viewportHeight = window.innerHeight;
-                            
-                            if (tooltipRect.top < 0) {
-                                tooltip.style.bottom = 'unset';
-                                tooltip.style.top = `${config.seatRadius * 2 + 16}px`;
-                                arrow.style.bottom = 'unset';
-                                arrow.style.top = '-4px';
-                            } else {
-                                tooltip.style.bottom = `${config.seatRadius * 2 + 16}px`;
-                                tooltip.style.top = 'unset';
-                                arrow.style.bottom = '-4px';
-                                arrow.style.top = 'unset';
-                            }
                         } catch (error) {
                             console.error('Error getting user info:', error);
                             tooltip.textContent = 'Unable to load name';
@@ -235,11 +228,6 @@ try {
 
                 seat.addEventListener('mouseleave', () => {
                     tooltip.classList.add('opacity-0', 'invisible');
-                    // Reset tooltip position
-                    tooltip.style.bottom = `${config.seatRadius * 2 + 16}px`;
-                    tooltip.style.top = 'unset';
-                    arrow.style.bottom = '-4px';
-                    arrow.style.top = 'unset';
                 });
             }
 
