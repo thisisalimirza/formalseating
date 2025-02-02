@@ -22,7 +22,8 @@ if (!isset($_POST['seat_id']) || !isset($_POST['occupied'])) {
 }
 
 $seatId = filter_var($_POST['seat_id'], FILTER_VALIDATE_INT);
-$occupied = $_POST['occupied'] === '1' ? 'true' : 'false';
+$isSelecting = $_POST['occupied'] === '1';
+$occupied = $isSelecting ? 'true' : 'false';
 
 if ($seatId === false) {
     http_response_code(400);
@@ -43,7 +44,7 @@ try {
         throw new Exception('Seat not found');
     }
 
-    if ($occupied) {
+    if ($isSelecting) {
         // Trying to select a seat
         if ($seat['occupied'] && $seat['user_id'] !== $user['id']) {
             throw new Exception('This seat is already taken by another user');
@@ -73,7 +74,7 @@ try {
         SET occupied = ?::boolean, user_id = ? 
         WHERE seat_id = ?
     ");
-    $stmt->execute([$occupied, $occupied ? $user['id'] : null, $seatId]);
+    $stmt->execute([$occupied, $isSelecting ? $user['id'] : null, $seatId]);
 
     $pdo->commit();
     echo json_encode(['success' => true]);
