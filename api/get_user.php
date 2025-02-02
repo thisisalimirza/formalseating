@@ -11,9 +11,9 @@ if (!isAuthenticated()) {
 }
 
 // Validate input
-if (!isset($_GET['id'])) {
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     http_response_code(400);
-    echo json_encode(['error' => 'Missing id parameter']);
+    echo json_encode(['error' => 'Invalid or missing id parameter']);
     exit();
 }
 
@@ -44,11 +44,13 @@ try {
     }
 
     // Get user info
-    $stmt = $pdo->prepare("SELECT id, name FROM users WHERE id = $1");
-    $stmt->execute([$userId]);
+    $stmt = $pdo->prepare("SELECT id::integer, name FROM users WHERE id = :user_id");
+    $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+    $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$user) {
+        error_log("User not found: ID = " . $userId);
         http_response_code(404);
         echo json_encode(['error' => 'User not found']);
         exit();

@@ -179,10 +179,14 @@ try {
                 seatContainer.appendChild(tooltip);
 
                 seat.addEventListener('mouseenter', async () => {
-                    if (occupiedSeats[seatId] && occupiedSeats[seatId] !== userId) {
+                    const occupantId = occupiedSeats[seatId];
+                    if (occupantId && occupantId !== userId) {
+                        console.log('Fetching user info for seat', seatId, 'user:', occupantId); // Debug log
+                        
                         try {
-                            const response = await fetch(`api/get_user.php?id=${occupiedSeats[seatId]}`);
+                            const response = await fetch(`api/get_user.php?id=${occupantId}`);
                             const data = await response.json();
+                            console.log('API response:', data); // Debug log
                             
                             if (!response.ok) {
                                 throw new Error(data.error || 'Failed to get user info');
@@ -352,13 +356,19 @@ try {
                 occupiedSeats = {};
                 selectedSeats = [];
 
+                console.log('Loaded seats:', seats); // Debug log
+
                 seats.forEach(seat => {
-                    occupiedSeats[seat.seat_id] = seat.user_id;
-                    const seatElement = document.querySelector(`[data-seat-id="${seat.seat_id}"]`);
+                    // Convert string IDs to integers
+                    const seatId = parseInt(seat.seat_id);
+                    const occupantId = parseInt(seat.user_id);
+                    
+                    occupiedSeats[seatId] = occupantId;
+                    const seatElement = document.querySelector(`button[data-seat-id="${seatId}"]`);
                     
                     if (seatElement) {
-                        if (seat.user_id === userId) {
-                            selectedSeats.push(seat.seat_id);
+                        if (occupantId === userId) {
+                            selectedSeats.push(seatId);
                             seatElement.classList.remove('bg-gray-200', 'hover:bg-gray-300');
                             seatElement.classList.add('bg-blue-500', 'hover:bg-blue-600');
                         } else {
@@ -367,7 +377,10 @@ try {
                         }
                     }
                 });
+
+                console.log('Occupied seats:', occupiedSeats); // Debug log
             } catch (error) {
+                console.error('Error loading seats:', error);
                 showToast('Failed to load seat status');
             }
         }
