@@ -156,7 +156,7 @@ try {
                 left: ${x}px;
                 top: ${y}px;
                 transform: translate(-50%, -50%);
-                z-index: 5;
+                z-index: 0;
             `;
 
             const seat = document.createElement('button');
