@@ -156,6 +156,7 @@ try {
                 left: ${x}px;
                 top: ${y}px;
                 transform: translate(-50%, -50%);
+                z-index: 10;
             `;
 
             const seat = document.createElement('button');
@@ -170,12 +171,19 @@ try {
 
             if (showOccupiedNames) {
                 const tooltip = document.createElement('div');
-                tooltip.className = 'fixed transform -translate-x-1/2 px-2 py-1 text-sm text-white bg-gray-900 rounded whitespace-nowrap opacity-0 invisible transition-all duration-200 z-[1000] pointer-events-none';
+                tooltip.className = 'absolute transform -translate-x-1/2 px-2 py-1 text-sm text-white bg-gray-900 rounded whitespace-nowrap opacity-0 invisible transition-all duration-200 pointer-events-none';
                 tooltip.style.cssText = `
-                    bottom: calc(100% + 5px);
+                    bottom: calc(100% + 8px);
                     left: 50%;
                     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                    z-index: 1000;
                 `;
+
+                // Add tooltip arrow
+                const arrow = document.createElement('div');
+                arrow.className = 'absolute left-1/2 -bottom-1 transform -translate-x-1/2 rotate-45 w-2 h-2 bg-gray-900';
+                tooltip.appendChild(arrow);
+
                 seatContainer.appendChild(tooltip);
 
                 seat.addEventListener('mouseenter', async () => {
@@ -193,6 +201,7 @@ try {
                             }
                             
                             tooltip.textContent = data.name;
+                            tooltip.appendChild(arrow); // Re-append arrow after setting text
                             tooltip.classList.remove('opacity-0', 'invisible');
                             
                             // Ensure tooltip is fully visible
@@ -201,11 +210,19 @@ try {
                             
                             if (tooltipRect.top < 0) {
                                 tooltip.style.bottom = 'unset';
-                                tooltip.style.top = 'calc(100% + 5px)';
+                                tooltip.style.top = 'calc(100% + 8px)';
+                                arrow.style.bottom = 'unset';
+                                arrow.style.top = '-4px';
+                            } else {
+                                tooltip.style.bottom = 'calc(100% + 8px)';
+                                tooltip.style.top = 'unset';
+                                arrow.style.bottom = '-4px';
+                                arrow.style.top = 'unset';
                             }
                         } catch (error) {
                             console.error('Error getting user info:', error);
                             tooltip.textContent = 'Unable to load name';
+                            tooltip.appendChild(arrow); // Re-append arrow after setting text
                             tooltip.classList.remove('opacity-0', 'invisible');
                         }
                     }
@@ -214,8 +231,10 @@ try {
                 seat.addEventListener('mouseleave', () => {
                     tooltip.classList.add('opacity-0', 'invisible');
                     // Reset tooltip position
-                    tooltip.style.bottom = 'calc(100% + 5px)';
+                    tooltip.style.bottom = 'calc(100% + 8px)';
                     tooltip.style.top = 'unset';
+                    arrow.style.bottom = '-4px';
+                    arrow.style.top = 'unset';
                 });
             }
 
