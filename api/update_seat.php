@@ -23,8 +23,12 @@ if (!isset($_POST['seat_id']) || !isset($_POST['occupied'])) {
 $seatId = (int)$_POST['seat_id'];
 $occupied = (int)$_POST['occupied'];
 
+// Calculate table and seat numbers
+$tableId = floor(($seatId - 1) / 10) + 1;
+$seatNumber = (($seatId - 1) % 10) + 1;
+
 // Validate seat ID
-if ($seatId < 1 || $seatId > 45) {
+if ($seatId < 1 || $seatId > 450) { // 45 tables * 10 seats
     http_response_code(400);
     echo json_encode(['error' => 'Invalid seat ID']);
     exit();
@@ -63,12 +67,12 @@ try {
 
     // Update or insert seat record
     $stmt = $pdo->prepare("
-        INSERT INTO seats (seat_id, user_id, occupied) 
-        VALUES (?, ?, ?) 
+        INSERT INTO seats (seat_id, table_id, seat_number, user_id, occupied) 
+        VALUES (?, ?, ?, ?, ?) 
         ON CONFLICT (seat_id) 
         DO UPDATE SET user_id = EXCLUDED.user_id, occupied = EXCLUDED.occupied
     ");
-    $stmt->execute([$seatId, $user['id'], $occupied]);
+    $stmt->execute([$seatId, $tableId, $seatNumber, $user['id'], $occupied]);
 
     // Commit transaction
     $pdo->commit();

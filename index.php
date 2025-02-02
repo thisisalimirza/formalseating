@@ -92,12 +92,12 @@ try {
                     </div>
                 </div>
                 <div class="text-sm text-gray-600">
-                    Total Seats: 45
+                    Tables: 45 | Seats per table: 10
                 </div>
             </div>
 
             <div id="seating-map" class="relative mx-auto bg-gray-50 rounded-lg p-8">
-                <!-- Seats will be dynamically added here by JavaScript -->
+                <!-- Tables and seats will be dynamically added here by JavaScript -->
             </div>
         </div>
     </main>
@@ -116,11 +116,13 @@ try {
         const showOccupiedNames = <?php echo json_encode(($settings['show_occupied_names'] ?? '0') === '1'); ?>;
         
         const config = {
-            totalSeats: 45,
-            seatsPerRow: 9,
-            seatSize: 40,
-            seatSpacing: 10,
-            rowSpacing: 20
+            tables: 45,
+            seatsPerTable: 10,
+            tableRadius: 45,
+            seatRadius: 10,
+            seatSpacing: 1.6,
+            tableSpacing: 1.3,
+            minPadding: 100
         };
         
         // State
@@ -142,23 +144,23 @@ try {
         }
 
         // Create seat element
-        function createSeat(seatId) {
-            const row = Math.floor((seatId - 1) / config.seatsPerRow);
-            const col = (seatId - 1) % config.seatsPerRow;
-            
-            const x = col * (config.seatSize + config.seatSpacing);
-            const y = row * (config.seatSize + config.rowSpacing);
+        function createSeat(tableIndex, seatIndex, angle, tableX, tableY) {
+            const seatId = (tableIndex * config.seatsPerTable) + seatIndex + 1;
+            const seatDistance = (config.tableRadius + config.seatRadius * config.seatSpacing);
+            const x = Math.round(tableX + seatDistance * Math.cos(angle));
+            const y = Math.round(tableY + seatDistance * Math.sin(angle));
 
             const seat = document.createElement('button');
-            seat.className = 'absolute rounded-lg bg-gray-200 hover:bg-gray-300 focus:outline-none seat-btn transition-colors duration-200';
+            seat.className = 'absolute rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none seat-btn';
             seat.style.cssText = `
-                width: ${config.seatSize}px;
-                height: ${config.seatSize}px;
+                width: ${config.seatRadius * 2}px;
+                height: ${config.seatRadius * 2}px;
                 left: ${x}px;
                 top: ${y}px;
             `;
             seat.dataset.seatId = seatId;
-            seat.setAttribute('aria-label', `Seat ${seatId}`);
+            seat.dataset.tableId = tableIndex + 1;
+            seat.setAttribute('aria-label', `Table ${tableIndex + 1}, Seat ${seatIndex + 1}`);
 
             if (showOccupiedNames) {
                 const tooltip = document.createElement('div');
@@ -186,31 +188,87 @@ try {
 
             // Add seat number
             const seatNumber = document.createElement('span');
-            seatNumber.className = 'absolute inset-0 flex items-center justify-center text-sm font-medium text-gray-700';
-            seatNumber.textContent = seatId;
+            seatNumber.className = 'absolute inset-0 flex items-center justify-center text-xs font-medium text-gray-700';
+            seatNumber.textContent = seatIndex + 1;
             seat.appendChild(seatNumber);
 
             seat.addEventListener('click', () => handleSeatClick(seatId));
             return seat;
         }
 
+        // Create table element
+        function createTable(tableIndex, centerX, centerY) {
+            const table = document.createElement('div');
+            table.className = 'absolute rounded-full bg-white border-2 border-gray-300';
+            table.style.cssText = `
+                width: ${config.tableRadius * 2}px;
+                height: ${config.tableRadius * 2}px;
+                left: ${Math.round(centerX - config.tableRadius)}px;
+                top: ${Math.round(centerY - config.tableRadius)}px;
+            `;
+            
+            // Add table number
+            const tableNumber = document.createElement('div');
+            tableNumber.className = 'absolute inset-0 flex items-center justify-center text-gray-600 font-medium select-none';
+            tableNumber.textContent = `Table ${tableIndex + 1}`;
+            table.appendChild(tableNumber);
+            
+            return table;
+        }
+
+        // Calculate required dimensions
+        function calculateMapDimensions() {
+            const cols = Math.ceil(Math.sqrt(config.tables));
+            const rows = Math.ceil(config.tables / cols);
+            
+            // Calculate space needed for each table including its seats
+            const totalTableRadius = config.tableRadius + (config.seatRadius * 2 * config.seatSpacing);
+            const minTableSpace = Math.round(totalTableRadius * 2 * config.tableSpacing);
+            
+            // Calculate minimum required width and height
+            const minWidth = (minTableSpace * cols) + (config.minPadding * 2);
+            const minHeight = (minTableSpace * rows) + (config.minPadding * 2);
+            
+            return { minWidth, minHeight, cols, rows };
+        }
+
         // Create seating layout
         function createSeatingLayout() {
+            const { minWidth, minHeight, cols, rows } = calculateMapDimensions();
+            
+            // Set minimum dimensions on the container
+            seatingMap.style.minWidth = `${minWidth}px`;
+            seatingMap.style.minHeight = `${minHeight}px`;
+            
+            // Calculate spacing
+            const mapRect = seatingMap.getBoundingClientRect();
+            const availableWidth = mapRect.width - (config.minPadding * 2);
+            const availableHeight = mapRect.height - (config.minPadding * 2);
+            
+            const colSpacing = Math.round(availableWidth / cols);
+            const rowSpacing = Math.round(availableHeight / rows);
+            
+            // Clear existing layout
             seatingMap.innerHTML = '';
             
-            // Calculate container size
-            const containerWidth = (config.seatsPerRow * config.seatSize) + ((config.seatsPerRow - 1) * config.seatSpacing);
-            const containerHeight = (Math.ceil(config.totalSeats / config.seatsPerRow) * config.seatSize) + 
-                                 ((Math.ceil(config.totalSeats / config.seatsPerRow) - 1) * config.rowSpacing);
-            
-            seatingMap.style.width = `${containerWidth + 40}px`;
-            seatingMap.style.height = `${containerHeight + 40}px`;
-            seatingMap.style.margin = '0 auto';
-
-            // Create seats
-            for (let i = 1; i <= config.totalSeats; i++) {
-                const seat = createSeat(i);
-                seatingMap.appendChild(seat);
+            // Create tables and seats
+            for (let i = 0; i < config.tables; i++) {
+                const row = Math.floor(i / cols);
+                const col = i % cols;
+                
+                const centerX = Math.round(config.minPadding + colSpacing * (col + 0.5));
+                const centerY = Math.round(config.minPadding + rowSpacing * (row + 0.5));
+                
+                // Add table
+                const table = createTable(i, centerX, centerY);
+                seatingMap.appendChild(table);
+                
+                // Add seats around the table
+                for (let j = 0; j < config.seatsPerTable; j++) {
+                    const angle = (j * 2 * Math.PI) / config.seatsPerTable;
+                    const seat = createSeat(i, j, angle, centerX, centerY);
+                    seatingMap.appendChild(seat);
+                }
             }
         }
 
@@ -289,6 +347,16 @@ try {
                 showToast('Failed to load seat status');
             }
         }
+
+        // Handle window resize
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                createSeatingLayout();
+                loadSeatStatus();
+            }, 250);
+        });
 
         // Initialize
         createSeatingLayout();
