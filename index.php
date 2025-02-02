@@ -122,7 +122,7 @@ try {
             seatRadius: 10,
             seatSpacing: 1.6,
             tableSpacing: 1.3,
-            minPadding: 100
+            minPadding: 40  // Reduced padding to allow more space for tables
         };
         
         // State
@@ -156,7 +156,7 @@ try {
                 left: ${x}px;
                 top: ${y}px;
                 transform: translate(-50%, -50%);
-                z-index: 10;
+                z-index: 20;
             `;
 
             const seat = document.createElement('button');
@@ -170,13 +170,20 @@ try {
             seat.setAttribute('aria-label', `Table ${tableIndex + 1}, Seat ${seatIndex + 1}`);
 
             if (showOccupiedNames) {
+                const tooltipContainer = document.createElement('div');
+                tooltipContainer.className = 'absolute w-0 h-0 overflow-visible';
+                tooltipContainer.style.cssText = `
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    z-index: 1000;
+                `;
+
                 const tooltip = document.createElement('div');
                 tooltip.className = 'absolute transform -translate-x-1/2 px-2 py-1 text-sm text-white bg-gray-900 rounded whitespace-nowrap opacity-0 invisible transition-all duration-200 pointer-events-none';
                 tooltip.style.cssText = `
-                    bottom: calc(100% + 8px);
-                    left: 50%;
+                    bottom: ${config.seatRadius * 2 + 16}px;
                     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-                    z-index: 1000;
                 `;
 
                 // Add tooltip arrow
@@ -184,24 +191,22 @@ try {
                 arrow.className = 'absolute left-1/2 -bottom-1 transform -translate-x-1/2 rotate-45 w-2 h-2 bg-gray-900';
                 tooltip.appendChild(arrow);
 
-                seatContainer.appendChild(tooltip);
+                tooltipContainer.appendChild(tooltip);
+                seatContainer.appendChild(tooltipContainer);
 
                 seat.addEventListener('mouseenter', async () => {
                     const occupantId = occupiedSeats[seatId];
                     if (occupantId && occupantId !== userId) {
-                        console.log('Fetching user info for seat', seatId, 'user:', occupantId); // Debug log
-                        
                         try {
                             const response = await fetch(`api/get_user.php?id=${occupantId}`);
                             const data = await response.json();
-                            console.log('API response:', data); // Debug log
                             
                             if (!response.ok) {
                                 throw new Error(data.error || 'Failed to get user info');
                             }
                             
                             tooltip.textContent = data.name;
-                            tooltip.appendChild(arrow); // Re-append arrow after setting text
+                            tooltip.appendChild(arrow);
                             tooltip.classList.remove('opacity-0', 'invisible');
                             
                             // Ensure tooltip is fully visible
@@ -210,11 +215,11 @@ try {
                             
                             if (tooltipRect.top < 0) {
                                 tooltip.style.bottom = 'unset';
-                                tooltip.style.top = 'calc(100% + 8px)';
+                                tooltip.style.top = `${config.seatRadius * 2 + 16}px`;
                                 arrow.style.bottom = 'unset';
                                 arrow.style.top = '-4px';
                             } else {
-                                tooltip.style.bottom = 'calc(100% + 8px)';
+                                tooltip.style.bottom = `${config.seatRadius * 2 + 16}px`;
                                 tooltip.style.top = 'unset';
                                 arrow.style.bottom = '-4px';
                                 arrow.style.top = 'unset';
@@ -222,7 +227,7 @@ try {
                         } catch (error) {
                             console.error('Error getting user info:', error);
                             tooltip.textContent = 'Unable to load name';
-                            tooltip.appendChild(arrow); // Re-append arrow after setting text
+                            tooltip.appendChild(arrow);
                             tooltip.classList.remove('opacity-0', 'invisible');
                         }
                     }
@@ -231,7 +236,7 @@ try {
                 seat.addEventListener('mouseleave', () => {
                     tooltip.classList.add('opacity-0', 'invisible');
                     // Reset tooltip position
-                    tooltip.style.bottom = 'calc(100% + 8px)';
+                    tooltip.style.bottom = `${config.seatRadius * 2 + 16}px`;
                     tooltip.style.top = 'unset';
                     arrow.style.bottom = '-4px';
                     arrow.style.top = 'unset';
@@ -265,7 +270,10 @@ try {
 
         // Calculate required dimensions
         function calculateMapDimensions() {
-            const cols = Math.ceil(Math.sqrt(config.tables));
+            // Calculate optimal number of columns based on viewport width
+            const mapWidth = seatingMap.clientWidth - (config.minPadding * 2);
+            const tableWidth = (config.tableRadius * 2 + config.seatRadius * 4) * config.tableSpacing;
+            const cols = Math.floor(mapWidth / tableWidth) || 1;
             const rows = Math.ceil(config.tables / cols);
             
             // Calculate space needed for each table including its seats
@@ -273,7 +281,7 @@ try {
             const minTableSpace = Math.round(totalTableRadius * 2 * config.tableSpacing);
             
             // Calculate minimum required width and height
-            const minWidth = (minTableSpace * cols) + (config.minPadding * 2);
+            const minWidth = Math.max(mapWidth, (minTableSpace * cols) + (config.minPadding * 2));
             const minHeight = (minTableSpace * rows) + (config.minPadding * 2);
             
             return { minWidth, minHeight, cols, rows };
@@ -283,20 +291,15 @@ try {
         function createSeatingLayout() {
             const { minWidth, minHeight, cols, rows } = calculateMapDimensions();
             
-            // Set minimum dimensions on the container
-            seatingMap.style.minWidth = `${minWidth}px`;
-            seatingMap.style.minHeight = `${minHeight}px`;
+            // Clear existing layout
+            seatingMap.innerHTML = '';
             
             // Calculate spacing
-            const mapRect = seatingMap.getBoundingClientRect();
-            const availableWidth = mapRect.width - (config.minPadding * 2);
-            const availableHeight = mapRect.height - (config.minPadding * 2);
+            const availableWidth = minWidth - (config.minPadding * 2);
+            const availableHeight = minHeight - (config.minPadding * 2);
             
             const colSpacing = Math.round(availableWidth / cols);
             const rowSpacing = Math.round(availableHeight / rows);
-            
-            // Clear existing layout
-            seatingMap.innerHTML = '';
             
             // Create tables and seats
             for (let i = 0; i < config.tables; i++) {
