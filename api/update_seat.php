@@ -32,14 +32,11 @@ $seatId = (int)$_POST['seat_id'];
 $occupied = (int)$_POST['occupied'];
 
 try {
-    $pdo = new PDO("sqlite:../database.sqlite");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Begin transaction
     $pdo->beginTransaction();
 
     // Check if seat is already taken by someone else
-    $stmt = $pdo->prepare("SELECT user_id FROM seats WHERE venue = ? AND seat_id = ? AND occupied = 1");
+    $stmt = $pdo->prepare("SELECT user_id FROM seats WHERE venue = ? AND seat_id = ? AND occupied = true");
     $stmt->execute([$venue, $seatId]);
     $existingSeat = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -52,7 +49,7 @@ try {
 
     // Check if user has seats in a different venue
     if ($occupied) {
-        $stmt = $pdo->prepare("SELECT DISTINCT venue FROM seats WHERE user_id = ? AND occupied = 1 AND venue != ?");
+        $stmt = $pdo->prepare("SELECT DISTINCT venue FROM seats WHERE user_id = ? AND occupied = true AND venue != ?");
         $stmt->execute([$user['id'], $venue]);
         $otherVenue = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -66,7 +63,7 @@ try {
 
     // Check if user has already selected maximum seats in this venue
     if ($occupied) {
-        $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM seats WHERE venue = ? AND user_id = ? AND occupied = 1");
+        $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM seats WHERE venue = ? AND user_id = ? AND occupied = true");
         $stmt->execute([$venue, $user['id']]);
         $seatCount = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
 
@@ -80,7 +77,12 @@ try {
     }
 
     // Update or insert seat record
-    $stmt = $pdo->prepare("INSERT OR REPLACE INTO seats (venue, seat_id, user_id, occupied) VALUES (?, ?, ?, ?)");
+    $stmt = $pdo->prepare("
+        INSERT INTO seats (venue, seat_id, user_id, occupied) 
+        VALUES (?, ?, ?, ?) 
+        ON CONFLICT (venue, seat_id) 
+        DO UPDATE SET user_id = EXCLUDED.user_id, occupied = EXCLUDED.occupied
+    ");
     $stmt->execute([$venue, $seatId, $user['id'], $occupied]);
 
     // Commit transaction
@@ -91,6 +93,7 @@ try {
     if ($pdo->inTransaction()) {
         $pdo->rollBack();
     }
+    error_log("Database error in update_seat.php: " . $e->getMessage());
     http_response_code(500);
     echo json_encode(['success' => false, 'message' => 'Database error']);
 }

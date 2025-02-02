@@ -14,22 +14,6 @@ RedirectMatch 404 /\.git
 </FilesMatch>
 
 RewriteEngine On
-RewriteBase /
-
-# Allow HTTP methods
-<LimitExcept GET POST PUT DELETE OPTIONS>
-    Order deny,allow
-    Deny from all
-</LimitExcept>
-
-# Handle Authorization Header
-RewriteCond %{HTTP:Authorization} .
-RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-
-# Redirect to HTTPS
-RewriteCond %{HTTP:X-Forwarded-Proto} !https
-RewriteCond %{HTTPS} off
-RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Handle front controller pattern
 RewriteCond %{REQUEST_FILENAME} !-d

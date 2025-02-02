@@ -19,11 +19,8 @@ if (!in_array($venue, ['venue1', 'venue2'])) {
 }
 
 try {
-    $pdo = new PDO("sqlite:../database.sqlite");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Get all occupied seats for the specific venue
-    $stmt = $pdo->prepare("SELECT seat_id, user_id FROM seats WHERE venue = ? AND occupied = 1");
+    $stmt = $pdo->prepare("SELECT seat_id, user_id FROM seats WHERE venue = ? AND occupied = true");
     $stmt->execute([$venue]);
     
     $occupiedSeats = [];
