@@ -226,9 +226,12 @@ try {
                             $tableNumbers = range(1, 45);
                             $placeholders = str_repeat('(?),', count($tableNumbers) - 1) . '(?)';
                             
+                            // Drop the temporary table if it exists
+                            $pdo->exec("DROP TABLE IF EXISTS table_numbers");
+                            
                             // Create temporary table
                             $pdo->exec("
-                                CREATE TEMPORARY TABLE IF NOT EXISTS table_numbers (
+                                CREATE TEMPORARY TABLE table_numbers (
                                     table_num INT PRIMARY KEY
                                 )
                             ");
@@ -237,32 +240,30 @@ try {
                             $stmt = $pdo->prepare("INSERT INTO table_numbers (table_num) VALUES " . $placeholders);
                             $stmt->execute($tableNumbers);
 
-                            // Query for table assignments
+                            // Query for table assignments with proper DISTINCT handling
                             $stmt = $pdo->query("
+                                WITH seated_users AS (
+                                    SELECT DISTINCT ON (s.user_id, FLOOR((s.seat_id - 1) / 10) + 1)
+                                        FLOOR((s.seat_id - 1) / 10) + 1 as table_num,
+                                        u.name as user_name,
+                                        s.seat_id
+                                    FROM seats s
+                                    JOIN users u ON s.user_id = u.id
+                                    ORDER BY s.user_id, FLOOR((s.seat_id - 1) / 10) + 1, s.seat_id
+                                )
                                 SELECT 
                                     tn.table_num,
                                     COALESCE(
                                         string_agg(
-                                            name_with_seat,
+                                            su.user_name,
                                             ', '
+                                            ORDER BY su.seat_id
                                         ),
                                         ''
                                     ) as seated_users,
-                                    COUNT(s.seat_id) as occupied_seats
+                                    COUNT(su.user_name) as occupied_seats
                                 FROM table_numbers tn
-                                LEFT JOIN (
-                                    SELECT 
-                                        FLOOR((seat_id - 1) / 10) + 1 as table_num,
-                                        seat_id,
-                                        user_id
-                                    FROM seats
-                                ) s ON tn.table_num = s.table_num
-                                LEFT JOIN (
-                                    SELECT 
-                                        id,
-                                        name as name_with_seat
-                                    FROM users
-                                ) u ON s.user_id = u.id
+                                LEFT JOIN seated_users su ON tn.table_num = su.table_num
                                 GROUP BY tn.table_num
                                 ORDER BY tn.table_num;
                             ");
@@ -277,8 +278,8 @@ try {
                                 echo "</tr>";
                             }
 
-                            // Clean up temporary table
-                            $pdo->exec("DROP TEMPORARY TABLE IF EXISTS table_numbers");
+                            // Clean up temporary table - no need to check if exists
+                            $pdo->exec("DROP TABLE table_numbers");
                         } catch (PDOException $e) {
                             echo "<tr><td colspan='3' class='px-6 py-4 text-sm text-red-500'>Error loading table assignments: " . htmlspecialchars($e->getMessage()) . "</td></tr>";
                         }
