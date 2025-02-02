@@ -177,6 +177,7 @@ try {
                     top: 50%;
                     transform: translate(-50%, -50%);
                     z-index: 9999;
+                    display: none;
                 `;
 
                 const tooltip = document.createElement('div');
@@ -199,7 +200,6 @@ try {
                     border-top: 6px solid #111827;
                 `;
                 tooltip.appendChild(arrow);
-
                 tooltipContainer.appendChild(tooltip);
                 seatContainer.appendChild(tooltipContainer);
 
@@ -216,18 +216,24 @@ try {
                             
                             tooltip.textContent = data.name;
                             tooltip.appendChild(arrow);
-                            tooltip.classList.remove('opacity-0', 'invisible');
+                            tooltipContainer.style.display = 'block';
+                            tooltip.style.opacity = '1';
+                            tooltip.style.visibility = 'visible';
                         } catch (error) {
                             console.error('Error getting user info:', error);
                             tooltip.textContent = 'Unable to load name';
                             tooltip.appendChild(arrow);
-                            tooltip.classList.remove('opacity-0', 'invisible');
+                            tooltipContainer.style.display = 'block';
+                            tooltip.style.opacity = '1';
+                            tooltip.style.visibility = 'visible';
                         }
                     }
                 });
 
                 seat.addEventListener('mouseleave', () => {
-                    tooltip.classList.add('opacity-0', 'invisible');
+                    tooltipContainer.style.display = 'none';
+                    tooltip.style.opacity = '0';
+                    tooltip.style.visibility = 'hidden';
                 });
             }
 

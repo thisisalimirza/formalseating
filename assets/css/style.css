@@ -105,17 +105,9 @@ input[type="checkbox"]:checked + .block .dot {
     white-space: nowrap;
     z-index: 9999;
     pointer-events: none;
-    visibility: hidden;
-    opacity: 0;
 }
 
-.seat-btn:hover .tooltip,
-.tooltip.visible {
-    visibility: visible;
-    opacity: 1;
-    z-index: 9999;
-}
-
+/* Remove the hover styles since we're handling it in JS */
 .seat-btn .tooltip {
     bottom: calc(100% + 8px) !important;
     transform: translateX(-50%);
