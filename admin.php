@@ -53,6 +53,62 @@ try {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        @media print {
+            /* Hide non-essential elements when printing */
+            nav, 
+            button,
+            .stats-card,
+            .settings-card,
+            .user-management {
+                display: none !important;
+            }
+
+            /* Show only the table assignments section */
+            .table-assignments {
+                display: block !important;
+                page-break-inside: avoid;
+            }
+
+            /* Reset background colors and shadows for better printing */
+            body {
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            /* Ensure table headers print on each page */
+            thead {
+                display: table-header-group;
+            }
+
+            /* Add a title for the printed page */
+            .table-assignments::before {
+                content: "Medical School Formal - Table Assignments";
+                display: block;
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            /* Improve table layout for printing */
+            table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+            }
+
+            th, td {
+                border: 1px solid #ddd !important;
+                padding: 8px !important;
+                text-align: left !important;
+            }
+
+            th {
+                background-color: #f8f9fa !important;
+            }
+        }
+    </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
     <!-- Navigation -->
@@ -147,6 +203,60 @@ try {
                         <!-- User rows will be dynamically loaded here -->
                     </tbody>
                 </table>
+            </div>
+        </div>
+
+        <!-- Table Assignments Section -->
+        <div class="bg-white shadow rounded-lg p-6 mb-6">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Table Assignments</h3>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Table</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Seated Attendees</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Available Seats</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <?php
+                        // Get table assignments
+                        try {
+                            $stmt = $pdo->query("
+                                SELECT 
+                                    FLOOR((s.seat_id - 1) / 10) + 1 as table_num,
+                                    GROUP_CONCAT(u.name ORDER BY s.seat_id) as seated_users,
+                                    COUNT(*) as occupied_seats
+                                FROM seats s
+                                JOIN users u ON s.user_id = u.id
+                                GROUP BY FLOOR((s.seat_id - 1) / 10)
+                                ORDER BY table_num
+                            ");
+                            
+                            $tableAssignments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            
+                            foreach ($tableAssignments as $table) {
+                                echo "<tr>";
+                                echo "<td class='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>Table {$table['table_num']}</td>";
+                                echo "<td class='px-6 py-4 text-sm text-gray-500'>" . htmlspecialchars($table['seated_users']) . "</td>";
+                                echo "<td class='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>" . (10 - $table['occupied_seats']) . " seats available</td>";
+                                echo "</tr>";
+                            }
+                        } catch (PDOException $e) {
+                            echo "<tr><td colspan='3' class='px-6 py-4 text-sm text-red-500'>Error loading table assignments</td></tr>";
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Print Button -->
+            <div class="mt-4 flex justify-end">
+                <button onclick="window.print()" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                    <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                    </svg>
+                    Print Table Assignments
+                </button>
             </div>
         </div>
     </main>
