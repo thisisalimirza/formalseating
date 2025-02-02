@@ -103,8 +103,17 @@ input[type="checkbox"]:checked + .block .dot {
 .tooltip {
     position: absolute;
     white-space: nowrap;
-    z-index: 1000;
+    z-index: 9999;
     pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.seat-btn:hover .tooltip,
+.tooltip.visible {
+    visibility: visible;
+    opacity: 1;
+    z-index: 9999;
 }
 
 .seat-btn .tooltip {
@@ -112,15 +121,12 @@ input[type="checkbox"]:checked + .block .dot {
     transform: translateX(-50%);
 }
 
-.seat-btn:hover > div {
-    opacity: 1 !important;
-    visibility: visible !important;
-}
-
+/* Ensure seat button goes above others when hovered */
 .seat-btn:hover {
     background-color: #E5E7EB;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transform: translate(-50%, -50%) scale(1.05);
+    z-index: 1000;
 }
 
 /* Responsive container padding */

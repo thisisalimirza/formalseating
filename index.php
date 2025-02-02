@@ -176,15 +176,15 @@ try {
                     left: 50%;
                     top: 50%;
                     transform: translate(-50%, -50%);
-                    z-index: 1000;
+                    z-index: 9999;
                 `;
 
                 const tooltip = document.createElement('div');
-                tooltip.className = 'tooltip absolute transform -translate-x-1/2 px-2 py-1 text-sm text-white bg-gray-900 rounded whitespace-nowrap opacity-0 invisible transition-all duration-200 pointer-events-none';
+                tooltip.className = 'tooltip absolute transform -translate-x-1/2 px-2 py-1 text-sm text-white bg-gray-900 rounded whitespace-nowrap transition-all duration-200 pointer-events-none';
                 tooltip.style.cssText = `
                     bottom: calc(100% + 8px);
                     left: 50%;
-                    z-index: 1000;
+                    z-index: 9999;
                     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
                 `;
 
