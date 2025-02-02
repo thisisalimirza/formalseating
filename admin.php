@@ -222,29 +222,46 @@ try {
                         <?php
                         // Get table assignments
                         try {
-                            $stmt = $pdo->query("
-                                WITH AllTables AS (
-                                    SELECT DISTINCT number as table_num
-                                    FROM (
-                                        SELECT generate_series(1, 45) as number
-                                    ) t
-                                ),
-                                OccupiedSeats AS (
-                                    SELECT 
-                                        FLOOR((s.seat_id - 1) / 10) + 1 as table_num,
-                                        GROUP_CONCAT(u.name ORDER BY s.seat_id SEPARATOR ', ') as seated_users,
-                                        COUNT(*) as occupied_seats
-                                    FROM seats s
-                                    JOIN users u ON s.user_id = u.id
-                                    GROUP BY FLOOR((s.seat_id - 1) / 10)
+                            // First create a temporary table with numbers 1-45
+                            $pdo->exec("
+                                CREATE TEMPORARY TABLE IF NOT EXISTS table_numbers (
+                                    table_num INT PRIMARY KEY
+                                );
+                                
+                                TRUNCATE table_numbers;
+                                
+                                INSERT INTO table_numbers (table_num)
+                                WITH RECURSIVE numbers AS (
+                                    SELECT 1 as n
+                                    UNION ALL
+                                    SELECT n + 1 FROM numbers WHERE n < 45
                                 )
+                                SELECT n FROM numbers;
+                            ");
+
+                            $stmt = $pdo->query("
                                 SELECT 
-                                    at.table_num,
-                                    COALESCE(os.seated_users, '') as seated_users,
-                                    COALESCE(os.occupied_seats, 0) as occupied_seats
-                                FROM AllTables at
-                                LEFT JOIN OccupiedSeats os ON at.table_num = os.table_num
-                                ORDER BY at.table_num
+                                    tn.table_num,
+                                    COALESCE(
+                                        GROUP_CONCAT(
+                                            DISTINCT u.name 
+                                            ORDER BY s.seat_id 
+                                            SEPARATOR ', '
+                                        ),
+                                        ''
+                                    ) as seated_users,
+                                    COUNT(s.seat_id) as occupied_seats
+                                FROM table_numbers tn
+                                LEFT JOIN (
+                                    SELECT 
+                                        FLOOR((seat_id - 1) / 10) + 1 as table_num,
+                                        seat_id,
+                                        user_id
+                                    FROM seats
+                                ) s ON tn.table_num = s.table_num
+                                LEFT JOIN users u ON s.user_id = u.id
+                                GROUP BY tn.table_num
+                                ORDER BY tn.table_num;
                             ");
                             
                             $tableAssignments = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -256,6 +273,9 @@ try {
                                 echo "<td class='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>" . (10 - $table['occupied_seats']) . " seats available</td>";
                                 echo "</tr>";
                             }
+
+                            // Clean up temporary table
+                            $pdo->exec("DROP TEMPORARY TABLE IF EXISTS table_numbers");
                         } catch (PDOException $e) {
                             echo "<tr><td colspan='3' class='px-6 py-4 text-sm text-red-500'>Error loading table assignments: " . htmlspecialchars($e->getMessage()) . "</td></tr>";
                         }
