@@ -1,9 +1,3 @@
-# Deny access to database file
-<Files database.sqlite>
-    Order allow,deny
-    Deny from all
-</Files>
-
 # Deny access to .git directory
 RedirectMatch 404 /\.git
 

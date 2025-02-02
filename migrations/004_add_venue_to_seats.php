@@ -2,11 +2,24 @@
 require_once __DIR__ . '/../includes/config.php';
 
 try {
-    $pdo = new PDO("sqlite:" . __DIR__ . "/../database.sqlite");
+    $dbUrl = parse_url(getenv("DATABASE_URL"));
+    $pdo = new PDO(
+        "pgsql:" . sprintf(
+            "host=%s;port=%s;user=%s;password=%s;dbname=%s",
+            $dbUrl["host"],
+            $dbUrl["port"],
+            $dbUrl["user"],
+            $dbUrl["pass"],
+            ltrim($dbUrl["path"], "/")
+        )
+    );
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Check if old table exists
-    $tableExists = $pdo->query("SELECT name FROM sqlite_master WHERE type='table' AND name='seats'")->fetch();
+    // Check if table exists (PostgreSQL version)
+    $tableExists = $pdo->query("SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_name = 'seats'
+    )")->fetch(PDO::FETCH_COLUMN);
 
     if ($tableExists) {
         // Create temporary table with new schema

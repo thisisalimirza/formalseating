@@ -20,7 +20,17 @@ if (!isset($_GET['id'])) {
 $userId = (int)$_GET['id'];
 
 try {
-    $pdo = new PDO("sqlite:../database.sqlite");
+    $dbUrl = parse_url(getenv("DATABASE_URL"));
+    $pdo = new PDO(
+        "pgsql:" . sprintf(
+            "host=%s;port=%s;user=%s;password=%s;dbname=%s",
+            $dbUrl["host"],
+            $dbUrl["port"],
+            $dbUrl["user"],
+            $dbUrl["pass"],
+            ltrim($dbUrl["path"], "/")
+        )
+    );
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Check if names should be shown
@@ -34,7 +44,7 @@ try {
     }
 
     // Get user info
-    $stmt = $pdo->prepare("SELECT id, name FROM users WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT id, name FROM users WHERE id = $1");
     $stmt->execute([$userId]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 

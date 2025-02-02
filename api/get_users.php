@@ -11,7 +11,17 @@ if (!isAuthenticated() || !getCurrentUser()['is_admin']) {
 }
 
 try {
-    $pdo = new PDO("sqlite:../database.sqlite");
+    $dbUrl = parse_url(getenv("DATABASE_URL"));
+    $pdo = new PDO(
+        "pgsql:" . sprintf(
+            "host=%s;port=%s;user=%s;password=%s;dbname=%s",
+            $dbUrl["host"],
+            $dbUrl["port"],
+            $dbUrl["user"],
+            $dbUrl["pass"],
+            ltrim($dbUrl["path"], "/")
+        )
+    );
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Get users with their seat information
@@ -21,9 +31,9 @@ try {
             u.name,
             u.email,
             u.plus_one,
-            ARRAY_AGG(s.seat_id ORDER BY s.seat_id) FILTER (WHERE s.seat_id IS NOT NULL) as seats,
-            ARRAY_AGG(s.table_id ORDER BY s.seat_id) FILTER (WHERE s.table_id IS NOT NULL) as table_ids,
-            ARRAY_AGG(s.seat_number ORDER BY s.seat_id) FILTER (WHERE s.seat_number IS NOT NULL) as seat_numbers
+            array_agg(s.seat_id ORDER BY s.seat_id) FILTER (WHERE s.seat_id IS NOT NULL) as seats,
+            array_agg(s.table_id ORDER BY s.seat_id) FILTER (WHERE s.table_id IS NOT NULL) as table_ids,
+            array_agg(s.seat_number ORDER BY s.seat_id) FILTER (WHERE s.seat_number IS NOT NULL) as seat_numbers
         FROM users u
         LEFT JOIN (
             SELECT user_id, seat_id, table_id, seat_number
@@ -39,10 +49,10 @@ try {
     // Process the seat information for display
     foreach ($users as &$user) {
         if ($user['seats'] !== null) {
-            // Convert PostgreSQL array string to PHP array
-            $seats = trim($user['seats'], '{}');
-            $tableIds = trim($user['table_ids'], '{}');
-            $seatNumbers = trim($user['seat_numbers'], '{}');
+            // Convert PostgreSQL array to PHP array
+            $seats = preg_match('/^\{(.*)\}$/', $user['seats'], $matches) ? $matches[1] : '';
+            $tableIds = preg_match('/^\{(.*)\}$/', $user['table_ids'], $matches) ? $matches[1] : '';
+            $seatNumbers = preg_match('/^\{(.*)\}$/', $user['seat_numbers'], $matches) ? $matches[1] : '';
             
             if ($seats) {
                 $seatIds = explode(',', $seats);
@@ -56,8 +66,10 @@ try {
                 
                 $user['seats'] = $formattedSeats;
             } else {
-                $user['seats'] = null;
+                $user['seats'] = [];
             }
+        } else {
+            $user['seats'] = [];
         }
         
         // Remove unnecessary fields
