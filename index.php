@@ -60,24 +60,30 @@ try {
     </nav>
 
     <!-- Main content -->
-    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <!-- Seating map header -->
-        <div class="px-4 sm:px-0 mb-8">
-            <h2 class="text-2xl font-bold text-gray-900">Select Your Seat</h2>
-            <p class="mt-1 text-sm text-gray-600">
-                Click on an available seat to select it. 
-                <?php if ($user['plus_one']): ?>
-                    You can select up to 2 seats.
-                <?php else: ?>
-                    You can select 1 seat.
-                <?php endif; ?>
-            </p>
+    <main class="container mx-auto px-4 py-4">
+        <!-- Header section -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+            <div class="flex flex-col">
+                <h1 class="text-3xl font-bold mb-1">Medical School Formal</h1>
+                <p class="text-gray-600">Welcome, <?php echo htmlspecialchars($user['name']); ?></p>
+            </div>
+            <div class="flex gap-2 w-full sm:w-auto">
+                <a href="admin.php" class="flex-1 sm:flex-none bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded text-center">Admin Panel</a>
+                <a href="logout.php" class="flex-1 sm:flex-none bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded text-center">Sign out</a>
+            </div>
         </div>
 
-        <!-- Seating map -->
-        <div class="bg-white shadow rounded-lg p-6">
-            <div class="flex justify-between mb-6">
-                <div class="flex space-x-4 text-sm">
+        <!-- Seat selection section -->
+        <div class="mb-8">
+            <h2 class="text-4xl font-bold mb-2">Select Your Seat</h2>
+            <p class="text-gray-600 text-lg">Click on an available seat to select it.</p>
+            <p class="text-gray-600 text-lg">You can select up to 2 seats.</p>
+        </div>
+
+        <!-- Legend and stats -->
+        <div class="bg-white shadow rounded-lg p-6 mb-6">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="flex flex-wrap justify-center sm:justify-start gap-4 w-full sm:w-auto">
                     <div class="flex items-center">
                         <span class="w-4 h-4 bg-gray-200 rounded-full mr-2"></span>
                         Available
@@ -91,11 +97,14 @@ try {
                         Occupied
                     </div>
                 </div>
-                <div class="text-sm text-gray-600">
+                <div class="text-sm text-gray-600 whitespace-nowrap">
                     Tables: 45 | Seats per table: 10
                 </div>
             </div>
+        </div>
 
+        <!-- Seating map -->
+        <div class="bg-white shadow rounded-lg p-6">
             <div id="seating-map" class="relative mx-auto bg-gray-50 rounded-lg p-8">
                 <!-- Tables and seats will be dynamically added here by JavaScript -->
             </div>
