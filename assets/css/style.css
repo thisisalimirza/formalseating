@@ -212,6 +212,7 @@ input[type="checkbox"]:checked + .block .dot {
     #seating-map {
         padding: 0.75rem;
         border-radius: 0.75rem;
+        min-height: 2400px; /* Increased height for 2-column layout */
     }
 }
 
@@ -245,6 +246,7 @@ input[type="checkbox"]:checked + .block .dot {
     /* Seating map */
     #seating-map {
         padding: 0.5rem;
+        min-height: 2400px; /* Keep consistent height */
     }
 }
 
@@ -269,7 +271,7 @@ input[type="checkbox"]:checked + .block .dot {
 /* Prevent content overflow on small screens */
 @media (max-height: 600px) {
     #seating-map {
-        min-height: 1800px;
+        min-height: 2400px; /* Keep consistent height */
     }
 }
 

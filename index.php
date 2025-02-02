@@ -38,14 +38,14 @@ try {
     <!-- Navigation -->
     <nav class="bg-white shadow fixed top-0 left-0 right-0 z-50">
         <div class="container mx-auto px-4">
-            <div class="flex flex-col py-4">
-                <div class="flex justify-between items-center mb-2">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between py-4">
+                <div class="flex justify-between items-center mb-2 sm:mb-0">
                     <h1 class="text-xl font-bold text-gray-900">Medical School Formal</h1>
                     <p class="text-gray-600 text-sm">Welcome, <?php echo htmlspecialchars($user['name']); ?></p>
                 </div>
-                <div class="flex gap-2">
-                    <a href="admin.php" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-center text-sm font-medium">Admin Panel</a>
-                    <a href="logout.php" class="flex-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-center text-sm font-medium">Sign out</a>
+                <div class="flex gap-2 w-full sm:w-auto">
+                    <a href="admin.php" class="flex-1 sm:flex-initial bg-blue-500 hover:bg-blue-600 text-white px-4 sm:px-6 py-2 rounded text-center text-sm font-medium">Admin Panel</a>
+                    <a href="logout.php" class="flex-1 sm:flex-initial bg-red-500 hover:bg-red-600 text-white px-4 sm:px-6 py-2 rounded text-center text-sm font-medium">Sign out</a>
                 </div>
             </div>
         </div>
