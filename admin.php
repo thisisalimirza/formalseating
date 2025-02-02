@@ -243,19 +243,27 @@ try {
                             // Query for table assignments with proper DISTINCT handling
                             $stmt = $pdo->query("
                                 WITH seated_users AS (
-                                    SELECT DISTINCT ON (s.user_id, FLOOR((s.seat_id - 1) / 10) + 1)
+                                    SELECT 
                                         FLOOR((s.seat_id - 1) / 10) + 1 as table_num,
+                                        s.user_id,
                                         u.name as user_name,
-                                        s.seat_id
+                                        s.seat_id,
+                                        u.plus_one,
+                                        ROW_NUMBER() OVER (PARTITION BY u.id, FLOOR((s.seat_id - 1) / 10) + 1 ORDER BY s.seat_id) as seat_num
                                     FROM seats s
                                     JOIN users u ON s.user_id = u.id
-                                    ORDER BY s.user_id, FLOOR((s.seat_id - 1) / 10) + 1, s.seat_id
+                                    WHERE s.occupied = true
                                 )
                                 SELECT 
                                     tn.table_num,
                                     COALESCE(
                                         string_agg(
-                                            su.user_name,
+                                            CASE 
+                                                WHEN su.plus_one AND su.seat_num = 2 THEN 
+                                                    su.user_name || '''s +1'
+                                                ELSE 
+                                                    su.user_name
+                                            END,
                                             ', '
                                             ORDER BY su.seat_id
                                         ),
