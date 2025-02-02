@@ -273,9 +273,12 @@ try {
             // Get container width
             const containerWidth = seatingMap.clientWidth;
             
+            // Determine if we're on mobile
+            const isMobile = window.innerWidth <= 768;
+            
             // Calculate optimal table size based on container width
-            // We want to fit at least 6 tables per row for larger screens, but adjust down for smaller screens
-            const maxTablesPerRow = Math.max(6, Math.floor(containerWidth / 200)); // 200px is minimum space per table
+            // For mobile, we want fewer tables per row
+            const maxTablesPerRow = isMobile ? 3 : Math.max(6, Math.floor(containerWidth / 200));
             const cols = Math.min(maxTablesPerRow, Math.ceil(Math.sqrt(config.tables)));
             const rows = Math.ceil(config.tables / cols);
             
@@ -284,8 +287,18 @@ try {
             const spacePerTable = Math.floor(availableWidth / cols);
             
             // Update table and seat sizes based on available space
-            config.tableRadius = Math.max(25, Math.min(45, Math.floor(spacePerTable / 4))); // Min 25px, Max 45px
-            config.seatRadius = Math.max(5, Math.min(10, Math.floor(config.tableRadius / 4))); // Min 5px, Max 10px
+            // Smaller sizes for mobile
+            if (isMobile) {
+                config.tableRadius = Math.max(20, Math.min(30, Math.floor(spacePerTable / 4)));
+                config.seatRadius = Math.max(4, Math.min(8, Math.floor(config.tableRadius / 4)));
+                config.seatSpacing = 1.4; // Tighter spacing on mobile
+                config.tableSpacing = 1.2;
+            } else {
+                config.tableRadius = Math.max(25, Math.min(45, Math.floor(spacePerTable / 4)));
+                config.seatRadius = Math.max(5, Math.min(10, Math.floor(config.tableRadius / 4)));
+                config.seatSpacing = 1.6;
+                config.tableSpacing = 1.3;
+            }
             
             // Calculate total space needed for each table including its seats
             const totalTableRadius = config.tableRadius + (config.seatRadius * 2 * config.seatSpacing);
