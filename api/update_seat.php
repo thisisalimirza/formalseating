@@ -22,11 +22,11 @@ if (!isset($_POST['seat_id']) || !isset($_POST['occupied'])) {
 }
 
 $seatId = filter_var($_POST['seat_id'], FILTER_VALIDATE_INT);
-$occupied = filter_var($_POST['occupied'], FILTER_VALIDATE_BOOLEAN);
+$occupied = filter_var($_POST['occupied'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 
-if ($seatId === false) {
+if ($seatId === false || $occupied === null) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'error' => 'Invalid seat ID']);
+    echo json_encode(['success' => false, 'error' => 'Invalid parameters']);
     exit();
 }
 

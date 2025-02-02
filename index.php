@@ -398,7 +398,7 @@ try {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `seat_id=${seatId}&occupied=${!isSelected ? 1 : 0}`,
+                    body: `seat_id=${seatId}&occupied=${!isSelected ? 'true' : 'false'}`,
                 });
 
                 const data = await response.json();
