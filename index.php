@@ -271,8 +271,8 @@ try {
             const isMobile = window.innerWidth <= 768;
             
             // Calculate optimal table size based on container width
-            // For mobile, we want fewer tables per row
-            const maxTablesPerRow = isMobile ? 3 : Math.max(6, Math.floor(containerWidth / 200));
+            // For mobile, we want 2 columns
+            const maxTablesPerRow = isMobile ? 2 : Math.max(6, Math.floor(containerWidth / 200));
             const cols = Math.min(maxTablesPerRow, Math.ceil(Math.sqrt(config.tables)));
             const rows = Math.ceil(config.tables / cols);
             
@@ -281,17 +281,19 @@ try {
             const spacePerTable = Math.floor(availableWidth / cols);
             
             // Update table and seat sizes based on available space
-            // Smaller sizes for mobile
+            // Adjusted sizes for 2-column mobile layout
             if (isMobile) {
-                config.tableRadius = Math.max(16, Math.min(24, Math.floor(spacePerTable / 4)));
-                config.seatRadius = Math.max(3, Math.min(6, Math.floor(config.tableRadius / 4)));
-                config.seatSpacing = 1.2; // Even tighter spacing on mobile
-                config.tableSpacing = 1.1;
+                config.tableRadius = Math.max(20, Math.min(32, Math.floor(spacePerTable / 3)));
+                config.seatRadius = Math.max(4, Math.min(7, Math.floor(config.tableRadius / 4)));
+                config.seatSpacing = 1.3; // Slightly more spacing for 2 columns
+                config.tableSpacing = 1.15;
+                config.minPadding = 12; // Reduced padding for mobile
             } else {
                 config.tableRadius = Math.max(25, Math.min(45, Math.floor(spacePerTable / 4)));
                 config.seatRadius = Math.max(5, Math.min(10, Math.floor(config.tableRadius / 4)));
                 config.seatSpacing = 1.6;
                 config.tableSpacing = 1.3;
+                config.minPadding = 20;
             }
             
             // Calculate total space needed for each table including its seats
