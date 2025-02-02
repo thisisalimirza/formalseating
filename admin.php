@@ -243,9 +243,8 @@ try {
                                     tn.table_num,
                                     COALESCE(
                                         string_agg(
-                                            DISTINCT u.name,
-                                            ', ' 
-                                            ORDER BY MIN(s.seat_id)
+                                            name_with_seat,
+                                            ', '
                                         ),
                                         ''
                                     ) as seated_users,
@@ -258,7 +257,12 @@ try {
                                         user_id
                                     FROM seats
                                 ) s ON tn.table_num = s.table_num
-                                LEFT JOIN users u ON s.user_id = u.id
+                                LEFT JOIN (
+                                    SELECT 
+                                        id,
+                                        name as name_with_seat
+                                    FROM users
+                                ) u ON s.user_id = u.id
                                 GROUP BY tn.table_num
                                 ORDER BY tn.table_num;
                             ");
