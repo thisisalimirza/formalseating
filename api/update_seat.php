@@ -3,87 +3,89 @@ session_start();
 require_once '../includes/config.php';
 require_once '../includes/auth.php';
 
-// Check if user is authenticated
+header('Content-Type: application/json');
+
+// Check authentication
 if (!isAuthenticated()) {
     http_response_code(401);
-    echo json_encode(['error' => 'Unauthorized']);
+    echo json_encode(['success' => false, 'error' => 'You must be logged in to select seats']);
     exit();
 }
 
-// Get the current user
 $user = getCurrentUser();
 
-// Validate input parameters
+// Validate input
 if (!isset($_POST['seat_id']) || !isset($_POST['occupied'])) {
     http_response_code(400);
-    echo json_encode(['error' => 'Missing parameters']);
+    echo json_encode(['success' => false, 'error' => 'Missing required parameters']);
     exit();
 }
 
-$seatId = (int)$_POST['seat_id'];
-$occupied = (int)$_POST['occupied'];
+$seatId = filter_var($_POST['seat_id'], FILTER_VALIDATE_INT);
+$occupied = filter_var($_POST['occupied'], FILTER_VALIDATE_BOOLEAN);
 
-// Calculate table and seat numbers
-$tableId = floor(($seatId - 1) / 10) + 1;
-$seatNumber = (($seatId - 1) % 10) + 1;
-
-// Validate seat ID
-if ($seatId < 1 || $seatId > 450) { // 45 tables * 10 seats
+if ($seatId === false) {
     http_response_code(400);
-    echo json_encode(['error' => 'Invalid seat ID']);
+    echo json_encode(['success' => false, 'error' => 'Invalid seat ID']);
     exit();
 }
 
 try {
-    // Begin transaction
+    // Start transaction
     $pdo->beginTransaction();
 
-    // Check if seat is already taken by someone else
-    $stmt = $pdo->prepare("SELECT user_id FROM seats WHERE seat_id = ? AND occupied = true");
+    // Check if seat exists and is available
+    $stmt = $pdo->prepare("SELECT occupied, user_id FROM seats WHERE seat_id = ?");
     $stmt->execute([$seatId]);
-    $existingSeat = $stmt->fetch(PDO::FETCH_ASSOC);
+    $seat = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($existingSeat && $existingSeat['user_id'] !== $user['id'] && $occupied) {
-        $pdo->rollBack();
-        http_response_code(409);
-        echo json_encode(['success' => false, 'message' => 'Seat is already taken']);
-        exit();
+    if (!$seat) {
+        throw new Exception('Seat not found');
     }
 
-    // Check if user has already selected maximum seats
     if ($occupied) {
-        $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM seats WHERE user_id = ? AND occupied = true");
+        // Trying to select a seat
+        if ($seat['occupied'] && $seat['user_id'] !== $user['id']) {
+            throw new Exception('This seat is already taken by another user');
+        }
+
+        // Check if user has reached their seat limit
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM seats WHERE user_id = ? AND occupied = true");
         $stmt->execute([$user['id']]);
-        $seatCount = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+        $currentSeats = $stmt->fetchColumn();
 
         $maxSeats = $user['plus_one'] ? 2 : 1;
-        if ($seatCount >= $maxSeats) {
-            $pdo->rollBack();
-            http_response_code(400);
-            echo json_encode(['success' => false, 'message' => 'Maximum seats already selected']);
-            exit();
+        if ($currentSeats >= $maxSeats) {
+            throw new Exception($maxSeats === 1 
+                ? 'You can only select 1 seat. Contact an admin to enable plus one.'
+                : 'You can only select 2 seats with your plus one option.');
+        }
+    } else {
+        // Trying to unselect a seat
+        if (!$seat['occupied'] || $seat['user_id'] !== $user['id']) {
+            throw new Exception('You cannot unselect this seat');
         }
     }
 
-    // Update or insert seat record
+    // Update seat
     $stmt = $pdo->prepare("
-        INSERT INTO seats (seat_id, table_id, seat_number, user_id, occupied) 
-        VALUES (?, ?, ?, ?, ?) 
-        ON CONFLICT (seat_id) 
-        DO UPDATE SET user_id = EXCLUDED.user_id, occupied = EXCLUDED.occupied
+        UPDATE seats 
+        SET occupied = ?, user_id = ? 
+        WHERE seat_id = ?
     ");
-    $stmt->execute([$seatId, $tableId, $seatNumber, $user['id'], $occupied]);
+    $stmt->execute([$occupied, $occupied ? $user['id'] : null, $seatId]);
 
-    // Commit transaction
     $pdo->commit();
-
     echo json_encode(['success' => true]);
+
+} catch (Exception $e) {
+    $pdo->rollBack();
+    http_response_code(400);
+    echo json_encode(['success' => false, 'error' => $e->getMessage()]);
 } catch (PDOException $e) {
-    if ($pdo->inTransaction()) {
-        $pdo->rollBack();
-    }
-    error_log("Database error in update_seat.php: " . $e->getMessage());
+    $pdo->rollBack();
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Database error']);
+    echo json_encode(['success' => false, 'error' => 'Database error occurred. Please try again.']);
+    error_log("Database error in update_seat.php: " . $e->getMessage());
 }
 ?> 

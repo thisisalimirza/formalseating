@@ -308,7 +308,129 @@ try {
     </main>
 
     <script>
-        // Toggle show names setting
+        // Enhanced toast notification system (same as index.php)
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            const icon = toast.querySelector('svg');
+            const alert = toast.querySelector('[role="alert"]');
+            
+            switch(type) {
+                case 'error':
+                    alert.className = 'flex items-center p-4 mb-4 text-red-800 bg-red-50 rounded-lg shadow-lg min-w-[300px]';
+                    icon.innerHTML = '<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 1-1 1 1 0 0 1-1 1Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/>';
+                    break;
+                case 'success':
+                    alert.className = 'flex items-center p-4 mb-4 text-green-800 bg-green-50 rounded-lg shadow-lg min-w-[300px]';
+                    icon.innerHTML = '<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>';
+                    break;
+                default:
+                    alert.className = 'flex items-center p-4 mb-4 text-blue-800 bg-blue-50 rounded-lg shadow-lg min-w-[300px]';
+                    icon.innerHTML = '<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>';
+            }
+            
+            toastMessage.textContent = message;
+            toast.classList.remove('translate-y-full');
+            
+            if (type !== 'error') {
+                setTimeout(hideToast, 5000);
+            }
+        }
+
+        function hideToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('translate-y-full');
+        }
+
+        // Enhanced toggle plus one function
+        async function togglePlusOne(userId) {
+            try {
+                const response = await fetch('api/toggle_plus_one.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `user_id=${userId}`
+                });
+
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to toggle plus one status');
+                }
+                
+                showToast('Plus one status updated successfully', 'success');
+                await loadUsers();
+            } catch (error) {
+                console.error('Error toggling plus one:', error);
+                showToast(error.message || 'Failed to update plus one status', 'error');
+            }
+        }
+
+        // Enhanced clear seats function
+        async function clearSeats(userId) {
+            if (!confirm('Are you sure you want to clear all seats for this user? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('api/clear_seats.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `user_id=${userId}`
+                });
+
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to clear seats');
+                }
+                
+                showToast('Seats cleared successfully', 'success');
+                await loadUsers();
+            } catch (error) {
+                console.error('Error clearing seats:', error);
+                showToast(error.message || 'Failed to clear seats', 'error');
+            }
+        }
+
+        // Enhanced user list loading
+        async function loadUsers() {
+            try {
+                const response = await fetch('api/get_users.php');
+                if (!response.ok) {
+                    throw new Error('Failed to load users');
+                }
+                
+                const users = await response.json();
+                const tbody = document.getElementById('user-list');
+                tbody.innerHTML = users.map(user => `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${user.name}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.email}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.plus_one ? 'Yes' : 'No'}</td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                            ${user.seats ? user.seats.map(seat => `
+                                <div class="mb-1">${seat}</div>
+                            `).join('') : 'None'}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button onclick="togglePlusOne(${user.id})" class="text-blue-600 hover:text-blue-900 mr-2 focus:outline-none focus:underline">
+                                Toggle Plus One
+                            </button>
+                            <button onclick="clearSeats(${user.id})" class="text-red-600 hover:text-red-900 focus:outline-none focus:underline">
+                                Clear Seats
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading users:', error);
+                showToast('Failed to load user list. Please refresh the page.', 'error');
+            }
+        }
+
+        // Enhanced settings toggle
         document.getElementById('show-names').addEventListener('change', async function(e) {
             const toggle = this;
             const dot = toggle.parentElement.querySelector('.dot');
@@ -336,97 +458,27 @@ try {
                     dot.style.transform = 'translateX(0)';
                 }
 
+                showToast('Setting updated successfully', 'success');
+
                 // Reload the page after a short delay to show the animation
                 setTimeout(() => {
                     window.location.reload();
-                }, 300);
+                }, 1000);
             } catch (error) {
                 console.error('Error updating setting:', error);
-                alert('Failed to update setting. Please try again.');
+                showToast('Failed to update setting', 'error');
                 // Revert the toggle state
                 toggle.checked = !toggle.checked;
             }
         });
 
-        // Load user list
-        async function loadUsers() {
-            try {
-                const response = await fetch('api/get_users.php');
-                if (!response.ok) throw new Error('Failed to load users');
-                
-                const users = await response.json();
-                const tbody = document.getElementById('user-list');
-                tbody.innerHTML = users.map(user => `
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${user.name}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.email}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.plus_one ? 'Yes' : 'No'}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">
-                            ${user.seats ? user.seats.map(seat => `
-                                <div class="mb-1">${seat}</div>
-                            `).join('') : 'None'}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button onclick="togglePlusOne(${user.id})" class="text-blue-600 hover:text-blue-900 mr-2">
-                                Toggle Plus One
-                            </button>
-                            <button onclick="clearSeats(${user.id})" class="text-red-600 hover:text-red-900">
-                                Clear Seats
-                            </button>
-                        </td>
-                    </tr>
-                `).join('');
-            } catch (error) {
-                console.error('Error loading users:', error);
-            }
-        }
-
-        // Toggle plus one status
-        async function togglePlusOne(userId) {
-            try {
-                const response = await fetch('api/toggle_plus_one.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `user_id=${userId}`
-                });
-
-                if (!response.ok) throw new Error('Failed to toggle plus one status');
-                
-                // Reload user list
-                loadUsers();
-            } catch (error) {
-                console.error('Error toggling plus one:', error);
-                alert('Failed to update plus one status. Please try again.');
-            }
-        }
-
-        // Clear user's seats
-        async function clearSeats(userId) {
-            if (!confirm('Are you sure you want to clear this user\'s seats?')) return;
-
-            try {
-                const response = await fetch('api/clear_seats.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `user_id=${userId}`
-                });
-
-                if (!response.ok) throw new Error('Failed to clear seats');
-                
-                // Reload user list
-                loadUsers();
-            } catch (error) {
-                console.error('Error clearing seats:', error);
-                alert('Failed to clear seats. Please try again.');
-            }
-        }
-
         // Initialize
-        loadUsers();
+        try {
+            loadUsers();
+        } catch (error) {
+            console.error('Error initializing admin panel:', error);
+            showToast('Failed to initialize admin panel. Please refresh the page.', 'error');
+        }
     </script>
 </body>
 </html> 
