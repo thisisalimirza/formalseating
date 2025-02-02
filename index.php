@@ -40,7 +40,7 @@ try {
         <div class="container mx-auto px-4">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between py-4">
                 <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-6 mb-2 sm:mb-0">
-                    <h1 class="text-xl font-bold text-gray-900">Medical School Formal</h1>
+                    <h1 class="text-xl font-bold text-gray-900">UCHC Formal 2025</h1>
                     <p class="text-gray-600 text-sm sm:border-l sm:border-gray-300 sm:pl-6">Welcome, <?php echo htmlspecialchars($user['name']); ?></p>
                 </div>
                 <div class="flex gap-2 w-full sm:w-auto">
