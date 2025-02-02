@@ -105,6 +105,19 @@ input[type="checkbox"]:checked + .block .dot {
     transition: all 0.2s ease;
 }
 
+/* Tooltip styles */
+.seat-btn > div {
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.seat-btn:hover > div {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
 .seat-btn:hover {
     background-color: #E5E7EB;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

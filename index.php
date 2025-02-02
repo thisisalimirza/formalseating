@@ -164,19 +164,24 @@ try {
 
             if (showOccupiedNames) {
                 const tooltip = document.createElement('div');
-                tooltip.className = 'tooltip opacity-0 invisible absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-sm text-white bg-gray-900 rounded whitespace-nowrap transition-all duration-200';
+                tooltip.className = 'absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-sm text-white bg-gray-900 rounded whitespace-nowrap opacity-0 invisible transition-all duration-200 z-50';
                 seat.appendChild(tooltip);
 
                 seat.addEventListener('mouseenter', async () => {
                     if (occupiedSeats[seatId] && occupiedSeats[seatId] !== userId) {
                         try {
                             const response = await fetch(`api/get_user.php?id=${occupiedSeats[seatId]}`);
-                            if (!response.ok) throw new Error('Failed to get user info');
+                            if (!response.ok) {
+                                const data = await response.json();
+                                throw new Error(data.error || 'Failed to get user info');
+                            }
                             const user = await response.json();
                             tooltip.textContent = user.name;
                             tooltip.classList.remove('opacity-0', 'invisible');
                         } catch (error) {
                             console.error('Error getting user info:', error);
+                            tooltip.textContent = 'Error loading name';
+                            tooltip.classList.remove('opacity-0', 'invisible');
                         }
                     }
                 });
