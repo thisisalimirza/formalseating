@@ -44,7 +44,9 @@ try {
                     <p class="text-gray-600 text-sm sm:border-l sm:border-gray-300 sm:pl-6">Welcome, <?php echo htmlspecialchars($user['name']); ?></p>
                 </div>
                 <div class="flex gap-2 w-full sm:w-auto">
+                    <?php if ($user['is_admin']): ?>
                     <a href="admin.php" class="flex-1 sm:flex-initial bg-blue-500 hover:bg-blue-600 text-white px-4 sm:px-6 py-2 rounded text-center text-sm font-medium">Admin Panel</a>
+                    <?php endif; ?>
                     <a href="api/logout.php" class="flex-1 sm:flex-initial bg-red-500 hover:bg-red-600 text-white px-4 sm:px-6 py-2 rounded text-center text-sm font-medium">Sign out</a>
                 </div>
             </div>
