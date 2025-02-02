@@ -122,7 +122,7 @@ try {
             seatRadius: 10,
             seatSpacing: 1.6,
             tableSpacing: 1.3,
-            minPadding: 40  // Reduced padding to allow more space for tables
+            minPadding: 20
         };
         
         // State
@@ -270,36 +270,47 @@ try {
 
         // Calculate required dimensions
         function calculateMapDimensions() {
-            // Calculate optimal number of columns based on viewport width
-            const mapWidth = seatingMap.clientWidth - (config.minPadding * 2);
-            const tableWidth = (config.tableRadius * 2 + config.seatRadius * 4) * config.tableSpacing;
-            const cols = Math.floor(mapWidth / tableWidth) || 1;
+            // Get container width
+            const containerWidth = seatingMap.clientWidth;
+            
+            // Calculate optimal table size based on container width
+            // We want to fit at least 6 tables per row for larger screens, but adjust down for smaller screens
+            const maxTablesPerRow = Math.max(6, Math.floor(containerWidth / 200)); // 200px is minimum space per table
+            const cols = Math.min(maxTablesPerRow, Math.ceil(Math.sqrt(config.tables)));
             const rows = Math.ceil(config.tables / cols);
             
-            // Calculate space needed for each table including its seats
+            // Calculate table and seat sizes based on available space
+            const availableWidth = containerWidth - (config.minPadding * 2);
+            const spacePerTable = Math.floor(availableWidth / cols);
+            
+            // Update table and seat sizes based on available space
+            config.tableRadius = Math.max(25, Math.min(45, Math.floor(spacePerTable / 4))); // Min 25px, Max 45px
+            config.seatRadius = Math.max(5, Math.min(10, Math.floor(config.tableRadius / 4))); // Min 5px, Max 10px
+            
+            // Calculate total space needed for each table including its seats
             const totalTableRadius = config.tableRadius + (config.seatRadius * 2 * config.seatSpacing);
             const minTableSpace = Math.round(totalTableRadius * 2 * config.tableSpacing);
             
             // Calculate minimum required width and height
-            const minWidth = Math.max(mapWidth, (minTableSpace * cols) + (config.minPadding * 2));
+            const minWidth = (minTableSpace * cols) + (config.minPadding * 2);
             const minHeight = (minTableSpace * rows) + (config.minPadding * 2);
             
-            return { minWidth, minHeight, cols, rows };
+            return { minWidth, minHeight, cols, rows, spacePerTable };
         }
 
         // Create seating layout
         function createSeatingLayout() {
-            const { minWidth, minHeight, cols, rows } = calculateMapDimensions();
+            const { minWidth, minHeight, cols, rows, spacePerTable } = calculateMapDimensions();
             
             // Clear existing layout
             seatingMap.innerHTML = '';
             
-            // Calculate spacing
-            const availableWidth = minWidth - (config.minPadding * 2);
-            const availableHeight = minHeight - (config.minPadding * 2);
+            // Set container minimum height
+            seatingMap.style.minHeight = `${minHeight}px`;
             
-            const colSpacing = Math.round(availableWidth / cols);
-            const rowSpacing = Math.round(availableHeight / rows);
+            // Calculate spacing between table centers
+            const colSpacing = Math.floor(spacePerTable);
+            const rowSpacing = Math.floor(spacePerTable);
             
             // Create tables and seats
             for (let i = 0; i < config.tables; i++) {
@@ -407,15 +418,20 @@ try {
             }
         }
 
-        // Handle window resize
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                createSeatingLayout();
-                loadSeatStatus();
-            }, 250);
+        // Add resize observer for more responsive updates
+        const resizeObserver = new ResizeObserver(entries => {
+            for (const entry of entries) {
+                if (entry.target === seatingMap) {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        createSeatingLayout();
+                        loadSeatStatus();
+                    }, 250);
+                }
+            }
         });
+
+        resizeObserver.observe(seatingMap);
 
         // Initialize
         createSeatingLayout();

@@ -47,13 +47,8 @@ input[type="checkbox"]:checked + .block .dot {
     max-width: 100%;
     margin: 0 auto;
     min-height: 600px;
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform-origin: center center;
-    -webkit-overflow-scrolling: touch;
     background: #F9FAFB;
 }
 
@@ -67,16 +62,17 @@ input[type="checkbox"]:checked + .block .dot {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 90px;
-    height: 90px;
     border-radius: 50%;
     touch-action: manipulation;
+    transition: all 0.2s ease;
 }
 
 .table > div {
-    font-size: 0.875rem;
+    font-size: clamp(0.7rem, 1.5vw, 0.875rem);
     white-space: nowrap;
     color: #374151;
+    text-align: center;
+    padding: 0.25rem;
 }
 
 .table:hover {
@@ -93,16 +89,14 @@ input[type="checkbox"]:checked + .block .dot {
     background: #F3F4F6;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 2;
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    min-height: 32px;
     padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     touch-action: manipulation;
     transition: all 0.2s ease;
+    min-width: 20px;
+    min-height: 20px;
 }
 
 /* Tooltip styles */
@@ -124,44 +118,16 @@ input[type="checkbox"]:checked + .block .dot {
     transform: translate(-50%, -50%) scale(1.05);
 }
 
-/* Responsive Design - Updated for better table layout */
+/* Responsive container padding */
 @media (min-width: 1600px) {
     #seating-map {
-        padding: 3rem;
-    }
-    .table {
-        width: 90px;
-        height: 90px;
-    }
-}
-
-@media (max-width: 1599px) {
-    #seating-map {
-        padding: 2.5rem;
-    }
-    .table {
-        width: 85px;
-        height: 85px;
+        padding: 2rem;
     }
 }
 
 @media (max-width: 1199px) {
     #seating-map {
-        padding: 2rem;
-    }
-    .table {
-        width: 80px;
-        height: 80px;
-    }
-}
-
-@media (max-width: 991px) {
-    #seating-map {
-        padding: 1.5rem;
-    }
-    .table {
-        width: 75px;
-        height: 75px;
+        padding: 1.25rem;
     }
 }
 
@@ -170,10 +136,6 @@ input[type="checkbox"]:checked + .block .dot {
         padding: 1rem;
         min-height: 500px;
     }
-    .table {
-        width: 70px;
-        height: 70px;
-    }
 }
 
 @media (max-width: 575px) {
@@ -181,49 +143,13 @@ input[type="checkbox"]:checked + .block .dot {
         padding: 0.75rem;
         min-height: 450px;
     }
-    .table {
-        width: 65px;
-        height: 65px;
-    }
-}
-
-/* iPhone and small mobile devices */
-@media (max-width: 430px) {
-    #seating-map {
-        transform: scale(0.6);
-        padding: 1rem;
-        min-height: 500px;
-    }
-    
-    .table {
-        width: 80px;
-        height: 80px;
-    }
-    
-    .table > div {
-        font-size: 0.7rem;
-    }
-}
-
-/* Extra small devices */
-@media (max-width: 360px) {
-    #seating-map {
-        transform: scale(0.5);
-        padding: 0.75rem;
-        min-height: 450px;
-    }
-    
-    .table {
-        width: 75px;
-        height: 75px;
-    }
 }
 
 /* Ensure proper touch targets on mobile */
 @media (hover: none) and (pointer: coarse) {
     .seat-btn {
-        min-width: 44px !important;
-        min-height: 44px !important;
+        min-width: 32px !important;
+        min-height: 32px !important;
     }
 }
 
