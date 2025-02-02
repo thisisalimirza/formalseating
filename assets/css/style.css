@@ -136,26 +136,30 @@ input[type="checkbox"]:checked + .block .dot {
 
 @media (max-width: 767px) {
     #seating-map {
-        padding: 1rem;
+        padding: 0.75rem;
         min-height: 400px;
     }
     
     /* Adjust table text size on mobile */
     .table > div {
-        font-size: 0.65rem;
+        font-size: 0.6rem;
         padding: 0.125rem;
+        line-height: 1;
+        max-width: 90%;
+        margin: 0 auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     
     /* Improve tooltip positioning on mobile */
     .seat-btn .tooltip {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         padding: 0.25rem 0.5rem;
-        bottom: calc(100% + 8px) !important;
-    }
-    
-    /* Adjust legend text size */
-    .text-sm {
-        font-size: 0.75rem;
+        bottom: calc(100% + 4px) !important;
+        white-space: nowrap;
+        max-width: 150px;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
     
     /* Stack legend items on mobile */
@@ -166,44 +170,71 @@ input[type="checkbox"]:checked + .block .dot {
     
     /* Adjust stats text on mobile */
     .text-gray-600 {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         text-align: right;
+    }
+
+    /* Ensure proper touch targets while keeping visual size small */
+    .seat-btn {
+        min-width: 16px !important;
+        min-height: 16px !important;
+    }
+
+    .seat-btn::after {
+        content: '';
+        position: absolute;
+        top: -8px;
+        left: -8px;
+        right: -8px;
+        bottom: -8px;
     }
 }
 
 @media (max-width: 575px) {
     #seating-map {
-        padding: 0.75rem;
+        padding: 0.5rem;
         min-height: 350px;
     }
     
     /* Further reduce table text size */
     .table > div {
-        font-size: 0.6rem;
+        font-size: 0.55rem;
+        line-height: 1;
     }
     
     /* Ensure proper touch targets */
     .seat-btn {
-        min-width: 24px !important;
-        min-height: 24px !important;
+        min-width: 14px !important;
+        min-height: 14px !important;
+    }
+
+    /* Adjust table appearance */
+    .table {
+        border-width: 1px;
     }
 }
 
 /* Ensure proper touch targets on mobile */
 @media (hover: none) and (pointer: coarse) {
     .seat-btn {
-        min-width: 28px !important;
-        min-height: 28px !important;
+        min-width: 16px !important;
+        min-height: 16px !important;
     }
     
-    /* Increase hit area for better touch interaction */
+    /* Increase hit area for better touch interaction while keeping visual size small */
     .seat-btn::after {
         content: '';
         position: absolute;
-        top: -5px;
-        left: -5px;
-        right: -5px;
-        bottom: -5px;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+    }
+
+    /* Prevent text selection on touch */
+    .table > div {
+        user-select: none;
+        -webkit-user-select: none;
     }
 }
 

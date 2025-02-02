@@ -283,10 +283,10 @@ try {
             // Update table and seat sizes based on available space
             // Smaller sizes for mobile
             if (isMobile) {
-                config.tableRadius = Math.max(20, Math.min(30, Math.floor(spacePerTable / 4)));
-                config.seatRadius = Math.max(4, Math.min(8, Math.floor(config.tableRadius / 4)));
-                config.seatSpacing = 1.4; // Tighter spacing on mobile
-                config.tableSpacing = 1.2;
+                config.tableRadius = Math.max(16, Math.min(24, Math.floor(spacePerTable / 4)));
+                config.seatRadius = Math.max(3, Math.min(6, Math.floor(config.tableRadius / 4)));
+                config.seatSpacing = 1.2; // Even tighter spacing on mobile
+                config.tableSpacing = 1.1;
             } else {
                 config.tableRadius = Math.max(25, Math.min(45, Math.floor(spacePerTable / 4)));
                 config.seatRadius = Math.max(5, Math.min(10, Math.floor(config.tableRadius / 4)));
