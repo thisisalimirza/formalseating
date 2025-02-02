@@ -45,7 +45,7 @@ try {
                 </div>
                 <div class="flex gap-2 w-full sm:w-auto">
                     <a href="admin.php" class="flex-1 sm:flex-initial bg-blue-500 hover:bg-blue-600 text-white px-4 sm:px-6 py-2 rounded text-center text-sm font-medium">Admin Panel</a>
-                    <a href="logout.php" class="flex-1 sm:flex-initial bg-red-500 hover:bg-red-600 text-white px-4 sm:px-6 py-2 rounded text-center text-sm font-medium">Sign out</a>
+                    <a href="api/logout.php" class="flex-1 sm:flex-initial bg-red-500 hover:bg-red-600 text-white px-4 sm:px-6 py-2 rounded text-center text-sm font-medium">Sign out</a>
                 </div>
             </div>
         </div>
