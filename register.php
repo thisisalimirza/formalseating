@@ -14,7 +14,7 @@ if (isAuthenticated()) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Medical School Formal</title>
+    <title>Register - UCHC Formal 2025</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -25,7 +25,7 @@ if (isAuthenticated()) {
             Create your account
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600">
-            Join us at the Medical School Formal
+            Join us at the UCHC Formal 2025
         </p>
     </div>
 

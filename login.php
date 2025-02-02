@@ -14,7 +14,7 @@ if (isAuthenticated()) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Medical School Formal</title>
+    <title>Login - UCHC Formal 2025</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -22,7 +22,7 @@ if (isAuthenticated()) {
 <body class="bg-gray-50 min-h-screen flex flex-col justify-center">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 class="text-center text-3xl font-bold tracking-tight text-gray-900">
-            Medical School Formal
+        UCHC Formal 2025
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600">
             Sign in to select your seats
