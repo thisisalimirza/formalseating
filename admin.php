@@ -206,6 +206,34 @@ try {
             </div>
         </div>
 
+        <!-- Approved Emails Management -->
+        <div class="bg-white shadow rounded-lg p-6 mb-6">
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Approved Emails</h2>
+            <div class="mb-4">
+                <form id="add-email-form" class="flex gap-2">
+                    <input type="email" id="new-email" placeholder="Enter email address" required
+                        class="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500">
+                    <button type="submit"
+                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                        Add Email
+                    </button>
+                </form>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead>
+                        <tr>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="approved-emails-list" class="bg-white divide-y divide-gray-200">
+                        <!-- Approved emails will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- Table Assignments Section -->
         <div class="bg-white shadow rounded-lg p-6 mb-6">
             <h3 class="text-lg font-medium text-gray-900 mb-4">Table Assignments</h3>
@@ -425,8 +453,79 @@ try {
             }
         }
 
+        // Load approved emails
+        async function loadApprovedEmails() {
+            try {
+                const response = await fetch('api/get_approved_emails.php');
+                if (!response.ok) throw new Error('Failed to load approved emails');
+                
+                const emails = await response.json();
+                const tbody = document.getElementById('approved-emails-list');
+                tbody.innerHTML = emails.map(email => `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${email}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button onclick="removeApprovedEmail('${email}')" class="text-red-600 hover:text-red-900">
+                                Remove
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading approved emails:', error);
+            }
+        }
+
+        // Add approved email
+        document.getElementById('add-email-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const emailInput = document.getElementById('new-email');
+            const email = emailInput.value;
+
+            try {
+                const response = await fetch('api/add_approved_email.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `email=${encodeURIComponent(email)}`
+                });
+
+                if (!response.ok) throw new Error('Failed to add email');
+                
+                emailInput.value = '';
+                loadApprovedEmails();
+            } catch (error) {
+                console.error('Error adding email:', error);
+                alert('Failed to add email. Please try again.');
+            }
+        });
+
+        // Remove approved email
+        async function removeApprovedEmail(email) {
+            if (!confirm('Are you sure you want to remove this email?')) return;
+
+            try {
+                const response = await fetch('api/remove_approved_email.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `email=${encodeURIComponent(email)}`
+                });
+
+                if (!response.ok) throw new Error('Failed to remove email');
+                
+                loadApprovedEmails();
+            } catch (error) {
+                console.error('Error removing email:', error);
+                alert('Failed to remove email. Please try again.');
+            }
+        }
+
         // Initialize
         loadUsers();
+        loadApprovedEmails();
     </script>
 </body>
 </html> 

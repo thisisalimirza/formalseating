@@ -29,18 +29,19 @@ if (APP_ENV === 'development') {
 // Create database connection
 try {
     $dsn = sprintf(
-        "pgsql:host=%s;port=%d;dbname=%s;user=%s;password=%s",
+        "pgsql:host=%s;port=%d;dbname=%s",
         $dbConfig['host'],
         isset($dbConfig['port']) ? $dbConfig['port'] : 5432,
-        ltrim($dbConfig['path'], '/'),
-        $dbConfig['user'],
-        $dbConfig['pass']
+        ltrim($dbConfig['path'], '/')
     );
-    $pdo = new PDO($dsn);
+    $pdo = new PDO($dsn, $dbConfig['user'], $dbConfig['pass']);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     error_log("Database connection failed: " . $e->getMessage());
     die("Could not connect to the database. Please try again later.");
 }
+
+// Enable error logging for debugging
+error_log("Database connection established successfully");
 ?> 

@@ -11,19 +11,6 @@ if (!isAuthenticated()) {
 }
 
 try {
-    $dbUrl = parse_url(getenv("DATABASE_URL"));
-    $pdo = new PDO(
-        "pgsql:" . sprintf(
-            "host=%s;port=%s;user=%s;password=%s;dbname=%s",
-            $dbUrl["host"],
-            $dbUrl["port"],
-            $dbUrl["user"],
-            $dbUrl["pass"],
-            ltrim($dbUrl["path"], "/")
-        )
-    );
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Get all occupied seats with their user IDs
     $stmt = $pdo->query("
         SELECT 
@@ -35,15 +22,14 @@ try {
         WHERE occupied = true
         ORDER BY seat_id
     ");
-
+    
     $seats = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    // Return success response
-    http_response_code(200);
+    header('Content-Type: application/json');
     echo json_encode($seats);
 } catch (PDOException $e) {
-    error_log("Database error in get_seats.php: " . $e->getMessage());
     http_response_code(500);
-    echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+    error_log("Error getting seats: " . $e->getMessage());
+    echo json_encode(['error' => 'Database error']);
 }
 ?> 
