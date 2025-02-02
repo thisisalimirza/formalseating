@@ -56,7 +56,7 @@ try {
         $currentSeats = $stmt->fetchColumn();
 
         $maxSeats = $user['plus_one'] ? 2 : 1;
-        if ($currentSeats >= $maxSeats) {
+        if ($currentSeats >= $maxSeats && $seatId !== $seat['seat_id']) {
             throw new Exception($maxSeats === 1 
                 ? 'You can only select 1 seat. Contact an admin to enable plus one.'
                 : 'You can only select 2 seats with your plus one option.');
