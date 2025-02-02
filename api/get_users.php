@@ -21,10 +21,12 @@ try {
             u.name,
             u.email,
             u.plus_one,
-            ARRAY_AGG(s.seat_id ORDER BY s.seat_id) FILTER (WHERE s.seat_id IS NOT NULL) as seats
+            ARRAY_AGG(s.seat_id ORDER BY s.seat_id) FILTER (WHERE s.seat_id IS NOT NULL) as seats,
+            ARRAY_AGG(s.table_id ORDER BY s.seat_id) FILTER (WHERE s.table_id IS NOT NULL) as table_ids,
+            ARRAY_AGG(s.seat_number ORDER BY s.seat_id) FILTER (WHERE s.seat_number IS NOT NULL) as seat_numbers
         FROM users u
         LEFT JOIN (
-            SELECT user_id, seat_id
+            SELECT user_id, seat_id, table_id, seat_number
             FROM seats
             WHERE occupied = true
         ) s ON u.id = s.user_id
@@ -34,13 +36,33 @@ try {
 
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    // Convert string representation of array to actual array
+    // Process the seat information for display
     foreach ($users as &$user) {
         if ($user['seats'] !== null) {
-            // Remove the curly braces and split the string
+            // Convert PostgreSQL array string to PHP array
             $seats = trim($user['seats'], '{}');
-            $user['seats'] = $seats ? explode(',', $seats) : null;
+            $tableIds = trim($user['table_ids'], '{}');
+            $seatNumbers = trim($user['seat_numbers'], '{}');
+            
+            if ($seats) {
+                $seatIds = explode(',', $seats);
+                $tableIds = explode(',', $tableIds);
+                $seatNumbers = explode(',', $seatNumbers);
+                
+                // Format as "Table X, Seat Y"
+                $formattedSeats = array_map(function($tableId, $seatNumber) {
+                    return "Table $tableId, Seat $seatNumber";
+                }, $tableIds, $seatNumbers);
+                
+                $user['seats'] = $formattedSeats;
+            } else {
+                $user['seats'] = null;
+            }
         }
+        
+        // Remove unnecessary fields
+        unset($user['table_ids']);
+        unset($user['seat_numbers']);
     }
     
     echo json_encode($users);

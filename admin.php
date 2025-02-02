@@ -205,7 +205,11 @@ try {
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${user.name}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.email}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.plus_one ? 'Yes' : 'No'}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.seats ? user.seats.join(', ') : 'None'}</td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                            ${user.seats ? user.seats.map(seat => `
+                                <div class="mb-1">${seat}</div>
+                            `).join('') : 'None'}
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <button onclick="togglePlusOne(${user.id})" class="text-blue-600 hover:text-blue-900 mr-2">
                                 Toggle Plus One
