@@ -54,10 +54,12 @@ try {
         exit();
     }
 
+    // Return success response
+    http_response_code(200);
     echo json_encode($user);
 } catch (PDOException $e) {
     error_log("Database error in get_user.php: " . $e->getMessage());
     http_response_code(500);
-    echo json_encode(['error' => 'Database error']);
+    echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
 }
 ?> 

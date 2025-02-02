@@ -150,13 +150,19 @@ try {
             const x = Math.round(tableX + seatDistance * Math.cos(angle));
             const y = Math.round(tableY + seatDistance * Math.sin(angle));
 
+            const seatContainer = document.createElement('div');
+            seatContainer.className = 'absolute';
+            seatContainer.style.cssText = `
+                left: ${x}px;
+                top: ${y}px;
+                transform: translate(-50%, -50%);
+            `;
+
             const seat = document.createElement('button');
-            seat.className = 'absolute rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none seat-btn transition-colors duration-200';
+            seat.className = 'rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none seat-btn transition-colors duration-200';
             seat.style.cssText = `
                 width: ${config.seatRadius * 2}px;
                 height: ${config.seatRadius * 2}px;
-                left: ${x}px;
-                top: ${y}px;
             `;
             seat.dataset.seatId = seatId;
             seat.dataset.tableId = tableIndex + 1;
@@ -164,23 +170,38 @@ try {
 
             if (showOccupiedNames) {
                 const tooltip = document.createElement('div');
-                tooltip.className = 'absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-sm text-white bg-gray-900 rounded whitespace-nowrap opacity-0 invisible transition-all duration-200 z-50';
-                seat.appendChild(tooltip);
+                tooltip.className = 'fixed transform -translate-x-1/2 px-2 py-1 text-sm text-white bg-gray-900 rounded whitespace-nowrap opacity-0 invisible transition-all duration-200 z-[1000] pointer-events-none';
+                tooltip.style.cssText = `
+                    bottom: calc(100% + 5px);
+                    left: 50%;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                `;
+                seatContainer.appendChild(tooltip);
 
                 seat.addEventListener('mouseenter', async () => {
                     if (occupiedSeats[seatId] && occupiedSeats[seatId] !== userId) {
                         try {
                             const response = await fetch(`api/get_user.php?id=${occupiedSeats[seatId]}`);
+                            const data = await response.json();
+                            
                             if (!response.ok) {
-                                const data = await response.json();
                                 throw new Error(data.error || 'Failed to get user info');
                             }
-                            const user = await response.json();
-                            tooltip.textContent = user.name;
+                            
+                            tooltip.textContent = data.name;
                             tooltip.classList.remove('opacity-0', 'invisible');
+                            
+                            // Ensure tooltip is fully visible
+                            const tooltipRect = tooltip.getBoundingClientRect();
+                            const viewportHeight = window.innerHeight;
+                            
+                            if (tooltipRect.top < 0) {
+                                tooltip.style.bottom = 'unset';
+                                tooltip.style.top = 'calc(100% + 5px)';
+                            }
                         } catch (error) {
                             console.error('Error getting user info:', error);
-                            tooltip.textContent = 'Error loading name';
+                            tooltip.textContent = 'Unable to load name';
                             tooltip.classList.remove('opacity-0', 'invisible');
                         }
                     }
@@ -188,11 +209,15 @@ try {
 
                 seat.addEventListener('mouseleave', () => {
                     tooltip.classList.add('opacity-0', 'invisible');
+                    // Reset tooltip position
+                    tooltip.style.bottom = 'calc(100% + 5px)';
+                    tooltip.style.top = 'unset';
                 });
             }
 
             seat.addEventListener('click', () => handleSeatClick(seatId));
-            return seat;
+            seatContainer.appendChild(seat);
+            return seatContainer;
         }
 
         // Create table element
