@@ -548,46 +548,14 @@ try {
             }
         });
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                // Add error handling for each function
-                const loadTasks = [
-                    { fn: loadUsers, name: 'users' },
-                    { fn: loadApprovedEmails, name: 'approved emails' },
-                    { fn: loadPendingRegistrations, name: 'pending registrations' },
-                    { fn: loadUnseatedUsers, name: 'unseated users' },
-                    { fn: updateFunnelStats, name: 'funnel stats' }
-                ];
-
-                for (const task of loadTasks) {
-                    try {
-                        await task.fn();
-                    } catch (error) {
-                        console.error(`Error loading ${task.name}:`, error);
-                    }
-                }
-            } catch (error) {
-                console.error('Error during initialization:', error);
-            }
-        });
-
-        // Add debug logging to loadUsers function
+        // Load user list
         async function loadUsers() {
             try {
-                console.log('Loading users...');
                 const response = await fetch('api/get_users.php');
                 if (!response.ok) throw new Error('Failed to load users');
                 
                 const users = await response.json();
-                console.log('Users loaded:', users);
-                
                 const tbody = document.getElementById('user-list');
-                if (!tbody) {
-                    console.error('User list tbody element not found');
-                    return;
-                }
-
                 tbody.innerHTML = users.map(user => `
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${user.name}</td>
@@ -599,7 +567,7 @@ try {
                             ${user.is_admin ? 'Yes' : 'No'}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            ${user.seats ? user.seats.join('<br>') : ''}
+                            ${user.seats.join('<br>')}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                             <button onclick="togglePlusOne(${user.id})" class="text-blue-600 hover:text-blue-900">
@@ -619,7 +587,6 @@ try {
                 `).join('');
             } catch (error) {
                 console.error('Error loading users:', error);
-                alert('Failed to load users. Please try again.');
             }
         }
 
@@ -698,21 +665,13 @@ try {
         // Load approved emails
         async function loadApprovedEmails() {
             try {
-                console.log('Loading approved emails...');
                 const response = await fetch('api/get_approved_emails.php');
                 if (!response.ok) throw new Error('Failed to load approved emails');
                 
                 const emails = await response.json();
-                console.log('Approved emails loaded:', emails);
-                
                 const tbody = document.getElementById('approved-emails-list');
                 const approvedCount = document.getElementById('approved-count');
                 
-                if (!tbody || !approvedCount) {
-                    console.error('Approved emails elements not found');
-                    return;
-                }
-
                 // Update the count badge
                 approvedCount.textContent = `${emails.length} Approved`;
                 
@@ -813,21 +772,13 @@ try {
         // Load pending registrations
         async function loadPendingRegistrations() {
             try {
-                console.log('Loading pending registrations...');
                 const response = await fetch('api/get_pending_registrations.php');
                 if (!response.ok) throw new Error('Failed to load pending registrations');
                 
                 const pendingEmails = await response.json();
-                console.log('Pending registrations loaded:', pendingEmails);
-                
                 const tbody = document.getElementById('pending-registrations-list');
                 const pendingCount = document.getElementById('pending-count');
                 
-                if (!tbody || !pendingCount) {
-                    console.error('Pending registrations elements not found');
-                    return;
-                }
-
                 // Update the count badge
                 pendingCount.textContent = `${pendingEmails.length} Pending`;
                 
@@ -922,26 +873,23 @@ UCHC Formal Committee`;
             window.location.href = mailtoLink;
         }
 
-        // Update funnel stats
+        // Add this to your existing JavaScript, after the other function definitions
         async function updateFunnelStats() {
             try {
                 // Get approved emails count
                 const approvedEmailsResponse = await fetch('api/get_approved_emails.php');
-                if (!approvedEmailsResponse.ok) throw new Error('Failed to load approved emails');
                 const approvedEmails = await approvedEmailsResponse.json();
                 const approvedEmailsCount = approvedEmails.length;
                 
                 // Get registered users count
                 const usersResponse = await fetch('api/get_users.php');
-                if (!usersResponse.ok) throw new Error('Failed to load users');
                 const users = await usersResponse.json();
                 const registeredUsersCount = users.length;
                 
                 // Get selected seats count
                 const seatsResponse = await fetch('api/get_seats.php');
-                if (!seatsResponse.ok) throw new Error('Failed to load seats');
                 const seats = await seatsResponse.json();
-                const selectedSeatsCount = seats.filter(seat => seat.occupied).length;
+                const selectedSeatsCount = seats.length;
                 
                 // Update the funnel visualization
                 document.getElementById('approved-emails-number').textContent = approvedEmailsCount;
@@ -958,7 +906,6 @@ UCHC Formal Committee`;
                 
             } catch (error) {
                 console.error('Error updating funnel stats:', error);
-                alert('Failed to update dashboard stats. Please try again.');
             }
         }
 
@@ -1028,75 +975,12 @@ UCHC Formal Committee`;
             }
         }
 
-        // Function to show user list
-        function showUserList() {
-            document.getElementById('user-list-section').classList.remove('hidden');
-            document.getElementById('confirm-section').classList.add('hidden');
-            selectedUserId = null;
-            loadUnseatedUsers();
-        }
-
-        // Function to assign to self
-        function assignToSelf() {
-            selectedUserId = <?php echo getCurrentUser()['id']; ?>;
-            document.getElementById('user-list-section').classList.add('hidden');
-            document.getElementById('confirm-section').classList.remove('hidden');
-            document.getElementById('confirm-admin-assign').click(); // Automatically trigger the confirmation
-        }
-
-        // Event listeners for admin modal
-        document.getElementById('confirm-admin-assign').addEventListener('click', async () => {
-            if (!selectedUserId || !selectedSeatId) return;
-
-            try {
-                const response = await fetch('api/admin_assign_seat.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `seat_id=${selectedSeatId}&user_id=${selectedUserId}`
-                });
-
-                const data = await response.json();
-                if (!response.ok) {
-                    throw new Error(data.error || 'Failed to assign seat');
-                }
-
-                // Close modal and refresh data
-                adminAssignModal.classList.add('hidden');
-                await Promise.all([
-                    loadSeats(),
-                    loadUsers(),
-                    updateFunnelStats()
-                ]);
-
-                // Show success message
-                const successMessage = document.createElement('div');
-                successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
-                successMessage.textContent = 'Seat assigned successfully';
-                document.body.appendChild(successMessage);
-                
-                setTimeout(() => {
-                    successMessage.remove();
-                }, 3000);
-            } catch (error) {
-                console.error('Error:', error);
-                alert(error.message);
-            }
-        });
-
-        document.getElementById('cancel-admin-assign')?.addEventListener('click', () => {
-            adminAssignModal.classList.add('hidden');
-        });
-
         // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadUsers();
-            loadApprovedEmails();
-            loadPendingRegistrations();
-            loadUnseatedUsers();
-            updateFunnelStats();
-        });
+        loadUsers();
+        loadApprovedEmails();
+        loadPendingRegistrations();
+        loadUnseatedUsers();
+        updateFunnelStats();
     </script>
 </body>
 </html> 

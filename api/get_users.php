@@ -12,10 +12,6 @@ if (!isAuthenticated() || !getCurrentUser()['is_admin']) {
 
 try {
     $dbUrl = parse_url(getenv("DATABASE_URL"));
-    
-    // Log database connection details (without sensitive info)
-    error_log("Attempting database connection to host: " . $dbUrl["host"]);
-    
     $pdo = new PDO(
         "pgsql:" . sprintf(
             "host=%s;port=%s;user=%s;password=%s;dbname=%s",
@@ -27,12 +23,8 @@ try {
         )
     );
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    error_log("Database connection successful");
-    
+
     // Get users with their seat information
-    error_log("Executing user query...");
-    
     $stmt = $pdo->query("
         SELECT 
             u.id,
@@ -54,7 +46,6 @@ try {
     ");
 
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    error_log("Found " . count($users) . " users");
     
     // Process the seat information for display
     foreach ($users as &$user) {
@@ -87,12 +78,10 @@ try {
         unset($user['seat_numbers']);
     }
     
-    header('Content-Type: application/json');
     echo json_encode($users);
 } catch (PDOException $e) {
     error_log("Database error in get_users.php: " . $e->getMessage());
-    error_log("Stack trace: " . $e->getTraceAsString());
     http_response_code(500);
-    echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+    echo json_encode(['error' => 'Database error']);
 }
 ?> 

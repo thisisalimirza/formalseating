@@ -252,7 +252,6 @@ input[type="checkbox"]:checked + .block .dot {
 @media screen and (max-width: 430px) {
     input, select, textarea {
         font-size: 16px !important;
-        text-size-adjust: none;
     }
 }
 
