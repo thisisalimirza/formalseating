@@ -5,13 +5,13 @@ require_once '../includes/auth.php';
 
 // Check if user is authenticated and is admin
 if (!isAuthenticated() || !getCurrentUser()['is_admin']) {
-    http_response_code(401);
+    http_response_code(403);
     echo json_encode(['error' => 'Unauthorized']);
     exit();
 }
 
 try {
-    // Query to get users and their seat counts
+    // Get users who haven't selected all their seats
     $stmt = $pdo->query("
         WITH user_seats AS (
             SELECT 
@@ -19,9 +19,9 @@ try {
                 u.name,
                 u.email,
                 u.plus_one,
-                COUNT(s.seat_id) as selected_seats
+                COUNT(s.id) as selected_seats
             FROM users u
-            LEFT JOIN seats s ON u.id = s.user_id AND s.occupied = true
+            LEFT JOIN seats s ON s.user_id = u.id AND s.occupied = true
             GROUP BY u.id, u.name, u.email, u.plus_one
         )
         SELECT 
@@ -29,20 +29,20 @@ try {
             name,
             email,
             plus_one,
-            selected_seats
+            selected_seats,
+            CASE 
+                WHEN plus_one THEN GREATEST(2 - selected_seats, 0)
+                ELSE GREATEST(1 - selected_seats, 0)
+            END as missing_seats
         FROM user_seats
         WHERE (plus_one = true AND selected_seats < 2)
            OR (plus_one = false AND selected_seats < 1)
         ORDER BY name ASC
     ");
 
-    $unseatedUsers = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    // Return the results
-    header('Content-Type: application/json');
-    echo json_encode($unseatedUsers);
-
-} catch (PDOException $e) {
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($users);
+} catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+    echo json_encode(['error' => $e->getMessage()]);
 } 

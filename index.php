@@ -206,6 +206,50 @@ try {
         </div>
     </div>
 
+    <!-- Admin Seat Assignment Modal -->
+    <div id="adminAssignModal" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 max-w-md mx-4 shadow-xl transform transition-all duration-300">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <i class="fas fa-user-plus text-blue-600"></i>
+                Assign Seat
+            </h3>
+            <p class="text-gray-600 mb-4">Select who you want to assign to this seat: <span id="adminSeatDetails" class="font-medium text-gray-900"></span></p>
+            
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Choose an option:</label>
+                <div class="space-y-2">
+                    <button id="assignToSelfBtn" class="w-full text-left px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200">
+                        Assign to myself
+                    </button>
+                    <button id="showUserListBtn" class="w-full text-left px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200">
+                        Assign to another user
+                    </button>
+                </div>
+            </div>
+
+            <div id="userListSection" class="hidden">
+                <div class="mb-4">
+                    <label for="userSearch" class="block text-sm font-medium text-gray-700 mb-2">Search users:</label>
+                    <input type="text" id="userSearch" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div class="max-h-48 overflow-y-auto mb-4">
+                    <div id="userList" class="space-y-2">
+                        <!-- Users will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-3">
+                <button id="cancelAdminAssignBtn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200">
+                    Cancel
+                </button>
+                <button id="confirmAdminAssignBtn" class="hidden px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200">
+                    Confirm Assignment
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Configuration
         const userId = <?php echo json_encode($user['id']); ?>;
@@ -239,6 +283,20 @@ try {
         const cancelSeatBtn = document.getElementById('cancelSeatBtn');
         const confirmDeselectBtn = document.getElementById('confirmDeselectBtn');
         const cancelDeselectBtn = document.getElementById('cancelDeselectBtn');
+
+        // New variables for admin functionality
+        const isAdmin = <?php echo json_encode($user['is_admin']); ?>;
+        const adminAssignModal = document.getElementById('adminAssignModal');
+        const adminSeatDetails = document.getElementById('adminSeatDetails');
+        const assignToSelfBtn = document.getElementById('assignToSelfBtn');
+        const showUserListBtn = document.getElementById('showUserListBtn');
+        const userListSection = document.getElementById('userListSection');
+        const userSearch = document.getElementById('userSearch');
+        const userList = document.getElementById('userList');
+        const cancelAdminAssignBtn = document.getElementById('cancelAdminAssignBtn');
+        const confirmAdminAssignBtn = document.getElementById('confirmAdminAssignBtn');
+        let selectedUserId = null;
+        let unseatedUsers = [];
 
         // Show/hide modal functions
         function showModal(seatId, isDeselect = false) {
@@ -529,6 +587,12 @@ try {
             const isSelected = selectedSeats.includes(seatId);
             const isOccupied = occupiedSeats[seatId] && occupiedSeats[seatId] !== userId;
 
+            if (isAdmin && !isSelected) {
+                // Show admin assignment modal
+                showAdminModal(seatId);
+                return;
+            }
+
             if (isOccupied) {
                 showToast('This seat is already taken');
                 return;
@@ -658,6 +722,147 @@ try {
         // Initialize
         createSeatingLayout();
         loadSeatStatus();
+
+        // Admin modal functions
+        function showAdminModal(seatId) {
+            const tableNum = Math.floor((seatId - 1) / 10) + 1;
+            const seatNum = ((seatId - 1) % 10) + 1;
+            adminSeatDetails.textContent = `(Table ${tableNum}, Seat ${seatNum})`;
+            
+            // Reset state
+            selectedUserId = null;
+            userListSection.classList.add('hidden');
+            confirmAdminAssignBtn.classList.add('hidden');
+            userSearch.value = '';
+            
+            // Show modal
+            adminAssignModal.classList.remove('hidden');
+            adminAssignModal.classList.add('flex');
+            pendingSeatId = seatId;
+
+            // Load unseated users
+            loadUnseatedUsers();
+        }
+
+        function hideAdminModal() {
+            adminAssignModal.classList.add('hidden');
+            adminAssignModal.classList.remove('flex');
+            pendingSeatId = null;
+            selectedUserId = null;
+        }
+
+        // Load unseated users
+        async function loadUnseatedUsers() {
+            try {
+                const response = await fetch('api/get_unseated_users.php');
+                if (!response.ok) throw new Error('Failed to load unseated users');
+                unseatedUsers = await response.json();
+                updateUserList();
+            } catch (error) {
+                console.error('Error loading unseated users:', error);
+                showToast('Failed to load user list');
+            }
+        }
+
+        // Update user list based on search
+        function updateUserList() {
+            const searchTerm = userSearch.value.toLowerCase();
+            const filteredUsers = unseatedUsers.filter(user => 
+                user.name.toLowerCase().includes(searchTerm) || 
+                user.email.toLowerCase().includes(searchTerm)
+            );
+
+            userList.innerHTML = filteredUsers.map(user => `
+                <button class="w-full text-left px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200 user-select-btn"
+                        data-user-id="${user.id}">
+                    <div class="flex justify-between items-center">
+                        <span>${user.name}</span>
+                        <span class="text-xs text-gray-500">${user.missing_seats} seat${user.missing_seats > 1 ? 's' : ''} needed</span>
+                    </div>
+                    <div class="text-xs text-gray-500">${user.email}</div>
+                </button>
+            `).join('');
+
+            // Add click handlers
+            document.querySelectorAll('.user-select-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.user-select-btn').forEach(b => 
+                        b.classList.remove('ring-2', 'ring-blue-500', 'bg-blue-50'));
+                    btn.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50');
+                    selectedUserId = parseInt(btn.dataset.userId);
+                    confirmAdminAssignBtn.classList.remove('hidden');
+                });
+            });
+        }
+
+        // Event listeners for admin modal
+        assignToSelfBtn.addEventListener('click', () => {
+            selectedUserId = userId;
+            userListSection.classList.add('hidden');
+            confirmAdminAssignBtn.classList.remove('hidden');
+        });
+
+        showUserListBtn.addEventListener('click', () => {
+            selectedUserId = null;
+            userListSection.classList.remove('hidden');
+            confirmAdminAssignBtn.classList.add('hidden');
+        });
+
+        userSearch.addEventListener('input', updateUserList);
+
+        cancelAdminAssignBtn.addEventListener('click', hideAdminModal);
+
+        confirmAdminAssignBtn.addEventListener('click', async () => {
+            if (pendingSeatId !== null && selectedUserId !== null) {
+                try {
+                    const response = await fetch('api/admin_assign_seat.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `seat_id=${pendingSeatId}&user_id=${selectedUserId}`,
+                    });
+
+                    if (!response.ok) {
+                        const data = await response.json();
+                        throw new Error(data.error || 'Failed to assign seat');
+                    }
+
+                    // Update UI
+                    const seat = document.querySelector(`[data-seat-id="${pendingSeatId}"]`);
+                    if (selectedUserId === userId) {
+                        selectedSeats.push(pendingSeatId);
+                        seat.classList.remove('bg-gray-200', 'hover:bg-gray-300');
+                        seat.classList.add('bg-emerald-500', 'hover:bg-emerald-600');
+                    } else {
+                        seat.classList.remove('bg-gray-200', 'hover:bg-gray-300');
+                        seat.classList.add('bg-red-500', 'hover:bg-red-600');
+                    }
+                    occupiedSeats[pendingSeatId] = selectedUserId;
+
+                    // Show success message
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-transform duration-300';
+                    successMessage.textContent = 'Seat assigned successfully';
+                    document.body.appendChild(successMessage);
+                    
+                    setTimeout(() => {
+                        successMessage.style.transform = 'translateY(100%)';
+                        setTimeout(() => successMessage.remove(), 300);
+                    }, 3000);
+
+                    hideAdminModal();
+                } catch (error) {
+                    showToast(error.message);
+                }
+            }
+        });
+
+        adminAssignModal.addEventListener('click', (e) => {
+            if (e.target === adminAssignModal) {
+                hideAdminModal();
+            }
+        });
     </script>
 </body>
 </html> 
