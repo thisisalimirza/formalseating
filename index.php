@@ -805,6 +805,7 @@ try {
             selectedUserId = userId;
             userListSection.classList.add('hidden');
             confirmAdminAssignBtn.classList.remove('hidden');
+            confirmAdminAssignBtn.click(); // Automatically trigger the confirmation
         }
 
         // Event listeners for admin modal
