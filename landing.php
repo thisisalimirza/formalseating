@@ -145,7 +145,7 @@
             </div>
             <div class="relative hidden lg:block">
                 <div class="absolute inset-0 bg-gradient-to-tr from-emerald/20 to-transparent rounded-3xl"></div>
-                <img src="assets/images/hero-event.jpg" alt="Event seating arrangement" class="rounded-3xl shadow-2xl w-full h-[600px] object-cover transform hover:scale-[1.02] transition-transform duration-500">
+                <img src="assets/images/seating-demo.png" alt="Sitr seating interface demo" class="rounded-3xl shadow-2xl w-full h-[600px] object-cover transform hover:scale-[1.02] transition-transform duration-500">
                 <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-brand-green/10 rounded-full filter blur-2xl"></div>
                 <div class="absolute -top-6 -left-6 w-32 h-32 bg-mint/20 rounded-full filter blur-2xl"></div>
             </div>
@@ -162,6 +162,17 @@
                 <p class="mt-4 max-w-2xl text-xl text-firefly/70 lg:mx-auto">
                     Our comprehensive platform offers all the tools you need to manage event seating arrangements with ease.
                 </p>
+            </div>
+
+            <!-- Feature Image Showcase -->
+            <div class="mt-12 mb-20 relative">
+                <div class="bg-gradient-to-r from-emerald/5 to-brand-green/5 rounded-3xl p-6">
+                    <div class="relative">
+                        <img src="assets/images/admin-demo.png" alt="Sitr admin interface" class="rounded-2xl shadow-xl w-full">
+                        <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-brand-green/10 rounded-full filter blur-2xl"></div>
+                        <div class="absolute -top-4 -left-4 w-32 h-32 bg-mint/20 rounded-full filter blur-2xl"></div>
+                    </div>
+                </div>
             </div>
 
             <div class="mt-20">
