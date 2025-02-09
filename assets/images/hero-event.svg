@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#F8FBFF"/>
+    
+    <!-- Background Pattern -->
+    <path d="M0 0h1200v800H0z" fill="#F8FBFF"/>
+    <g opacity="0.1">
+        <circle cx="200" cy="200" r="80" fill="#00D37F"/>
+        <circle cx="600" cy="400" r="100" fill="#014751"/>
+        <circle cx="1000" cy="600" r="90" fill="#AFF8CB"/>
+    </g>
+    
+    <!-- Stylized Tables -->
+    <g transform="translate(300, 200)">
+        <circle cx="0" cy="0" r="60" fill="#014751" opacity="0.8"/>
+        <circle cx="0" cy="0" r="50" fill="#FFFFFF"/>
+        <text x="0" y="0" text-anchor="middle" dy=".3em" fill="#014751" font-family="Inter" font-size="14">Table 1</text>
+    </g>
+    
+    <g transform="translate(600, 400)">
+        <circle cx="0" cy="0" r="60" fill="#00D37F" opacity="0.8"/>
+        <circle cx="0" cy="0" r="50" fill="#FFFFFF"/>
+        <text x="0" y="0" text-anchor="middle" dy=".3em" fill="#014751" font-family="Inter" font-size="14">Table 2</text>
+    </g>
+    
+    <g transform="translate(900, 300)">
+        <circle cx="0" cy="0" r="60" fill="#AFF8CB" opacity="0.8"/>
+        <circle cx="0" cy="0" r="50" fill="#FFFFFF"/>
+        <text x="0" y="0" text-anchor="middle" dy=".3em" fill="#014751" font-family="Inter" font-size="14">Table 3</text>
+    </g>
+    
+    <!-- Decorative Elements -->
+    <g opacity="0.2">
+        <path d="M100 100l1000 600" stroke="#00D37F" stroke-width="2"/>
+        <path d="M100 700l1000-600" stroke="#014751" stroke-width="2"/>
+    </g>
+</svg> 

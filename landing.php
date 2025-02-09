@@ -32,14 +32,51 @@
             -webkit-text-fill-color: transparent;
         }
         .hero-image {
-            object-fit: cover;
-            width: 100%;
-            height: 100%;
-            filter: brightness(0.8);
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 211, 127, 0.1), rgba(1, 71, 81, 0.2));
+            pointer-events: none;
+        }
+        .hero-image img {
+            transform: scale(1);
+            transition: transform 0.6s ease-in-out;
+        }
+        .hero-image:hover img {
+            transform: scale(1.05);
+        }
+        .hero-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .hero-glow-1 {
+            background: #00D37F;
+            top: -100px;
+            right: -100px;
+        }
+        .hero-glow-2 {
+            background: #014751;
+            bottom: -100px;
+            left: -100px;
         }
         @media (max-width: 1024px) {
             .hero-image {
                 height: 400px;
+                margin-top: 2rem;
             }
         }
         .feature-icon {
@@ -86,9 +123,9 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="relative min-h-screen flex items-center bg-gradient-to-br from-zircon via-white to-mint/20">
+    <header class="relative min-h-screen flex items-center bg-gradient-to-br from-zircon via-white to-mint/20 overflow-hidden">
         <div class="absolute inset-0 z-0 opacity-10 bg-[url('path/to/pattern.svg')]"></div>
-        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 grid lg:grid-cols-2 gap-12 items-center">
             <div class="max-w-xl">
                 <h1 class="text-5xl sm:text-6xl font-bold tracking-tight mb-6">
                     <span class="block text-firefly">Seamless Event</span>
@@ -105,6 +142,12 @@
                         Learn More
                     </a>
                 </div>
+            </div>
+            <div class="relative hidden lg:block">
+                <div class="absolute inset-0 bg-gradient-to-tr from-emerald/20 to-transparent rounded-3xl"></div>
+                <img src="assets/images/hero-event.jpg" alt="Event seating arrangement" class="rounded-3xl shadow-2xl w-full h-[600px] object-cover transform hover:scale-[1.02] transition-transform duration-500">
+                <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-brand-green/10 rounded-full filter blur-2xl"></div>
+                <div class="absolute -top-6 -left-6 w-32 h-32 bg-mint/20 rounded-full filter blur-2xl"></div>
             </div>
         </div>
     </header>
