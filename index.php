@@ -474,11 +474,35 @@ try {
                     seat.classList.remove('bg-blue-500', 'hover:bg-blue-600');
                     seat.classList.add('bg-gray-200', 'hover:bg-gray-300');
                     delete occupiedSeats[seatId];
+                    
+                    // Show success message for seat deselection
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-transform duration-300';
+                    successMessage.textContent = 'Seat removed successfully';
+                    document.body.appendChild(successMessage);
+                    
+                    // Remove success message after 3 seconds with fade out animation
+                    setTimeout(() => {
+                        successMessage.style.transform = 'translateY(100%)';
+                        setTimeout(() => successMessage.remove(), 300);
+                    }, 3000);
                 } else {
                     selectedSeats.push(seatId);
                     seat.classList.remove('bg-gray-200', 'hover:bg-gray-300');
                     seat.classList.add('bg-blue-500', 'hover:bg-blue-600');
                     occupiedSeats[seatId] = userId;
+                    
+                    // Show success message for seat selection
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-transform duration-300';
+                    successMessage.textContent = 'Seat selected successfully';
+                    document.body.appendChild(successMessage);
+                    
+                    // Remove success message after 3 seconds with fade out animation
+                    setTimeout(() => {
+                        successMessage.style.transform = 'translateY(100%)';
+                        setTimeout(() => successMessage.remove(), 300);
+                    }, 3000);
                 }
             } catch (error) {
                 showToast(error.message);
