@@ -170,7 +170,7 @@ try {
 
     <!-- Confirmation Modal -->
     <div id="confirmationModal" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm hidden items-center justify-center z-50">
-        <div class="bg-white rounded-xl p-6 max-w-sm mx-4 shadow-xl transform transition-all duration-300 scale-95 opacity-0">
+        <div class="bg-white rounded-xl p-6 max-w-sm mx-4 shadow-xl transform transition-all duration-300">
             <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                 <i class="fas fa-check-circle text-emerald-600"></i>
                 Confirm Seat Selection
@@ -189,7 +189,7 @@ try {
 
     <!-- Deselection Confirmation Modal -->
     <div id="deselectModal" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm hidden items-center justify-center z-50">
-        <div class="bg-white rounded-xl p-6 max-w-sm mx-4 shadow-xl transform transition-all duration-300 scale-95 opacity-0">
+        <div class="bg-white rounded-xl p-6 max-w-sm mx-4 shadow-xl transform transition-all duration-300">
             <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                 <i class="fas fa-times-circle text-red-600"></i>
                 Confirm Seat Removal
@@ -250,20 +250,38 @@ try {
                 deselectSeatDetails.textContent = details;
                 deselectModal.classList.remove('hidden');
                 deselectModal.classList.add('flex');
+                setTimeout(() => {
+                    deselectModal.querySelector('.bg-white').classList.add('scale-100', 'opacity-100');
+                    deselectModal.querySelector('.bg-white').classList.remove('scale-95', 'opacity-0');
+                }, 10);
             } else {
                 seatDetails.textContent = details;
                 confirmationModal.classList.remove('hidden');
                 confirmationModal.classList.add('flex');
+                setTimeout(() => {
+                    confirmationModal.querySelector('.bg-white').classList.add('scale-100', 'opacity-100');
+                    confirmationModal.querySelector('.bg-white').classList.remove('scale-95', 'opacity-0');
+                }, 10);
             }
             pendingSeatId = seatId;
         }
 
         function hideModals() {
-            confirmationModal.classList.add('hidden');
-            confirmationModal.classList.remove('flex');
-            deselectModal.classList.add('hidden');
-            deselectModal.classList.remove('flex');
-            pendingSeatId = null;
+            const confirmationContent = confirmationModal.querySelector('.bg-white');
+            const deselectContent = deselectModal.querySelector('.bg-white');
+            
+            confirmationContent.classList.remove('scale-100', 'opacity-100');
+            confirmationContent.classList.add('scale-95', 'opacity-0');
+            deselectContent.classList.remove('scale-100', 'opacity-100');
+            deselectContent.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                confirmationModal.classList.add('hidden');
+                confirmationModal.classList.remove('flex');
+                deselectModal.classList.add('hidden');
+                deselectModal.classList.remove('flex');
+                pendingSeatId = null;
+            }, 200);
         }
 
         // Modal event listeners
@@ -642,5 +660,4 @@ try {
         loadSeatStatus();
     </script>
 </body>
-</html> 
 </html> 
