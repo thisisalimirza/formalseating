@@ -42,6 +42,13 @@ try {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .sitr-gradient {
+            background: linear-gradient(135deg, #10B981, #059669);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
     <!-- Navigation -->
@@ -49,14 +56,18 @@ try {
         <div class="container mx-auto px-4">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between py-4">
                 <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-6 mb-2 sm:mb-0">
-                    <h1 class="text-xl font-bold text-gray-900">UCHC Formal 2025</h1>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-xl font-bold text-gray-900">UCHC Formal 2025</h1>
+                        <span class="text-sm text-gray-400">|</span>
+                        <span class="sitr-gradient text-sm font-medium">Powered by Sitr</span>
+                    </div>
                     <p class="text-gray-600 text-sm sm:border-l sm:border-gray-300 sm:pl-6">Welcome, <?php echo htmlspecialchars($user['name']); ?></p>
                 </div>
                 <div class="flex gap-2 w-full sm:w-auto">
                     <?php if ($user['is_admin']): ?>
-                    <a href="admin.php" class="flex-1 sm:flex-initial bg-blue-500 hover:bg-blue-600 text-white px-4 sm:px-6 py-2 rounded text-center text-sm font-medium">Admin Panel</a>
+                    <a href="admin.php" class="flex-1 sm:flex-initial bg-emerald-600 hover:bg-emerald-700 text-white px-4 sm:px-6 py-2 rounded text-center text-sm font-medium transition-colors">Admin Panel</a>
                     <?php endif; ?>
-                    <a href="api/logout.php" class="flex-1 sm:flex-initial bg-red-500 hover:bg-red-600 text-white px-4 sm:px-6 py-2 rounded text-center text-sm font-medium">Sign out</a>
+                    <a href="api/logout.php" class="flex-1 sm:flex-initial border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 sm:px-6 py-2 rounded text-center text-sm font-medium transition-colors">Sign out</a>
                 </div>
             </div>
         </div>
@@ -66,21 +77,21 @@ try {
     <main class="container mx-auto px-4 pt-32 pb-4">
         <!-- Seat selection section -->
         <div class="mb-6">
-            <h2 class="text-2xl font-bold mb-2">Select Your Seat</h2>
+            <h2 class="text-2xl font-bold mb-2 text-gray-900">Select Your Seat</h2>
             <p class="text-gray-600 text-base mb-1">Click on an available seat to select it.</p>
             <p class="text-gray-600 text-base">You can select up to <?php echo $user['plus_one'] ? '2' : '1'; ?> seat<?php echo $user['plus_one'] ? 's' : ''; ?>.</p>
         </div>
 
         <!-- Legend and stats -->
-        <div class="bg-white shadow rounded-lg p-4 mb-4">
+        <div class="bg-white shadow rounded-lg p-6 mb-6">
             <div class="flex flex-col gap-4">
-                <div class="flex flex-wrap gap-4">
+                <div class="flex flex-wrap gap-6 justify-center">
                     <div class="flex items-center">
                         <span class="w-4 h-4 bg-gray-200 rounded-full mr-2"></span>
                         <span class="text-sm">Available</span>
                     </div>
                     <div class="flex items-center">
-                        <span class="w-4 h-4 bg-blue-500 rounded-full mr-2"></span>
+                        <span class="w-4 h-4 bg-emerald-500 rounded-full mr-2"></span>
                         <span class="text-sm">Your Selection</span>
                     </div>
                     <div class="flex items-center">
@@ -88,15 +99,23 @@ try {
                         <span class="text-sm">Occupied</span>
                     </div>
                 </div>
-                <div class="text-sm text-gray-600 text-center border-t pt-3">
-                    Tables: 45 | Seats per table: 10
+                <div class="text-sm text-gray-600 text-center border-t pt-4 mt-2">
+                    <span class="inline-flex items-center gap-2">
+                        <i class="fas fa-table text-emerald-600"></i>
+                        Tables: 45
+                    </span>
+                    <span class="mx-3">|</span>
+                    <span class="inline-flex items-center gap-2">
+                        <i class="fas fa-chair text-emerald-600"></i>
+                        Seats per table: 10
+                    </span>
                 </div>
             </div>
         </div>
 
         <!-- Seating map -->
-        <div class="bg-white shadow rounded-lg p-4">
-            <div id="seating-map" class="relative mx-auto bg-gray-50 rounded-lg p-4">
+        <div class="bg-white shadow rounded-lg p-6">
+            <div id="seating-map" class="relative mx-auto bg-gray-50 rounded-lg p-6">
                 <!-- Tables and seats will be dynamically added here by JavaScript -->
             </div>
         </div>
@@ -104,7 +123,7 @@ try {
 
     <!-- Toast notification -->
     <div id="toast" class="fixed bottom-4 right-4 transform transition-transform duration-300 translate-y-full">
-        <div class="bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg">
+        <div class="bg-emerald-600 text-white px-6 py-3 rounded-lg shadow-lg">
             <span id="toast-message"></span>
         </div>
     </div>
@@ -115,10 +134,10 @@ try {
             <h3 class="text-lg font-medium text-gray-900 mb-4">Confirm Seat Selection</h3>
             <p class="text-gray-600 mb-6">Are you sure you want to select this seat? <span id="seatDetails" class="font-medium"></span></p>
             <div class="flex justify-end gap-3">
-                <button id="cancelSeatBtn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                <button id="cancelSeatBtn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors">
                     Cancel
                 </button>
-                <button id="confirmSeatBtn" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <button id="confirmSeatBtn" class="px-4 py-2 text-sm font-medium text-white bg-emerald-600 rounded-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors">
                     Confirm
                 </button>
             </div>
@@ -131,10 +150,10 @@ try {
             <h3 class="text-lg font-medium text-gray-900 mb-4">Confirm Seat Removal</h3>
             <p class="text-gray-600 mb-6">Are you sure you want to remove yourself from this seat? <span id="deselectSeatDetails" class="font-medium"></span></p>
             <div class="flex justify-end gap-3">
-                <button id="cancelDeselectBtn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                <button id="cancelDeselectBtn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors">
                     Cancel
                 </button>
-                <button id="confirmDeselectBtn" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                <button id="confirmDeselectBtn" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
                     Remove
                 </button>
             </div>
@@ -480,7 +499,7 @@ try {
 
                 if (!isSelecting) {
                     selectedSeats = selectedSeats.filter(id => id !== seatId);
-                    seat.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+                    seat.classList.remove('bg-emerald-500', 'hover:bg-emerald-600');
                     seat.classList.add('bg-gray-200', 'hover:bg-gray-300');
                     delete occupiedSeats[seatId];
                     
@@ -498,7 +517,7 @@ try {
                 } else {
                     selectedSeats.push(seatId);
                     seat.classList.remove('bg-gray-200', 'hover:bg-gray-300');
-                    seat.classList.add('bg-blue-500', 'hover:bg-blue-600');
+                    seat.classList.add('bg-emerald-500', 'hover:bg-emerald-600');
                     occupiedSeats[seatId] = userId;
                     
                     // Show success message for seat selection
@@ -542,7 +561,7 @@ try {
                         if (occupantId === userId) {
                             selectedSeats.push(seatId);
                             seatElement.classList.remove('bg-gray-200', 'hover:bg-gray-300');
-                            seatElement.classList.add('bg-blue-500', 'hover:bg-blue-600');
+                            seatElement.classList.add('bg-emerald-500', 'hover:bg-emerald-600');
                         } else {
                             seatElement.classList.remove('bg-gray-200', 'hover:bg-gray-300');
                             seatElement.classList.add('bg-red-500', 'hover:bg-red-600');
