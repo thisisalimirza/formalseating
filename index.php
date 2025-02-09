@@ -3,7 +3,16 @@ session_start();
 require_once 'includes/config.php';
 require_once 'includes/auth.php';
 
-// Redirect to login if not authenticated
+// Get the current host
+$host = $_SERVER['HTTP_HOST'];
+
+// If on main domain (usesitr.com), show landing page
+if ($host === 'usesitr.com') {
+    include 'landing.php';
+    exit();
+}
+
+// For subdomain (uconn.usesitr.com) or any other domain, continue with login check
 if (!isAuthenticated()) {
     header('Location: login.php');
     exit();

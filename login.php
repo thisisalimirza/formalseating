@@ -3,7 +3,16 @@ session_start();
 require_once 'includes/config.php';
 require_once 'includes/auth.php';
 
-// Redirect if already logged in
+// Get the current host
+$host = $_SERVER['HTTP_HOST'];
+
+// If on main domain and trying to access login directly, redirect to landing
+if ($host === 'usesitr.com') {
+    header('Location: landing.php');
+    exit();
+}
+
+// If already authenticated, redirect to index
 if (isAuthenticated()) {
     header('Location: index.php');
     exit();
