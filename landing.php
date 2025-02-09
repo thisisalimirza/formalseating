@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UCHC Formal 2025 - Seamless Seat Selection System</title>
+    <title>Sitr - Modern Event Seating Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -32,7 +32,7 @@
     <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <a href="#" class="text-2xl font-bold text-blue-600">UCHC Formal 2025</a>
+                <a href="#" class="text-2xl font-bold text-blue-600">Sitr</a>
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="#features" class="text-gray-600 hover:text-gray-900">Features</a>
                     <a href="#benefits" class="text-gray-600 hover:text-gray-900">Benefits</a>
@@ -55,7 +55,7 @@
     <header class="relative min-h-screen flex items-center">
         <div class="absolute inset-0 z-0">
             <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" 
-                 alt="Formal event with confetti" 
+                 alt="Elegant event venue" 
                  class="hero-image">
             <div class="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-transparent"></div>
         </div>
@@ -63,11 +63,11 @@
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
             <div class="max-w-xl">
                 <h1 class="text-5xl sm:text-6xl font-bold tracking-tight text-gray-900 mb-6">
-                    <span class="block">Select Your Perfect</span>
-                    <span class="block text-blue-600">Formal Seat</span>
+                    <span class="block">Seamless Event</span>
+                    <span class="block text-blue-600">Seating Made Simple</span>
                 </h1>
                 <p class="text-xl text-gray-600 mb-8">
-                    Experience the future of event seating. Our intuitive platform makes selecting and managing your formal seats effortless, ensuring you get the best spot for an unforgettable evening.
+                    Sitr transforms event seating management with an intuitive platform that makes selecting and managing seats effortless for any formal event or gathering.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4">
                     <a href="register.php" class="inline-flex justify-center items-center px-8 py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors">
@@ -86,10 +86,10 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center">
                 <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                    Everything You Need for Perfect Seating
+                    Everything You Need for Perfect Event Seating
                 </h2>
                 <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-                    Our comprehensive platform offers all the tools you need to manage your formal seating arrangements with ease.
+                    Our comprehensive platform offers all the tools you need to manage event seating arrangements with ease.
                 </p>
             </div>
 
@@ -114,9 +114,9 @@
                             <i class="fas fa-users text-lg"></i>
                         </div>
                         <div class="ml-16">
-                            <h3 class="text-lg font-medium text-gray-900">Plus One Management</h3>
+                            <h3 class="text-lg font-medium text-gray-900">Guest Management</h3>
                             <p class="mt-2 text-base text-gray-500">
-                                Easily manage companion seating with our plus-one system.
+                                Easily manage companion seating and group arrangements.
                             </p>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                         <div class="ml-16">
                             <h3 class="text-lg font-medium text-gray-900">Real-Time Updates</h3>
                             <p class="mt-2 text-base text-gray-500">
-                                Instant notifications and confirmations for all your seating actions.
+                                Instant notifications and confirmations for all seating actions.
                             </p>
                         </div>
                     </div>
@@ -168,7 +168,7 @@
                         <div class="ml-16">
                             <h3 class="text-lg font-medium text-gray-900">24/7 Availability</h3>
                             <p class="mt-2 text-base text-gray-500">
-                                Select and manage your seats anytime, anywhere.
+                                Select and manage seats anytime, anywhere.
                             </p>
                         </div>
                     </div>
@@ -182,7 +182,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center">
                 <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                    Why Choose Our Platform?
+                    Why Choose Sitr?
                 </h2>
                 <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
                     Experience the advantages of our modern seating management system.
@@ -307,8 +307,8 @@
     <section class="bg-blue-600">
         <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
             <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-                <span class="block">Ready to secure your seat?</span>
-                <span class="block text-blue-200">Register now for the UCHC Formal 2025.</span>
+                <span class="block">Ready to simplify your event seating?</span>
+                <span class="block text-blue-200">Get started with Sitr today.</span>
             </h2>
             <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
                 <div class="inline-flex rounded-md shadow">
@@ -331,7 +331,7 @@
             <div class="mt-8 border-t border-gray-700 pt-8 md:flex md:items-center md:justify-between">
                 <div class="flex space-x-6 md:order-2">
                     <p class="text-base text-gray-400">
-                        &copy; 2024 UCHC Formal. All rights reserved.
+                        &copy; 2024 Sitr. All rights reserved.
                     </p>
                 </div>
             </div>
