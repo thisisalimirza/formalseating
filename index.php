@@ -262,7 +262,7 @@ try {
                 <div id="user-list" class="space-y-2 max-h-60 overflow-y-auto">
                     <!-- User list will be populated here -->
                 </div>
-                <button id="confirm-admin-assign" onclick="confirmAssignment()" 
+                <button id="confirm-admin-assign"
                     class="hidden w-full mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                     Confirm Assignment
                 </button>
