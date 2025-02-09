@@ -360,46 +360,49 @@
             <div class="mt-20">
                 <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
                     <!-- Basic Plan -->
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-t-4 border-gray-400">
-                        <div class="px-6 py-8">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-gray-400 transition-transform hover:scale-[1.02]">
+                        <div class="px-8 py-10">
                             <div class="text-center">
-                                <h3 class="text-2xl font-bold text-gray-900">Basic</h3>
-                                <p class="mt-2 text-gray-500">Perfect for small events</p>
-                                <div class="mt-4">
-                                    <span class="text-4xl font-bold text-gray-900">$99</span>
-                                    <span class="text-gray-500">/event</span>
-                                    <div class="mt-2 text-sm" id="basicPriceContainer">
-                                        <div class="bg-green-50 border border-green-200 rounded-lg p-2 flex items-center">
-                                            <i class="fas fa-magic text-green-500 mr-2"></i>
-                                            <span class="text-green-800">
-                                                Add just <span id="basicPerTicket" class="font-semibold">$1.65</span> per ticket to cover the entire cost!
-                                            </span>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-1">Basic</h3>
+                                <p class="text-gray-500 mb-6">Perfect for small events</p>
+                                <div class="mb-6">
+                                    <div class="flex items-center justify-center">
+                                        <span class="text-5xl font-bold text-gray-900">$99</span>
+                                        <span class="text-gray-500 ml-2">/event</span>
+                                    </div>
+                                    <div class="mt-4" id="basicPriceContainer">
+                                        <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+                                            <div class="flex items-center justify-center text-green-800">
+                                                <i class="fas fa-magic text-green-600 mr-2"></i>
+                                                <span>
+                                                    Add just <span id="basicPerTicket" class="font-semibold">$1.65</span> per ticket<br/>to cover the entire cost!
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-8">
-                                <ul class="space-y-4">
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-500 mr-3"></i>
-                                        <span>Up to 100 guests</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-500 mr-3"></i>
-                                        <span>Interactive seating map</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-500 mr-3"></i>
-                                        <span>Real-time updates</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-500 mr-3"></i>
-                                        <span>Email support</span>
-                                    </li>
-                                </ul>
+                            <div class="space-y-4">
+                                <div class="border-t border-gray-100 pt-6 mb-6"></div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-3 w-5"></i>
+                                    <span class="text-gray-600">Up to 100 guests</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-3 w-5"></i>
+                                    <span class="text-gray-600">Interactive seating map</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-3 w-5"></i>
+                                    <span class="text-gray-600">Real-time updates</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-3 w-5"></i>
+                                    <span class="text-gray-600">Email support</span>
+                                </div>
                             </div>
                             <div class="mt-8">
-                                <a href="register.php" class="block w-full text-center px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors">
+                                <a href="register.php" class="block w-full text-center px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium">
                                     Get Started
                                 </a>
                             </div>
@@ -407,53 +410,56 @@
                     </div>
 
                     <!-- Pro Plan -->
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-t-4 border-blue-500 transform scale-105">
-                        <div class="px-6 py-8">
-                            <div class="absolute top-0 right-0 mt-4 mr-4">
-                                <span class="bg-blue-500 text-white text-sm px-3 py-1 rounded-full">Popular</span>
-                            </div>
+                    <div class="bg-white rounded-xl shadow-xl overflow-hidden border-t-4 border-blue-500 transform scale-105 relative">
+                        <div class="absolute top-0 right-0 mt-4 mr-4">
+                            <span class="bg-blue-500 text-white text-sm px-3 py-1 rounded-full font-medium">Popular</span>
+                        </div>
+                        <div class="px-8 py-10">
                             <div class="text-center">
-                                <h3 class="text-2xl font-bold text-gray-900">Pro</h3>
-                                <p class="mt-2 text-gray-500">For medium-sized events</p>
-                                <div class="mt-4">
-                                    <span class="text-4xl font-bold text-gray-900">$199</span>
-                                    <span class="text-gray-500">/event</span>
-                                    <div class="mt-2 text-sm" id="proPriceContainer">
-                                        <div class="bg-green-50 border border-green-200 rounded-lg p-2 flex items-center">
-                                            <i class="fas fa-magic text-green-500 mr-2"></i>
-                                            <span class="text-green-800">
-                                                Add just <span id="proPerTicket" class="font-semibold">$2.65</span> per ticket to cover the entire cost!
-                                            </span>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-1">Pro</h3>
+                                <p class="text-gray-500 mb-6">For medium-sized events</p>
+                                <div class="mb-6">
+                                    <div class="flex items-center justify-center">
+                                        <span class="text-5xl font-bold text-gray-900">$199</span>
+                                        <span class="text-gray-500 ml-2">/event</span>
+                                    </div>
+                                    <div class="mt-4" id="proPriceContainer">
+                                        <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+                                            <div class="flex items-center justify-center text-green-800">
+                                                <i class="fas fa-magic text-green-600 mr-2"></i>
+                                                <span>
+                                                    Add just <span id="proPerTicket" class="font-semibold">$2.65</span> per ticket<br/>to cover the entire cost!
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-8">
-                                <ul class="space-y-4">
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-500 mr-3"></i>
-                                        <span>Up to 300 guests</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-500 mr-3"></i>
-                                        <span>All Basic features</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-500 mr-3"></i>
-                                        <span>Guest management tools</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-500 mr-3"></i>
-                                        <span>Priority support</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-500 mr-3"></i>
-                                        <span>Custom branding</span>
-                                    </li>
-                                </ul>
+                            <div class="space-y-4">
+                                <div class="border-t border-gray-100 pt-6 mb-6"></div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-3 w-5"></i>
+                                    <span class="text-gray-600">Up to 300 guests</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-3 w-5"></i>
+                                    <span class="text-gray-600">All Basic features</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-3 w-5"></i>
+                                    <span class="text-gray-600">Guest management tools</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-3 w-5"></i>
+                                    <span class="text-gray-600">Priority support</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-3 w-5"></i>
+                                    <span class="text-gray-600">Custom branding</span>
+                                </div>
                             </div>
                             <div class="mt-8">
-                                <a href="register.php" class="block w-full text-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                <a href="register.php" class="block w-full text-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
                                     Get Started
                                 </a>
                             </div>
@@ -461,49 +467,52 @@
                     </div>
 
                     <!-- Enterprise Plan -->
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-t-4 border-gray-800">
-                        <div class="px-6 py-8">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-gray-800 transition-transform hover:scale-[1.02]">
+                        <div class="px-8 py-10">
                             <div class="text-center">
-                                <h3 class="text-2xl font-bold text-gray-900">Enterprise</h3>
-                                <p class="mt-2 text-gray-500">For large events</p>
-                                <div class="mt-4">
-                                    <span class="text-4xl font-bold text-gray-900">Custom</span>
-                                    <div class="mt-2 text-sm" id="enterprisePriceContainer">
-                                        <div class="bg-green-50 border border-green-200 rounded-lg p-2 flex items-center">
-                                            <i class="fas fa-magic text-green-500 mr-2"></i>
-                                            <span class="text-green-800">
-                                                Add just <span id="enterprisePerTicket" class="font-semibold">$3.65</span> per ticket to cover the entire cost!
-                                            </span>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-1">Enterprise</h3>
+                                <p class="text-gray-500 mb-6">For large events</p>
+                                <div class="mb-6">
+                                    <div class="flex items-center justify-center">
+                                        <span class="text-5xl font-bold text-gray-900">Custom</span>
+                                    </div>
+                                    <div class="mt-4" id="enterprisePriceContainer">
+                                        <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+                                            <div class="flex items-center justify-center text-green-800">
+                                                <i class="fas fa-magic text-green-600 mr-2"></i>
+                                                <span>
+                                                    Add just <span id="enterprisePerTicket" class="font-semibold">$3.65</span> per ticket<br/>to cover the entire cost!
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-8">
-                                <ul class="space-y-4">
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-500 mr-3"></i>
-                                        <span>Unlimited guests</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-500 mr-3"></i>
-                                        <span>All Pro features</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-500 mr-3"></i>
-                                        <span>Dedicated support</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-500 mr-3"></i>
-                                        <span>Custom integrations</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-500 mr-3"></i>
-                                        <span>Advanced analytics</span>
-                                    </li>
-                                </ul>
+                            <div class="space-y-4">
+                                <div class="border-t border-gray-100 pt-6 mb-6"></div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-3 w-5"></i>
+                                    <span class="text-gray-600">Unlimited guests</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-3 w-5"></i>
+                                    <span class="text-gray-600">All Pro features</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-3 w-5"></i>
+                                    <span class="text-gray-600">Dedicated support</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-3 w-5"></i>
+                                    <span class="text-gray-600">Custom integrations</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-3 w-5"></i>
+                                    <span class="text-gray-600">Advanced analytics</span>
+                                </div>
                             </div>
                             <div class="mt-8">
-                                <a href="register.php" class="block w-full text-center px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors">
+                                <a href="register.php" class="block w-full text-center px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium">
                                     Contact Sales
                                 </a>
                             </div>
