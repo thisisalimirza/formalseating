@@ -318,10 +318,10 @@
 
             <!-- Attendee Calculator -->
             <div class="mt-12 max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-6">
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Get Sitr at No Cost to You</h3>
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Make Sitr Free for Your Event</h3>
                 <div class="space-y-6">
                     <div class="text-sm text-gray-600">
-                        <p class="mb-2"><span class="font-semibold text-blue-600">Smart Pricing:</span> Simply increase your ticket price by the small amount shown below. Your attendees get a fantastic seating experience, and you get Sitr completely free!</p>
+                        <p class="mb-2"><span class="font-semibold text-blue-600">Pro Tip:</span> Add the small per-ticket amount shown below to your ticket price, and Sitr pays for itself while giving your attendees a fantastic seating experience!</p>
                     </div>
                     <div>
                         <label for="attendees" class="block text-sm font-medium text-gray-700">
@@ -331,22 +331,26 @@
                             class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-2">
                     </div>
                     <div class="bg-blue-50 p-4 rounded-lg">
-                        <h4 class="font-medium text-blue-900 mb-2">Simple Example:</h4>
+                        <h4 class="font-medium text-blue-900 mb-2">How It Works:</h4>
                         <p class="text-sm text-blue-800">
-                            With <span id="exampleAttendees">200</span> attendees on our Pro plan:
+                            For example, with <span id="exampleAttendees">200</span> attendees on our Pro plan:
                         </p>
                         <ul class="mt-2 space-y-2 text-sm text-blue-800">
                             <li class="flex items-center">
                                 <i class="fas fa-plus text-green-500 mr-2"></i>
-                                Increase ticket price by just <span id="exampleCost" class="font-bold">$1.00</span>
+                                Add just <span id="exampleCost" class="font-bold">$1.00</span> to each ticket price
                             </li>
                             <li class="flex items-center">
                                 <i class="fas fa-check text-green-500 mr-2"></i>
-                                Save hours of seating management headaches
+                                Your attendees get a seamless seating experience
                             </li>
                             <li class="flex items-center">
                                 <i class="fas fa-check text-green-500 mr-2"></i>
-                                Give attendees a seamless seating experience
+                                You save hours of manual seating coordination
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                Sitr completely pays for itself!
                             </li>
                         </ul>
                     </div>
@@ -362,8 +366,11 @@
                                 <h3 class="text-2xl font-bold text-gray-900">Basic</h3>
                                 <p class="mt-2 text-gray-500">Perfect for small events</p>
                                 <div class="mt-4">
-                                    <div class="text-sm text-gray-500">Increase ticket price by</div>
-                                    <div id="basicPerTicket" class="text-xl font-semibold text-gray-900">$1.65</div>
+                                    <span class="text-4xl font-bold text-gray-900">$99</span>
+                                    <span class="text-gray-500">/event</span>
+                                    <div class="mt-2 text-sm text-gray-500">
+                                        Add just <span id="basicPerTicket" class="font-semibold">$1.65</span> per ticket
+                                    </div>
                                 </div>
                             </div>
                             <div class="mt-8">
@@ -404,8 +411,11 @@
                                 <h3 class="text-2xl font-bold text-gray-900">Pro</h3>
                                 <p class="mt-2 text-gray-500">For medium-sized events</p>
                                 <div class="mt-4">
-                                    <div class="text-sm text-gray-500">Increase ticket price by</div>
-                                    <div id="proPerTicket" class="text-xl font-semibold text-gray-900">$2.65</div>
+                                    <span class="text-4xl font-bold text-gray-900">$199</span>
+                                    <span class="text-gray-500">/event</span>
+                                    <div class="mt-2 text-sm text-gray-500">
+                                        Add just <span id="proPerTicket" class="font-semibold">$2.65</span> per ticket
+                                    </div>
                                 </div>
                             </div>
                             <div class="mt-8">
@@ -447,8 +457,10 @@
                                 <h3 class="text-2xl font-bold text-gray-900">Enterprise</h3>
                                 <p class="mt-2 text-gray-500">For large events</p>
                                 <div class="mt-4">
-                                    <div class="text-sm text-gray-500">Increase ticket price by</div>
-                                    <div id="enterprisePerTicket" class="text-xl font-semibold text-gray-900">$3.65</div>
+                                    <span class="text-4xl font-bold text-gray-900">Custom</span>
+                                    <div class="mt-2 text-sm text-gray-500">
+                                        Add just <span id="enterprisePerTicket" class="font-semibold">$3.65</span> per ticket
+                                    </div>
                                 </div>
                             </div>
                             <div class="mt-8">
@@ -544,9 +556,9 @@
             const enterpriseCost = ((299 + (attendees * 0.25)) / attendees).toFixed(2);
 
             // Update display
-            basicPerTicket.innerHTML = `$${basicCost}`;
-            proPerTicket.innerHTML = `$${proCost}`;
-            enterprisePerTicket.innerHTML = `$${enterpriseCost}`;
+            basicPerTicket.textContent = `$${basicCost}`;
+            proPerTicket.textContent = `$${proCost}`;
+            enterprisePerTicket.textContent = `$${enterpriseCost}`;
             exampleCost.textContent = `$${proCost}`;
 
             // Update max attendee warnings
