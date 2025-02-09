@@ -561,12 +561,17 @@ try {
                             `).join('') : 'None'}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button onclick="togglePlusOne(${user.id})" class="text-blue-600 hover:text-blue-900 mr-2">
-                                Toggle Plus One
-                            </button>
-                            <button onclick="clearSeats(${user.id})" class="text-red-600 hover:text-red-900">
-                                Clear Seats
-                            </button>
+                            <div class="flex items-center gap-2">
+                                <button onclick="togglePlusOne(this)" class="text-blue-600 hover:text-blue-700">
+                                    <i class="fas fa-user-plus"></i>
+                                </button>
+                                <button onclick="clearSeats(this)" class="text-yellow-600 hover:text-yellow-700">
+                                    <i class="fas fa-chair"></i>
+                                </button>
+                                <button onclick="deleteUser(this)" class="text-red-600 hover:text-red-700">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 `).join('');
@@ -576,7 +581,10 @@ try {
         }
 
         // Toggle plus one status
-        async function togglePlusOne(userId) {
+        async function togglePlusOne(button) {
+            const row = button.closest('tr');
+            const userId = row.querySelector('.user-id').textContent;
+
             try {
                 const response = await fetch('api/toggle_plus_one.php', {
                     method: 'POST',
@@ -611,7 +619,10 @@ try {
         }
 
         // Clear user's seats
-        async function clearSeats(userId) {
+        async function clearSeats(button) {
+            const row = button.closest('tr');
+            const userId = row.querySelector('.user-id').textContent;
+
             if (!confirm('Are you sure you want to clear this user\'s seats?')) return;
 
             try {
@@ -895,6 +906,41 @@ UCHC Formal Committee`;
         loadPendingRegistrations();
         loadUnseatedUsers();
         updateFunnelStats();
+
+        async function deleteUser(button) {
+            const row = button.closest('tr');
+            const email = row.querySelector('.email-cell').textContent;
+            const name = row.querySelector('.name-cell').textContent;
+
+            if (!confirm(`Are you sure you want to delete ${name}'s account? This will also remove their approved email status and seat selections.`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch('api/remove_approved_email.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `email=${encodeURIComponent(email)}`
+                });
+
+                const data = await response.json();
+                if (!response.ok || !data.success) {
+                    throw new Error(data.error || 'Failed to delete user');
+                }
+
+                // Reload the user list and other relevant data
+                loadUsers();
+                loadApprovedEmails();
+                loadPendingRegistrations();
+                loadUnseatedUsers();
+                updateFunnelStats();
+            } catch (error) {
+                console.error('Error deleting user:', error);
+                alert('Failed to delete user. Please try again.');
+            }
+        }
     </script>
 </body>
 </html> 
