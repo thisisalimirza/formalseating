@@ -795,21 +795,22 @@ try {
         }
 
         // Event listeners for admin modal
-        assignToSelfBtn.addEventListener('click', () => {
+        function showUserList() {
+            userListSection.classList.remove('hidden');
+            confirmAdminAssignBtn.classList.add('hidden');
+            loadUnseatedUsers();
+        }
+
+        function assignToSelf() {
             selectedUserId = userId;
             userListSection.classList.add('hidden');
             confirmAdminAssignBtn.classList.remove('hidden');
-        });
+        }
 
-        showUserListBtn.addEventListener('click', () => {
-            selectedUserId = null;
-            userListSection.classList.remove('hidden');
-            confirmAdminAssignBtn.classList.add('hidden');
-        });
-
+        // Event listeners for admin modal
         userSearch.addEventListener('input', updateUserList);
 
-        cancelAdminAssignBtn.addEventListener('click', hideAdminModal);
+        cancelAdminAssignBtn?.addEventListener('click', hideAdminModal);
 
         confirmAdminAssignBtn.addEventListener('click', async () => {
             if (pendingSeatId !== null && selectedUserId !== null) {
