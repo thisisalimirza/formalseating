@@ -35,7 +35,7 @@ try {
     // Toggle admin status
     $newAdminStatus = !$user['is_admin'];
     $stmt = $pdo->prepare("UPDATE users SET is_admin = ? WHERE id = ?");
-    $stmt->execute([$newAdminStatus, $userId]);
+    $stmt->execute([$newAdminStatus ? 'true' : 'false', $userId]);
 
     // Commit transaction
     $pdo->commit();
