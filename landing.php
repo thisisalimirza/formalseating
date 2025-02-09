@@ -891,15 +891,139 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-firefly">
-        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
-            <div class="mt-8 border-t border-emerald/20 pt-8 md:flex md:items-center md:justify-between">
-                <div class="flex space-x-6 md:order-2">
-                    <p class="text-base text-mint">
-                        &copy; 2024 Sitr. All rights reserved.
-                    </p>
+    <!-- Benefits Deep Dive -->
+    <section class="py-20 bg-zircon">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 rounded-full bg-emerald/10 text-emerald font-semibold text-sm mb-4">Why Choose Sitr</span>
+                <h2 class="text-3xl font-bold text-firefly">Benefits That Matter</h2>
+                <p class="mt-4 text-xl text-firefly/70">Transform your event planning experience</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg transition-all">
+                    <h3 class="text-xl font-semibold mb-4 text-firefly">For Event Planners</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-brand-green mt-1 mr-3"></i>
+                            <span class="text-firefly/70">Save 15+ hours per event on seating arrangements</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-brand-green mt-1 mr-3"></i>
+                            <span class="text-firefly/70">Eliminate double-bookings and seating conflicts</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-brand-green mt-1 mr-3"></i>
+                            <span class="text-firefly/70">Real-time collaboration with team members</span>
+                        </li>
+                    </ul>
                 </div>
+                <div class="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg transition-all">
+                    <h3 class="text-xl font-semibold mb-4 text-firefly">For Organizations</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-brand-green mt-1 mr-3"></i>
+                            <span class="text-firefly/70">Increase guest satisfaction by 40%</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-brand-green mt-1 mr-3"></i>
+                            <span class="text-firefly/70">Comprehensive analytics and reporting</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-brand-green mt-1 mr-3"></i>
+                            <span class="text-firefly/70">Enterprise-grade security and support</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 rounded-full bg-emerald/10 text-emerald font-semibold text-sm mb-4">Got Questions?</span>
+                <h2 class="text-3xl font-bold text-firefly">Common Questions</h2>
+                <p class="mt-4 text-xl text-firefly/70">Everything you need to know about Sitr</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="font-semibold mb-2 text-firefly">How easy is it to get started?</h3>
+                    <p class="text-firefly/70">Setup takes less than 5 minutes. Import your guest list, create your floor plan, and you're ready to go. Our intuitive interface requires no training.</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2 text-firefly">Can I manage multiple events?</h3>
+                    <p class="text-firefly/70">Yes! Create and manage unlimited events, each with its own guest list, floor plan, and seating arrangements.</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2 text-firefly">What about last-minute changes?</h3>
+                    <p class="text-firefly/70">Make real-time adjustments with ease. Changes are instantly reflected and can be communicated to guests automatically.</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2 text-firefly">Is my data secure?</h3>
+                    <p class="text-firefly/70">We use bank-level encryption and follow strict data protection protocols. Your information is always safe with us.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Second CTA -->
+    <section class="bg-gradient-to-r from-emerald to-brand-green text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-4">Ready to Transform Your Events?</h2>
+            <p class="text-xl mb-8">Join thousands of event planners who've already made the switch to Sitr.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="register.php" class="inline-flex justify-center items-center px-8 py-3 rounded-lg bg-white text-emerald font-medium hover:bg-opacity-90 transition-colors">
+                    Get Started Free
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </a>
+                <a href="#contact" class="inline-flex justify-center items-center px-8 py-3 rounded-lg border-2 border-white text-white font-medium hover:bg-white hover:text-emerald transition-colors">
+                    Contact Sales
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-firefly text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Sitr</h3>
+                    <p class="text-gray-400">Transforming event seating management for modern organizations.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Solutions</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="wedding.php" class="hover:text-brand-green transition-colors">Weddings</a></li>
+                        <li><a href="corporate.php" class="hover:text-brand-green transition-colors">Corporate Events</a></li>
+                        <li><a href="gala.php" class="hover:text-brand-green transition-colors">Galas</a></li>
+                        <li><a href="startup.php" class="hover:text-brand-green transition-colors">Startup Events</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#about" class="hover:text-brand-green transition-colors">About</a></li>
+                        <li><a href="#blog" class="hover:text-brand-green transition-colors">Blog</a></li>
+                        <li><a href="#careers" class="hover:text-brand-green transition-colors">Careers</a></li>
+                        <li><a href="#contact" class="hover:text-brand-green transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Connect</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#twitter" class="hover:text-brand-green transition-colors">Twitter</a></li>
+                        <li><a href="#linkedin" class="hover:text-brand-green transition-colors">LinkedIn</a></li>
+                        <li><a href="#instagram" class="hover:text-brand-green transition-colors">Instagram</a></li>
+                        <li><a href="#facebook" class="hover:text-brand-green transition-colors">Facebook</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Sitr. All rights reserved.</p>
             </div>
         </div>
     </footer>
