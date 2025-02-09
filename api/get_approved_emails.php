@@ -11,12 +11,16 @@ if (!isAuthenticated() || !getCurrentUser()['is_admin']) {
 }
 
 try {
+    error_log("Fetching approved emails...");
     $stmt = $pdo->query("SELECT email FROM approved_emails ORDER BY email");
     $emails = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    error_log("Found " . count($emails) . " approved emails");
     
     header('Content-Type: application/json');
     echo json_encode($emails);
 } catch (PDOException $e) {
+    error_log("Database error in get_approved_emails.php: " . $e->getMessage());
+    error_log("Stack trace: " . $e->getTraceAsString());
     http_response_code(500);
     echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
 } 

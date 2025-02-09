@@ -548,14 +548,46 @@ try {
             }
         });
 
-        // Load user list
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Add error handling for each function
+                const loadTasks = [
+                    { fn: loadUsers, name: 'users' },
+                    { fn: loadApprovedEmails, name: 'approved emails' },
+                    { fn: loadPendingRegistrations, name: 'pending registrations' },
+                    { fn: loadUnseatedUsers, name: 'unseated users' },
+                    { fn: updateFunnelStats, name: 'funnel stats' }
+                ];
+
+                for (const task of loadTasks) {
+                    try {
+                        await task.fn();
+                    } catch (error) {
+                        console.error(`Error loading ${task.name}:`, error);
+                    }
+                }
+            } catch (error) {
+                console.error('Error during initialization:', error);
+            }
+        });
+
+        // Add debug logging to loadUsers function
         async function loadUsers() {
             try {
+                console.log('Loading users...');
                 const response = await fetch('api/get_users.php');
                 if (!response.ok) throw new Error('Failed to load users');
                 
                 const users = await response.json();
+                console.log('Users loaded:', users);
+                
                 const tbody = document.getElementById('user-list');
+                if (!tbody) {
+                    console.error('User list tbody element not found');
+                    return;
+                }
+
                 tbody.innerHTML = users.map(user => `
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${user.name}</td>
@@ -666,13 +698,21 @@ try {
         // Load approved emails
         async function loadApprovedEmails() {
             try {
+                console.log('Loading approved emails...');
                 const response = await fetch('api/get_approved_emails.php');
                 if (!response.ok) throw new Error('Failed to load approved emails');
                 
                 const emails = await response.json();
+                console.log('Approved emails loaded:', emails);
+                
                 const tbody = document.getElementById('approved-emails-list');
                 const approvedCount = document.getElementById('approved-count');
                 
+                if (!tbody || !approvedCount) {
+                    console.error('Approved emails elements not found');
+                    return;
+                }
+
                 // Update the count badge
                 approvedCount.textContent = `${emails.length} Approved`;
                 
@@ -773,13 +813,21 @@ try {
         // Load pending registrations
         async function loadPendingRegistrations() {
             try {
+                console.log('Loading pending registrations...');
                 const response = await fetch('api/get_pending_registrations.php');
                 if (!response.ok) throw new Error('Failed to load pending registrations');
                 
                 const pendingEmails = await response.json();
+                console.log('Pending registrations loaded:', pendingEmails);
+                
                 const tbody = document.getElementById('pending-registrations-list');
                 const pendingCount = document.getElementById('pending-count');
                 
+                if (!tbody || !pendingCount) {
+                    console.error('Pending registrations elements not found');
+                    return;
+                }
+
                 // Update the count badge
                 pendingCount.textContent = `${pendingEmails.length} Pending`;
                 
