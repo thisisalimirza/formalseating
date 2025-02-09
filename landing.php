@@ -160,9 +160,10 @@
             </div>
             <div class="relative hidden lg:block">
                 <div class="absolute inset-0 bg-gradient-to-tr from-emerald/20 to-transparent rounded-3xl"></div>
-                <img src="assets/images/seating-demo.png" alt="Sitr seating interface demo" class="rounded-3xl shadow-2xl w-full h-[600px] object-cover transform hover:scale-[1.02] transition-transform duration-500">
+                <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1200&h=800&q=80" 
+                     alt="Professional event seating arrangement" 
+                     class="rounded-3xl shadow-2xl w-full h-[600px] object-cover transform hover:scale-[1.02] transition-transform duration-500">
                 <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-brand-green/10 rounded-full filter blur-2xl"></div>
-                <div class="absolute -top-6 -left-6 w-32 h-32 bg-mint/20 rounded-full filter blur-2xl"></div>
             </div>
         </div>
     </header>

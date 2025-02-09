@@ -261,7 +261,7 @@ try {
                                     <dd class="mt-1 text-3xl font-semibold text-gray-900"><?php echo $seatStats['unique_users']; ?></dd>
                             </div>
                         </dl>
-                        </div>
+                </div>
             </div>
         </div>
 
