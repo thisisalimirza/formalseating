@@ -185,7 +185,7 @@ try {
                             <!-- Funnel Visualization -->
                             <div class="space-y-4">
                                 <!-- Approved Emails -->
-                                <div class="bg-blue-50 rounded-lg p-4 relative">
+                                <div @click="currentSection = 'users'" class="bg-blue-50 rounded-lg p-4 relative cursor-pointer hover:bg-blue-100 transition-colors duration-200">
                                     <div class="flex justify-between items-center">
                                         <div>
                                             <h4 class="font-medium text-blue-900">Approved Emails</h4>
@@ -202,7 +202,7 @@ try {
                                 </div>
                                 
                                 <!-- Registered Accounts -->
-                                <div class="bg-green-50 rounded-lg p-4 relative">
+                                <div @click="currentSection = 'registrations'" class="bg-green-50 rounded-lg p-4 relative cursor-pointer hover:bg-green-100 transition-colors duration-200">
                                     <div class="flex justify-between items-center">
                                         <div>
                                             <h4 class="font-medium text-green-900">Registered Accounts</h4>
@@ -219,7 +219,7 @@ try {
                                 </div>
                                 
                                 <!-- Selected Seats -->
-                                <div class="bg-purple-50 rounded-lg p-4">
+                                <div @click="currentSection = 'seating'" class="bg-purple-50 rounded-lg p-4 cursor-pointer hover:bg-purple-100 transition-colors duration-200">
                                     <div class="flex justify-between items-center">
                                         <div>
                                             <h4 class="font-medium text-purple-900">Selected Seats</h4>
@@ -485,7 +485,7 @@ try {
                                         <div class="block bg-gray-200 w-14 h-8 rounded-full transition-colors duration-200"></div>
                                         <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-200" style="transform: <?php echo ($settings['show_occupied_names'] ?? '0') === '1' ? 'translateX(24px)' : 'translateX(0)'; ?>"></div>
                                     </div>
-                                    <div class="ml-3 text-gray-700">Show names on occupied seats</div>
+                                    <div class="ml-3 text-gray-700">Publicly display names of seated attendees</div>
                                 </label>
                             </div>
                         </div>
