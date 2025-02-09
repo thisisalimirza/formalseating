@@ -19,7 +19,7 @@ try {
                 u.name,
                 u.email,
                 u.plus_one,
-                COUNT(s.id) as selected_seats
+                COUNT(s.seat_id) as selected_seats
             FROM users u
             LEFT JOIN seats s ON s.user_id = u.id AND s.occupied = true
             GROUP BY u.id, u.name, u.email, u.plus_one
