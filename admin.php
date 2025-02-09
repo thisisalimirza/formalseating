@@ -234,6 +234,29 @@ try {
             </div>
         </div>
 
+        <!-- Pending Registrations Section -->
+        <div class="bg-white shadow rounded-lg p-6 mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-medium text-gray-900">Pending Registrations</h2>
+                <span id="pending-count" class="bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded-full"></span>
+            </div>
+            <p class="text-sm text-gray-600 mb-4">These emails have been approved but haven't registered an account yet.</p>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead>
+                        <tr>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Approved Date</th>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pending-registrations-list" class="bg-white divide-y divide-gray-200">
+                        <!-- Pending registrations will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- Table Assignments Section -->
         <div class="bg-white shadow rounded-lg p-6 mb-6">
             <h3 class="text-lg font-medium text-gray-900 mb-4">Table Assignments</h3>
@@ -551,9 +574,71 @@ try {
             }
         }
 
+        // Load pending registrations
+        async function loadPendingRegistrations() {
+            try {
+                const response = await fetch('api/get_pending_registrations.php');
+                if (!response.ok) throw new Error('Failed to load pending registrations');
+                
+                const pendingEmails = await response.json();
+                const tbody = document.getElementById('pending-registrations-list');
+                const pendingCount = document.getElementById('pending-count');
+                
+                // Update the count badge
+                pendingCount.textContent = `${pendingEmails.length} Pending`;
+                
+                tbody.innerHTML = pendingEmails.map(email => `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${email.email}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(email.created_at).toLocaleDateString()}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button onclick="removeApprovedEmail('${email.email}')" class="text-red-600 hover:text-red-900">
+                                Remove Approval
+                            </button>
+                            <button onclick="resendInvite('${email.email}')" class="text-blue-600 hover:text-blue-900 ml-4">
+                                Resend Invite
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading pending registrations:', error);
+            }
+        }
+
+        // Resend invite function (if you want to implement this feature)
+        async function resendInvite(email) {
+            try {
+                const response = await fetch('api/resend_invite.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `email=${encodeURIComponent(email)}`
+                });
+
+                if (!response.ok) throw new Error('Failed to resend invite');
+                
+                // Show success message
+                const successMessage = document.createElement('div');
+                successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg';
+                successMessage.textContent = 'Invitation sent successfully';
+                document.body.appendChild(successMessage);
+                
+                // Remove success message after 3 seconds
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 3000);
+            } catch (error) {
+                console.error('Error resending invite:', error);
+                alert('Failed to resend invite. Please try again.');
+            }
+        }
+
         // Initialize
         loadUsers();
         loadApprovedEmails();
+        loadPendingRegistrations();
     </script>
 </body>
 </html> 
