@@ -38,14 +38,26 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seating Map - UCHC Formal 2025</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
+    <link rel="preload" href="assets/css/style.css" as="style">
+    
+    <!-- Load stylesheets -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- Load Tailwind after other styles -->
+    <script src="https://cdn.tailwindcss.com" defer></script>
+    
     <style>
+        /* Critical CSS that needs to be loaded immediately */
         .sitr-gradient {
             background: linear-gradient(135deg, #10B981, #059669);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .bg-pattern {
@@ -71,6 +83,15 @@ try {
         }
         .fade-in {
             animation: fadeIn 0.3s ease-out forwards;
+        }
+        
+        /* Fix font-face warnings by using simpler syntax */
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2) format('woff2');
         }
     </style>
 </head>
@@ -249,7 +270,51 @@ try {
         </div>
     </div>
 
+    <!-- Move script to end of body and add defer -->
     <script>
+        // Wait for DOM content to be loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configuration
+            const userId = <?php echo json_encode($user['id']); ?>;
+            const maxSeats = <?php echo $user['plus_one'] ? 2 : 1; ?>;
+            const showOccupiedNames = <?php echo json_encode(($settings['show_occupied_names'] ?? '0') === '1'); ?>;
+            
+            const config = {
+                tables: 45,
+                seatsPerTable: 10,
+                tableRadius: 45,
+                seatRadius: 10,
+                seatSpacing: 1.6,
+                tableSpacing: 1.3,
+                minPadding: 20
+            };
+            
+            // State
+            let selectedSeats = [];
+            let occupiedSeats = {};
+            let pendingSeatId = null;
+            let resizeTimeout;
+
+            // Initialize after ensuring DOM is ready
+            createSeatingLayout();
+            loadSeatStatus();
+
+            // Add resize observer for more responsive updates
+            const resizeObserver = new ResizeObserver(entries => {
+                for (const entry of entries) {
+                    if (entry.target === seatingMap) {
+                        clearTimeout(resizeTimeout);
+                        resizeTimeout = setTimeout(() => {
+                            createSeatingLayout();
+                            loadSeatStatus();
+                        }, 250);
+                    }
+                }
+            });
+
+            resizeObserver.observe(seatingMap);
+        });
+
         // Configuration
         const userId = <?php echo json_encode($user['id']); ?>;
         const maxSeats = <?php echo $user['plus_one'] ? 2 : 1; ?>;
@@ -702,25 +767,6 @@ try {
                 showToast('Failed to load seat status');
             }
         }
-
-        // Add resize observer for more responsive updates
-        const resizeObserver = new ResizeObserver(entries => {
-            for (const entry of entries) {
-                if (entry.target === seatingMap) {
-                    clearTimeout(resizeTimeout);
-                    resizeTimeout = setTimeout(() => {
-                        createSeatingLayout();
-                        loadSeatStatus();
-                    }, 250);
-                }
-            }
-        });
-
-        resizeObserver.observe(seatingMap);
-
-        // Initialize
-        createSeatingLayout();
-        loadSeatStatus();
 
         // Admin modal functions
         function showAdminModal(seatId) {
