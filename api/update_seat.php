@@ -65,12 +65,6 @@ try {
         }
     }
 
-    // Get previous user_id for audit log
-    $previousUserId = null;
-    if ($existingSeat) {
-        $previousUserId = $existingSeat['user_id'];
-    }
-
     // Update or insert seat record
     $stmt = $pdo->prepare("
         INSERT INTO seats (seat_id, table_id, seat_number, user_id, occupied) 
@@ -79,23 +73,6 @@ try {
         DO UPDATE SET user_id = EXCLUDED.user_id, occupied = EXCLUDED.occupied
     ");
     $stmt->execute([$seatId, $tableId, $seatNumber, $user['id'], $occupied]);
-
-    // Log the action in audit log
-    $actionType = $occupied ? 'select' : 'deselect';
-    $stmt = $pdo->prepare("
-        INSERT INTO seat_audit_log 
-        (user_id, seat_id, table_id, action_type, previous_user_id, performed_by_id, is_admin_action)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    ");
-    $stmt->execute([
-        $user['id'],
-        $seatId,
-        $tableId,
-        $actionType,
-        $previousUserId,
-        $user['id'],
-        $user['is_admin']
-    ]);
 
     // Commit transaction
     $pdo->commit();

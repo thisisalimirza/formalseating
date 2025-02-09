@@ -168,12 +168,6 @@ try {
                     <i class="fas fa-cog mr-3 w-6"></i>
                     Settings
                 </a>
-                <a @click.prevent="currentSection = 'audit'" href="#audit"
-                    class="mt-1 group flex items-center px-2 py-2 text-base font-medium rounded-md"
-                    :class="currentSection === 'audit' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50'">
-                    <i class="fas fa-history mr-3 w-6"></i>
-                    Audit Log
-                </a>
             </nav>
         </div>
 
@@ -494,39 +488,6 @@ try {
                                     <div class="ml-3 text-gray-700">Show names on occupied seats</div>
                                 </label>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Audit Log Section -->
-                <div x-show="currentSection === 'audit'" x-cloak>
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-2xl font-bold text-gray-900">Seat Change History</h2>
-                        <div class="flex gap-2">
-                            <button onclick="refreshAuditLog()" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-                                <i class="fas fa-sync-alt mr-2"></i>
-                                Refresh
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white shadow rounded-lg overflow-hidden">
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Performed By</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200" id="audit-log-list">
-                                    <tr>
-                                        <td colspan="4" class="px-6 py-4 text-sm text-gray-500 text-center">Loading audit log...</td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -891,72 +852,12 @@ UCHC Formal Committee`;
             }
         }
 
-        // Load audit log
-        async function loadAuditLog() {
-            try {
-                const response = await fetch('api/get_seat_audit_log.php');
-                if (!response.ok) throw new Error('Failed to load audit log');
-                
-                const auditLog = await response.json();
-                const tbody = document.getElementById('audit-log-list');
-                
-                if (auditLog.length === 0) {
-                    tbody.innerHTML = `
-                        <tr>
-                            <td colspan="4" class="px-6 py-4 text-sm text-gray-500 text-center">
-                                No seat changes recorded yet
-                            </td>
-                        </tr>
-                    `;
-                    return;
-                }
-                
-                tbody.innerHTML = auditLog.map(entry => `
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            ${new Date(entry.created_at).toLocaleString()}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                ${entry.action_type === 'select' ? 'bg-green-100 text-green-800' : 
-                                  entry.action_type === 'deselect' ? 'bg-red-100 text-red-800' : 
-                                  'bg-yellow-100 text-yellow-800'}">
-                                ${entry.action_type.replace('_', ' ').toUpperCase()}
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-900">
-                            ${entry.description}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            ${entry.is_admin_action ? 
-                                `<span class="text-purple-600 font-medium">Admin: ${entry.performed_by_name}</span>` : 
-                                entry.performed_by_name}
-                        </td>
-                    </tr>
-                `).join('');
-            } catch (error) {
-                console.error('Error loading audit log:', error);
-                document.getElementById('audit-log-list').innerHTML = `
-                    <tr>
-                        <td colspan="4" class="px-6 py-4 text-sm text-red-500 text-center">
-                            Error loading audit log. Please try again.
-                        </td>
-                    </tr>
-                `;
-            }
-        }
-
-        function refreshAuditLog() {
-            loadAuditLog();
-        }
-
         // Initialize
         loadUsers();
         loadApprovedEmails();
         loadPendingRegistrations();
         loadUnseatedUsers();
         updateFunnelStats();
-        loadAuditLog();
     </script>
 </body>
 </html> 
