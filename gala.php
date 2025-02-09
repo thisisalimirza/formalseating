@@ -176,6 +176,167 @@
         </div>
     </section>
 
+    <!-- Social Proof Section -->
+    <section class="py-20 bg-purple-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="p-6 bg-white rounded-xl shadow-sm">
+                    <div class="text-4xl font-bold text-purple-600 mb-2">$50M+</div>
+                    <div class="text-gray-600">Funds Raised</div>
+                </div>
+                <div class="p-6 bg-white rounded-xl shadow-sm">
+                    <div class="text-4xl font-bold text-purple-600 mb-2">300+</div>
+                    <div class="text-gray-600">Luxury Events</div>
+                </div>
+                <div class="p-6 bg-white rounded-xl shadow-sm">
+                    <div class="text-4xl font-bold text-purple-600 mb-2">98%</div>
+                    <div class="text-gray-600">VIP Satisfaction</div>
+                </div>
+            </div>
+
+            <!-- Testimonials -->
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/23.jpg" alt="Event Director" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <div class="font-semibold">Victoria Reynolds</div>
+                            <div class="text-sm text-gray-600">Director, Metropolitan Arts Foundation</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"Sitr elevated our annual gala to new heights. The strategic seating arrangements led to multiple major donations and lasting partnerships. Our fundraising increased by 40% compared to previous years."</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/men/52.jpg" alt="Philanthropy Chair" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <div class="font-semibold">William Blackwood</div>
+                            <div class="text-sm text-gray-600">Chair, Global Philanthropy Initiative</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"The attention to detail in VIP seating arrangements was impeccable. Our donors appreciated the thoughtful placement, leading to deeper engagement and increased long-term commitments."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900">The Sitr Experience</h2>
+                <p class="mt-4 text-xl text-gray-600">Elevating your prestigious events with precision</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-user-crown text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">1. VIP Profiling</h3>
+                    <p class="text-gray-600">Create detailed profiles of your distinguished guests</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-gem text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">2. Strategic Planning</h3>
+                    <p class="text-gray-600">Optimize seating for meaningful connections</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-concierge-bell text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">3. Concierge Service</h3>
+                    <p class="text-gray-600">White-glove support for your event team</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chart-line text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">4. Impact Analysis</h3>
+                    <p class="text-gray-600">Measure and optimize fundraising success</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Deep Dive -->
+    <section class="py-20 bg-purple-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900">Premium Benefits</h2>
+                <p class="mt-4 text-xl text-gray-600">Designed for prestigious events</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4">Event Excellence</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-purple-600 mt-1 mr-3"></i>
+                            <span>Personalized VIP seating strategies</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-purple-600 mt-1 mr-3"></i>
+                            <span>Diplomatic protocol management</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-purple-600 mt-1 mr-3"></i>
+                            <span>Real-time adjustments with white-glove service</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4">Fundraising Impact</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-purple-600 mt-1 mr-3"></i>
+                            <span>40% average increase in donations</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-purple-600 mt-1 mr-3"></i>
+                            <span>Enhanced donor engagement metrics</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-purple-600 mt-1 mr-3"></i>
+                            <span>Long-term relationship building</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <p class="mt-4 text-xl text-gray-600">Your questions about luxury event seating, answered</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="font-semibold mb-2">How do you handle VIP preferences?</h3>
+                    <p class="text-gray-600">Our concierge team works directly with your event staff to accommodate all VIP requests and protocols with discretion and elegance.</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2">Can you manage last-minute changes?</h3>
+                    <p class="text-gray-600">Yes, our on-site team handles real-time adjustments seamlessly, ensuring your event flows perfectly regardless of changes.</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2">What about cultural considerations?</h3>
+                    <p class="text-gray-600">We maintain detailed protocols for cultural, diplomatic, and religious seating requirements, ensuring appropriate arrangements for all guests.</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2">How do you measure success?</h3>
+                    <p class="text-gray-600">We track key metrics including donation increases, guest satisfaction, and long-term engagement to demonstrate clear ROI.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Call to Action -->
     <section class="bg-purple-600 text-white py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -186,5 +347,44 @@
             </a>
         </div>
     </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Sitr</h3>
+                    <p class="text-gray-400">Elevating prestigious events through strategic seating excellence.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Services</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#features">Premium Features</a></li>
+                        <li><a href="#concierge">Concierge</a></li>
+                        <li><a href="#consulting">Consulting</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#case-studies">Success Stories</a></li>
+                        <li><a href="#blog">Insights</a></li>
+                        <li><a href="#events">Events</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#contact">Get in Touch</a></li>
+                        <li><a href="#demo">Request Demo</a></li>
+                        <li><a href="#locations">Global Offices</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Sitr. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html> 

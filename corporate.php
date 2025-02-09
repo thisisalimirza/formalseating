@@ -173,6 +173,167 @@
         </div>
     </section>
 
+    <!-- Social Proof Section -->
+    <section class="py-20 bg-blue-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="p-6 bg-white rounded-xl shadow-sm">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">1000+</div>
+                    <div class="text-gray-600">Training Events</div>
+                </div>
+                <div class="p-6 bg-white rounded-xl shadow-sm">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">50,000+</div>
+                    <div class="text-gray-600">Employees Trained</div>
+                </div>
+                <div class="p-6 bg-white rounded-xl shadow-sm">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">35%</div>
+                    <div class="text-gray-600">Higher Engagement</div>
+                </div>
+            </div>
+
+            <!-- Testimonials -->
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="HR Director" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <div class="font-semibold">Jennifer Martinez</div>
+                            <div class="text-sm text-gray-600">HR Director, Fortune 500</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"Sitr transformed our training programs. Cross-departmental collaboration increased by 40%, and post-training surveys show significantly higher engagement and knowledge retention."</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="L&D Manager" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <div class="font-semibold">Robert Thompson</div>
+                            <div class="text-sm text-gray-600">L&D Manager, Tech Corp</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"The ROI metrics speak for themselves. Better seating arrangements led to improved networking, knowledge sharing, and team building. Our training effectiveness increased by 35%."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900">Implementation Process</h2>
+                <p class="mt-4 text-xl text-gray-600">Four steps to transform your training events</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-users-cog text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">1. Setup</h3>
+                    <p class="text-gray-600">Import employee data and define training objectives</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-brain text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">2. Analysis</h3>
+                    <p class="text-gray-600">AI analyzes skills, roles, and learning goals</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-table text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">3. Arrangement</h3>
+                    <p class="text-gray-600">Generate optimal seating plans for maximum learning</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chart-bar text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">4. Measure</h3>
+                    <p class="text-gray-600">Track engagement and learning outcomes</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Deep Dive -->
+    <section class="py-20 bg-blue-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900">Enterprise Benefits</h2>
+                <p class="mt-4 text-xl text-gray-600">Maximize your training investment</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4">Learning Outcomes</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-3"></i>
+                            <span>35% higher engagement rates in training sessions</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-3"></i>
+                            <span>40% increase in cross-departmental knowledge sharing</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-3"></i>
+                            <span>25% improvement in training retention rates</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4">Operational Benefits</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-3"></i>
+                            <span>Reduce planning time by 75% with automated arrangements</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-3"></i>
+                            <span>Real-time analytics and reporting dashboards</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-3"></i>
+                            <span>Enterprise-grade security and compliance</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900">Common Questions</h2>
+                <p class="mt-4 text-xl text-gray-600">Everything you need to know about enterprise implementation</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="font-semibold mb-2">How does integration work?</h3>
+                    <p class="text-gray-600">We offer seamless integration with major HRIS systems and learning management platforms, with custom API options available.</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2">What about data security?</h3>
+                    <p class="text-gray-600">We maintain SOC 2 compliance and encrypt all data. Your IT team will love our enterprise-grade security features.</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2">Can we customize the algorithm?</h3>
+                    <p class="text-gray-600">Yes! Adjust weightings for different factors like department, role, experience level, and learning objectives.</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2">What support do you provide?</h3>
+                    <p class="text-gray-600">Enterprise clients get dedicated account management, 24/7 support, and quarterly business reviews.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Call to Action -->
     <section class="bg-blue-600 text-white py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -183,5 +344,44 @@
             </a>
         </div>
     </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Sitr</h3>
+                    <p class="text-gray-400">Enterprise-grade seating optimization for corporate training.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Solutions</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#security">Security</a></li>
+                        <li><a href="#integrations">Integrations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#case-studies">Case Studies</a></li>
+                        <li><a href="#documentation">Documentation</a></li>
+                        <li><a href="#api">API</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Sitr. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html> 
