@@ -94,5 +94,12 @@ if (isAuthenticated()) {
             </div>
         </div>
     </div>
+
+    <!-- Sitr Branding -->
+    <div class="mt-8 text-center">
+        <p class="text-sm text-gray-500">
+            Powered by <a href="https://usesitr.com" class="text-blue-600 hover:text-blue-700 font-medium">Sitr</a>
+        </p>
+    </div>
 </body>
 </html> 
