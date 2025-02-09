@@ -318,18 +318,30 @@
 
             <!-- Attendee Calculator -->
             <div class="mt-12 max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-6">
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Calculate Per-Ticket Cost</h3>
-                <div class="space-y-4">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Make Sitr Free for Your Event</h3>
+                <div class="space-y-6">
+                    <div class="text-sm text-gray-600">
+                        <p class="mb-2"><span class="font-semibold text-blue-600">Pro Tip:</span> Add the small per-ticket amount below to your ticket price, and get Sitr at effectively no cost to you as an organizer!</p>
+                    </div>
                     <div>
                         <label for="attendees" class="block text-sm font-medium text-gray-700">
-                            Expected Number of Attendees: <span id="attendeeCount">200</span>
+                            Expected Number of Attendees: <span id="attendeeCount" class="text-blue-600 font-semibold">200</span>
                         </label>
                         <input type="range" id="attendees" name="attendees" min="50" max="500" value="200" step="10"
                             class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-2">
                     </div>
-                    <p class="text-sm text-gray-500">
-                        Adjust the slider to see how much to add to each ticket to include Sitr at no cost to you as an organizer.
-                    </p>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-medium text-blue-900 mb-2">How It Works:</h4>
+                        <p class="text-sm text-blue-800">
+                            For example, if you're selling tickets at $50, and choose our Pro plan with <span id="exampleAttendees">200</span> attendees:
+                        </p>
+                        <ul class="mt-2 space-y-1 text-sm text-blue-800">
+                            <li>• Add just <span id="exampleCost">$1.00</span> to each ticket</li>
+                            <li>• Sell tickets for $51 instead of $50</li>
+                            <li>• Your attendees get a seamless seating experience</li>
+                            <li>• You get Sitr completely free!</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
@@ -518,10 +530,13 @@
         const basicPerTicket = document.getElementById('basicPerTicket');
         const proPerTicket = document.getElementById('proPerTicket');
         const enterprisePerTicket = document.getElementById('enterprisePerTicket');
+        const exampleAttendees = document.getElementById('exampleAttendees');
+        const exampleCost = document.getElementById('exampleCost');
 
         function updatePricing() {
             const attendees = parseInt(attendeeSlider.value);
             attendeeCount.textContent = attendees;
+            exampleAttendees.textContent = attendees;
 
             // Calculate per-ticket costs
             const basicCost = (99 / attendees).toFixed(2);
@@ -529,16 +544,17 @@
             const enterpriseCost = ((299 + (attendees * 0.25)) / attendees).toFixed(2);
 
             // Update display
-            basicPerTicket.textContent = `$${basicCost}`;
-            proPerTicket.textContent = `$${proCost}`;
-            enterprisePerTicket.textContent = `$${enterpriseCost}`;
+            basicPerTicket.innerHTML = `Add just <span class="font-semibold">$${basicCost}</span> per ticket`;
+            proPerTicket.innerHTML = `Add just <span class="font-semibold">$${proCost}</span> per ticket`;
+            enterprisePerTicket.innerHTML = `Add just <span class="font-semibold">$${enterpriseCost}</span> per ticket`;
+            exampleCost.textContent = `$${proCost}`;
 
             // Update max attendee warnings
             if (attendees > 100) {
-                basicPerTicket.innerHTML = `<span class="text-red-500">Exceeds plan limit (max 100)</span>`;
+                basicPerTicket.innerHTML = `<span class="text-red-500">Exceeds plan limit (max 100 attendees)</span>`;
             }
             if (attendees > 300) {
-                proPerTicket.innerHTML = `<span class="text-red-500">Exceeds plan limit (max 300)</span>`;
+                proPerTicket.innerHTML = `<span class="text-red-500">Exceeds plan limit (max 300 attendees)</span>`;
             }
         }
 
