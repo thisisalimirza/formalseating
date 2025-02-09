@@ -20,26 +20,28 @@ if (!isset($_POST['user_id'])) {
 $userId = (int)$_POST['user_id'];
 
 try {
-    $dbUrl = parse_url(getenv("DATABASE_URL"));
-    $pdo = new PDO(
-        "pgsql:" . sprintf(
-            "host=%s;port=%s;user=%s;password=%s;dbname=%s",
-            $dbUrl["host"],
-            $dbUrl["port"],
-            $dbUrl["user"],
-            $dbUrl["pass"],
-            ltrim($dbUrl["path"], "/")
-        )
-    );
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Begin transaction
+    $pdo->beginTransaction();
 
-    // Clear user's seats
-    $stmt = $pdo->prepare("UPDATE seats SET occupied = 0 WHERE user_id = ?");
+    // Clear all seats for the user
+    $stmt = $pdo->prepare("
+        UPDATE seats 
+        SET occupied = false 
+        WHERE user_id = ? AND occupied = true
+    ");
     $stmt->execute([$userId]);
+
+    // Commit transaction
+    $pdo->commit();
 
     echo json_encode(['success' => true]);
 } catch (PDOException $e) {
+    // Rollback transaction on error
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
+    error_log("Error clearing seats: " . $e->getMessage());
     http_response_code(500);
-    echo json_encode(['error' => 'Database error']);
+    echo json_encode(['error' => 'Failed to clear seats']);
 }
 ?> 
