@@ -864,7 +864,7 @@
                 </div>`;
 
             // Update the example text and cost
-            document.querySelector('.text-green-800').innerHTML = `
+            document.querySelector('#pricing .bg-emerald\\/10 .text-emerald').innerHTML = `
                 For example, with <span id="pricing-example-attendees">${attendees}</span> attendees on our ${attendees <= 100 ? 'Basic' : attendees <= 300 ? 'Pro' : 'Enterprise'} plan:
             `;
             exampleCost.textContent = `$${attendees <= 100 ? basicCost : attendees <= 300 ? proCost : enterpriseCost}`;
