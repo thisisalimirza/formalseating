@@ -932,6 +932,44 @@ UCHC Formal Committee`;
             }
         }
 
+        async function toggleAdmin(userId) {
+            if (!confirm('Are you sure you want to toggle admin status for this user?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('api/toggle_admin.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `user_id=${userId}`
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    // Show success message
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                    successMessage.textContent = 'Admin status updated successfully';
+                    document.body.appendChild(successMessage);
+                    
+                    // Remove success message after 3 seconds
+                    setTimeout(() => {
+                        successMessage.remove();
+                    }, 3000);
+                    
+                    // Reload user list to show updated status
+                    await loadUsers();
+                } else {
+                    throw new Error(data.error || 'Failed to update admin status');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to update admin status. Please try again.');
+            }
+        }
+
         // Initialize
         loadUsers();
         loadApprovedEmails();
