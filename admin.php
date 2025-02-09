@@ -553,19 +553,21 @@ try {
                 tbody.innerHTML = users.map(user => `
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${user.name}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.email}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.plus_one ? 'Yes' : 'No'}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">
-                            ${user.seats ? user.seats.map(seat => `
-                                <div class="mb-1">${seat}</div>
-                            `).join('') : 'None'}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button onclick="togglePlusOne(${user.id})" class="text-blue-600 hover:text-blue-900 mr-2">
-                                Toggle Plus One
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${user.email}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            <button onclick="togglePlusOne(${user.id})" class="text-sm">
+                                ${user.plus_one ? 'Yes' : 'No'}
                             </button>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            ${user.seats.join('<br>')}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                             <button onclick="clearSeats(${user.id})" class="text-red-600 hover:text-red-900">
                                 Clear Seats
+                            </button>
+                            <button onclick="deleteUser(${user.id})" class="text-red-600 hover:text-red-900 ml-4">
+                                Delete User
                             </button>
                         </td>
                     </tr>
@@ -886,6 +888,34 @@ UCHC Formal Committee`;
                 
             } catch (error) {
                 console.error('Error updating funnel stats:', error);
+            }
+        }
+
+        // Add this new function with the other JavaScript functions
+        async function deleteUser(userId) {
+            if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('api/delete_user.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `user_id=${userId}`
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    loadUsers();
+                    updateFunnelStats();
+                } else {
+                    throw new Error(data.error || 'Failed to delete user');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to delete user. Please try again.');
             }
         }
 
