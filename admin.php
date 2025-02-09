@@ -148,7 +148,7 @@ try {
                     class="mt-1 group flex items-center px-2 py-2 text-base font-medium rounded-md"
                     :class="currentSection === 'users' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50'">
                     <i class="fas fa-users mr-3 w-6"></i>
-                    User Management
+                    Attendee Management
                 </a>
                 <a @click.prevent="currentSection = 'registrations'" href="#registrations"
                     class="mt-1 group flex items-center px-2 py-2 text-base font-medium rounded-md"
