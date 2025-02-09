@@ -303,8 +303,8 @@
     </section>
 
     <!-- Wave Divider -->
-    <div class="relative -mt-20 mb-20">
-        <svg class="w-full h-24 fill-current text-white" viewBox="0 0 1440 74" xmlns="http://www.w3.org/2000/svg">
+    <div class="relative -mt-20">
+        <svg class="w-full h-24 fill-current" style="color: rgba(1, 71, 81, 0.05)" viewBox="0 0 1440 74" xmlns="http://www.w3.org/2000/svg">
             <path d="M0,32L60,37.3C120,43,240,53,360,58.7C480,64,600,64,720,58.7C840,53,960,43,1080,37.3C1200,32,1320,32,1380,32L1440,32L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
         </svg>
     </div>
@@ -406,7 +406,7 @@
 
     <!-- Curved Divider -->
     <div class="relative">
-        <svg class="w-full h-24 fill-current text-mint/20" viewBox="0 0 1440 74" xmlns="http://www.w3.org/2000/svg">
+        <svg class="w-full h-24 fill-current" style="color: rgba(1, 71, 81, 0.05)" viewBox="0 0 1440 74" xmlns="http://www.w3.org/2000/svg">
             <path d="M0,32L60,37.3C120,43,240,53,360,58.7C480,64,600,64,720,58.7C840,53,960,43,1080,37.3C1200,32,1320,32,1380,32L1440,32L1440,74L1380,74C1320,74,1200,74,1080,74C960,74,840,74,720,74C600,74,480,74,360,74C240,74,120,74,60,74L0,74Z"></path>
         </svg>
     </div>
@@ -515,9 +515,9 @@
             <path d="M0,0 L1440,0 L1440,48 L0,48 L0,0 Z M1440,48 L1440,0 L0,48 L1440,48 Z" fill="url(#grad1)"></path>
             <defs>
                 <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#014751;stop-opacity:0.1" />
-                    <stop offset="50%" style="stop-color:#00D37F;stop-opacity:0.1" />
-                    <stop offset="100%" style="stop-color:#014751;stop-opacity:0.1" />
+                    <stop offset="0%" style="stop-color:#014751;stop-opacity:0.05" />
+                    <stop offset="50%" style="stop-color:#00D37F;stop-opacity:0.05" />
+                    <stop offset="100%" style="stop-color:#014751;stop-opacity:0.05" />
                 </linearGradient>
             </defs>
         </svg>
@@ -755,9 +755,9 @@
             <path d="M0,37.3C48,46.7,144,74,240,74C336,74,432,46.7,528,37.3C624,28,720,37.3,816,42C912,46.7,1008,46.7,1104,42C1200,37.3,1296,28,1344,23.3L1392,18.7L1440,14L1440,0L0,0Z" fill="url(#grad2)"></path>
             <defs>
                 <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#014751;stop-opacity:0.1" />
-                    <stop offset="50%" style="stop-color:#00D37F;stop-opacity:0.1" />
-                    <stop offset="100%" style="stop-color:#014751;stop-opacity:0.1" />
+                    <stop offset="0%" style="stop-color:#014751;stop-opacity:0.05" />
+                    <stop offset="50%" style="stop-color:#00D37F;stop-opacity:0.05" />
+                    <stop offset="100%" style="stop-color:#014751;stop-opacity:0.05" />
                 </linearGradient>
             </defs>
         </svg>
