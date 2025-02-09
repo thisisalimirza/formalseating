@@ -267,7 +267,7 @@ try {
 
                 <!-- User Management Section -->
                 <div x-show="currentSection === 'users'" x-cloak>
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6">User Management</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Attendee Management</h2>
                     <div class="bg-white shadow rounded-lg p-6">
                         <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-gray-200">
@@ -721,7 +721,23 @@ try {
 
                 if (!response.ok) throw new Error('Failed to remove email');
                 
-                loadApprovedEmails();
+                // Update all relevant lists and stats
+                await Promise.all([
+                    loadApprovedEmails(),
+                    loadPendingRegistrations(),
+                    updateFunnelStats()
+                ]);
+                
+                // Show success message
+                const successMessage = document.createElement('div');
+                successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg';
+                successMessage.textContent = 'Email approval removed successfully';
+                document.body.appendChild(successMessage);
+                
+                // Remove success message after 3 seconds
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 3000);
             } catch (error) {
                 console.error('Error removing email:', error);
                 alert('Failed to remove email. Please try again.');
