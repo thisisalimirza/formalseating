@@ -561,14 +561,10 @@ try {
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${user.name}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${user.email}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            <button onclick="togglePlusOne(${user.id})" class="text-sm">
-                                ${user.plus_one ? 'Yes' : 'No'}
-                            </button>
+                            ${user.plus_one ? 'Yes' : 'No'}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            <button onclick="toggleAdmin(${user.id})" class="text-sm">
-                                ${user.is_admin ? 'Yes' : 'No'}
-                            </button>
+                            ${user.is_admin ? 'Yes' : 'No'}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             ${user.seats.join('<br>')}
@@ -576,6 +572,9 @@ try {
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                             <button onclick="togglePlusOne(${user.id})" class="text-blue-600 hover:text-blue-900">
                                 Toggle Plus One
+                            </button>
+                            <button onclick="toggleAdmin(${user.id})" class="text-blue-600 hover:text-blue-900 ml-4">
+                                Toggle Admin
                             </button>
                             <button onclick="clearSeats(${user.id})" class="text-red-600 hover:text-red-900 ml-4">
                                 Clear Seats
@@ -953,23 +952,23 @@ UCHC Formal Committee`;
                 });
 
                 const data = await response.json();
-                if (data.success) {
-                    // Show success message
-                    const successMessage = document.createElement('div');
-                    successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
-                    successMessage.textContent = 'Admin status updated successfully';
-                    document.body.appendChild(successMessage);
-                    
-                    // Remove success message after 3 seconds
-                    setTimeout(() => {
-                        successMessage.remove();
-                    }, 3000);
-                    
-                    // Reload user list to show updated status
-                    await loadUsers();
-                } else {
+                if (!response.ok) {
                     throw new Error(data.error || 'Failed to update admin status');
                 }
+
+                // Show success message
+                const successMessage = document.createElement('div');
+                successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                successMessage.textContent = 'Admin status updated successfully';
+                document.body.appendChild(successMessage);
+                
+                // Remove success message after 3 seconds
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 3000);
+                
+                // Reload user list to show updated status
+                await loadUsers();
             } catch (error) {
                 console.error('Error:', error);
                 alert('Failed to update admin status. Please try again.');

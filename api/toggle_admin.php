@@ -6,35 +6,36 @@ require_once '../includes/auth.php';
 // Check if user is authenticated and is admin
 if (!isAuthenticated() || !getCurrentUser()['is_admin']) {
     http_response_code(403);
-    echo json_encode(['success' => false, 'error' => 'Unauthorized']);
+    echo json_encode(['error' => 'Unauthorized']);
     exit();
 }
 
-// Validate user_id parameter
-if (!isset($_POST['user_id']) || !is_numeric($_POST['user_id'])) {
+// Validate input
+if (!isset($_POST['user_id'])) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'error' => 'Invalid user ID']);
+    echo json_encode(['error' => 'Missing user_id parameter']);
     exit();
 }
 
 $userId = intval($_POST['user_id']);
 
 try {
-    // Start transaction
+    // Begin transaction
     $pdo->beginTransaction();
 
     // Get current admin status
     $stmt = $pdo->prepare("SELECT is_admin FROM users WHERE id = ?");
     $stmt->execute([$userId]);
-    $currentStatus = $stmt->fetchColumn();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($currentStatus === false) {
+    if (!$user) {
         throw new Exception('User not found');
     }
 
     // Toggle admin status
-    $stmt = $pdo->prepare("UPDATE users SET is_admin = NOT is_admin WHERE id = ?");
-    $stmt->execute([$userId]);
+    $newAdminStatus = !$user['is_admin'];
+    $stmt = $pdo->prepare("UPDATE users SET is_admin = ? WHERE id = ?");
+    $stmt->execute([$newAdminStatus, $userId]);
 
     // Commit transaction
     $pdo->commit();
@@ -45,8 +46,7 @@ try {
     if ($pdo->inTransaction()) {
         $pdo->rollBack();
     }
-
     http_response_code(500);
-    echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+    echo json_encode(['error' => $e->getMessage()]);
 }
 ?> 
