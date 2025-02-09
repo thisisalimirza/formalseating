@@ -25,7 +25,7 @@ try {
     $pdo->beginTransaction();
 
     // Check if seat exists and is not occupied
-    $stmt = $pdo->prepare("SELECT occupied FROM seats WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT occupied FROM seats WHERE seat_id = ?");
     $stmt->execute([$seatId]);
     $seat = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -41,7 +41,7 @@ try {
     $stmt = $pdo->prepare("
         SELECT 
             u.plus_one,
-            COUNT(s.id) as current_seats
+            COUNT(s.seat_id) as current_seats
         FROM users u
         LEFT JOIN seats s ON s.user_id = u.id AND s.occupied = true
         WHERE u.id = ?
@@ -59,13 +59,20 @@ try {
         throw new Exception('User has already selected maximum number of seats');
     }
 
+    // Calculate table_id and seat_number
+    $tableId = floor(($seatId - 1) / 10) + 1;
+    $seatNumber = (($seatId - 1) % 10) + 1;
+
     // Assign seat to user
     $stmt = $pdo->prepare("
-        UPDATE seats 
-        SET occupied = true, user_id = ? 
-        WHERE id = ?
+        INSERT INTO seats (seat_id, table_id, seat_number, user_id, occupied) 
+        VALUES (?, ?, ?, ?, true)
+        ON CONFLICT (seat_id) 
+        DO UPDATE SET 
+            user_id = EXCLUDED.user_id,
+            occupied = EXCLUDED.occupied
     ");
-    $stmt->execute([$userId, $seatId]);
+    $stmt->execute([$seatId, $tableId, $seatNumber, $userId]);
 
     // Commit transaction
     $pdo->commit();
