@@ -552,8 +552,8 @@ try {
                 const tbody = document.getElementById('user-list');
                 tbody.innerHTML = users.map(user => `
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${user.name}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.email}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 name-cell">${user.name}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 email-cell">${user.email}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.plus_one ? 'Yes' : 'No'}</td>
                         <td class="px-6 py-4 text-sm text-gray-500">
                             ${user.seats ? user.seats.map(seat => `
@@ -562,14 +562,17 @@ try {
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex items-center gap-2">
-                                <button onclick="togglePlusOne(this)" class="text-blue-600 hover:text-blue-700">
-                                    <i class="fas fa-user-plus"></i>
+                                <button onclick="togglePlusOne('${user.id}')" class="inline-flex items-center px-3 py-1 text-blue-600 hover:text-blue-700 border border-blue-600 rounded">
+                                    <i class="fas fa-user-plus mr-1"></i>
+                                    Toggle Plus One
                                 </button>
-                                <button onclick="clearSeats(this)" class="text-yellow-600 hover:text-yellow-700">
-                                    <i class="fas fa-chair"></i>
+                                <button onclick="clearSeats('${user.id}')" class="inline-flex items-center px-3 py-1 text-yellow-600 hover:text-yellow-700 border border-yellow-600 rounded">
+                                    <i class="fas fa-chair mr-1"></i>
+                                    Clear Seats
                                 </button>
-                                <button onclick="deleteUser(this)" class="text-red-600 hover:text-red-700">
-                                    <i class="fas fa-trash-alt"></i>
+                                <button onclick="deleteUser('${user.email}')" class="inline-flex items-center px-3 py-1 text-red-600 hover:text-red-700 border border-red-600 rounded">
+                                    <i class="fas fa-trash-alt mr-1"></i>
+                                    Delete User
                                 </button>
                             </div>
                         </td>
@@ -581,10 +584,7 @@ try {
         }
 
         // Toggle plus one status
-        async function togglePlusOne(button) {
-            const row = button.closest('tr');
-            const userId = row.querySelector('.user-id').textContent;
-
+        async function togglePlusOne(userId) {
             try {
                 const response = await fetch('api/toggle_plus_one.php', {
                     method: 'POST',
@@ -619,10 +619,7 @@ try {
         }
 
         // Clear user's seats
-        async function clearSeats(button) {
-            const row = button.closest('tr');
-            const userId = row.querySelector('.user-id').textContent;
-
+        async function clearSeats(userId) {
             if (!confirm('Are you sure you want to clear this user\'s seats?')) return;
 
             try {
@@ -907,40 +904,5 @@ UCHC Formal Committee`;
         loadUnseatedUsers();
         updateFunnelStats();
 
-        async function deleteUser(button) {
-            const row = button.closest('tr');
-            const email = row.querySelector('.email-cell').textContent;
-            const name = row.querySelector('.name-cell').textContent;
-
-            if (!confirm(`Are you sure you want to delete ${name}'s account? This will also remove their approved email status and seat selections.`)) {
-                return;
-            }
-
-            try {
-                const response = await fetch('api/remove_approved_email.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `email=${encodeURIComponent(email)}`
-                });
-
-                const data = await response.json();
-                if (!response.ok || !data.success) {
-                    throw new Error(data.error || 'Failed to delete user');
-                }
-
-                // Reload the user list and other relevant data
-                loadUsers();
-                loadApprovedEmails();
-                loadPendingRegistrations();
-                loadUnseatedUsers();
-                updateFunnelStats();
-            } catch (error) {
-                console.error('Error deleting user:', error);
-                alert('Failed to delete user. Please try again.');
-            }
-        }
-    </script>
-</body>
-</html> 
+        async function deleteUser(email) {
+            if (!confirm(`Are you sure you want to delete this user's account? This will also remove their approved email status and seat selections.`
