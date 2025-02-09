@@ -368,8 +368,13 @@
                                 <div class="mt-4">
                                     <span class="text-4xl font-bold text-gray-900">$99</span>
                                     <span class="text-gray-500">/event</span>
-                                    <div class="mt-2 text-sm text-gray-500" id="basicPriceContainer">
-                                        Add just <span id="basicPerTicket" class="font-semibold">$1.65</span> per ticket
+                                    <div class="mt-2 text-sm" id="basicPriceContainer">
+                                        <div class="bg-green-50 border border-green-200 rounded-lg p-2 flex items-center">
+                                            <i class="fas fa-magic text-green-500 mr-2"></i>
+                                            <span class="text-green-800">
+                                                Add just <span id="basicPerTicket" class="font-semibold">$1.65</span> per ticket to cover the entire cost!
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -413,8 +418,13 @@
                                 <div class="mt-4">
                                     <span class="text-4xl font-bold text-gray-900">$199</span>
                                     <span class="text-gray-500">/event</span>
-                                    <div class="mt-2 text-sm text-gray-500" id="proPriceContainer">
-                                        Add just <span id="proPerTicket" class="font-semibold">$2.65</span> per ticket
+                                    <div class="mt-2 text-sm" id="proPriceContainer">
+                                        <div class="bg-green-50 border border-green-200 rounded-lg p-2 flex items-center">
+                                            <i class="fas fa-magic text-green-500 mr-2"></i>
+                                            <span class="text-green-800">
+                                                Add just <span id="proPerTicket" class="font-semibold">$2.65</span> per ticket to cover the entire cost!
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -458,8 +468,13 @@
                                 <p class="mt-2 text-gray-500">For large events</p>
                                 <div class="mt-4">
                                     <span class="text-4xl font-bold text-gray-900">Custom</span>
-                                    <div class="mt-2 text-sm text-gray-500" id="enterprisePriceContainer">
-                                        Add just <span id="enterprisePerTicket" class="font-semibold">$3.65</span> per ticket
+                                    <div class="mt-2 text-sm" id="enterprisePriceContainer">
+                                        <div class="bg-green-50 border border-green-200 rounded-lg p-2 flex items-center">
+                                            <i class="fas fa-magic text-green-500 mr-2"></i>
+                                            <span class="text-green-800">
+                                                Add just <span id="enterprisePerTicket" class="font-semibold">$3.65</span> per ticket to cover the entire cost!
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -575,7 +590,13 @@
             if (attendees > 100) {
                 basicPriceContainer.innerHTML = `<span class="text-red-500">Exceeds plan limit<br/>(max 100 attendees)</span>`;
             } else {
-                basicPriceContainer.innerHTML = `Add just <span id="basicPerTicket" class="font-semibold">$${basicCost}</span> per ticket`;
+                basicPriceContainer.innerHTML = `
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-2 flex items-center">
+                        <i class="fas fa-magic text-green-500 mr-2"></i>
+                        <span class="text-green-800">
+                            Add just <span id="basicPerTicket" class="font-semibold">$${basicCost}</span> per ticket to cover the entire cost!
+                        </span>
+                    </div>`;
             }
 
             // Update display for Pro plan
@@ -583,12 +604,24 @@
             if (attendees > 300) {
                 proPriceContainer.innerHTML = `<span class="text-red-500">Exceeds plan limit<br/>(max 300 attendees)</span>`;
             } else {
-                proPriceContainer.innerHTML = `Add just <span id="proPerTicket" class="font-semibold">$${proCost}</span> per ticket`;
+                proPriceContainer.innerHTML = `
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-2 flex items-center">
+                        <i class="fas fa-magic text-green-500 mr-2"></i>
+                        <span class="text-green-800">
+                            Add just <span id="proPerTicket" class="font-semibold">$${proCost}</span> per ticket to cover the entire cost!
+                        </span>
+                    </div>`;
             }
 
             // Always update Enterprise plan since it has no limit
             const enterprisePriceContainer = document.querySelector('#enterprisePriceContainer');
-            enterprisePriceContainer.innerHTML = `Add just <span id="enterprisePerTicket" class="font-semibold">$${enterpriseCost}</span> per ticket`;
+            enterprisePriceContainer.innerHTML = `
+                <div class="bg-green-50 border border-green-200 rounded-lg p-2 flex items-center">
+                    <i class="fas fa-magic text-green-500 mr-2"></i>
+                    <span class="text-green-800">
+                        Add just <span id="enterprisePerTicket" class="font-semibold">$${enterpriseCost}</span> per ticket to cover the entire cost!
+                    </span>
+                </div>`;
 
             // Update the example text and cost
             document.querySelector('.text-blue-800').innerHTML = `
