@@ -583,11 +583,19 @@
 
             // Update max attendee warnings
             if (attendees > 100) {
-                basicPerTicket.innerHTML = `<span class="text-red-500">Exceeds plan limit<br/>(max 100 attendees)</span>`;
+                basicPerTicket.parentElement.innerHTML = `<span class="text-red-500">Exceeds plan limit<br/>(max 100 attendees)</span>`;
+            } else {
+                basicPerTicket.parentElement.innerHTML = `Add just <span id="basicPerTicket" class="font-semibold">$${basicCost}</span> per ticket`;
             }
             if (attendees > 300) {
-                proPerTicket.innerHTML = `<span class="text-red-500">Exceeds plan limit<br/>(max 300 attendees)</span>`;
+                proPerTicket.parentElement.innerHTML = `<span class="text-red-500">Exceeds plan limit<br/>(max 300 attendees)</span>`;
+            } else {
+                proPerTicket.parentElement.innerHTML = `Add just <span id="proPerTicket" class="font-semibold">$${proCost}</span> per ticket`;
             }
+
+            // Re-assign elements since we recreated them
+            basicPerTicket = document.getElementById('basicPerTicket');
+            proPerTicket = document.getElementById('proPerTicket');
         }
 
         attendeeSlider.addEventListener('input', updatePricing);
