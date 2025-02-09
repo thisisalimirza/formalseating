@@ -880,9 +880,21 @@ try {
                     throw new Error(data.error || 'Failed to clear seat');
                 }
 
-                // Hide modal and refresh seats
+                // Update UI immediately
+                const seat = document.querySelector(`[data-seat-id="${pendingSeatId}"]`);
+                if (seat) {
+                    seat.classList.remove('bg-red-500', 'bg-emerald-500', 'hover:bg-red-600', 'hover:bg-emerald-600');
+                    seat.classList.add('bg-gray-200', 'hover:bg-gray-300');
+                }
+
+                // Remove from occupied seats
+                delete occupiedSeats[pendingSeatId];
+                
+                // Remove from selected seats if it was selected by current user
+                selectedSeats = selectedSeats.filter(id => id !== pendingSeatId);
+
+                // Hide modal and show success message
                 hideAdminModal();
-                await loadSeatStatus();
                 showToast('Seat cleared successfully');
             } catch (error) {
                 console.error('Error clearing seat:', error);
