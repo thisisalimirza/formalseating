@@ -420,10 +420,24 @@ try {
                     body: `user_id=${userId}`
                 });
 
-                if (!response.ok) throw new Error('Failed to toggle plus one status');
+                if (!response.ok) {
+                    const data = await response.json();
+                    throw new Error(data.message || 'Failed to toggle plus one status');
+                }
                 
-                // Reload user list
-                loadUsers();
+                // Show success message
+                const successMessage = document.createElement('div');
+                successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg';
+                successMessage.textContent = 'Plus one status updated successfully';
+                document.body.appendChild(successMessage);
+                
+                // Remove success message after 3 seconds
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 3000);
+                
+                // Reload user list to show updated status
+                await loadUsers();
             } catch (error) {
                 console.error('Error toggling plus one:', error);
                 alert('Failed to update plus one status. Please try again.');
@@ -443,10 +457,24 @@ try {
                     body: `user_id=${userId}`
                 });
 
-                if (!response.ok) throw new Error('Failed to clear seats');
+                if (!response.ok) {
+                    const data = await response.json();
+                    throw new Error(data.message || 'Failed to clear seats');
+                }
                 
-                // Reload user list
-                loadUsers();
+                // Show success message
+                const successMessage = document.createElement('div');
+                successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg';
+                successMessage.textContent = 'Seats cleared successfully';
+                document.body.appendChild(successMessage);
+                
+                // Remove success message after 3 seconds
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 3000);
+                
+                // Reload user list to show updated seats
+                await loadUsers();
             } catch (error) {
                 console.error('Error clearing seats:', error);
                 alert('Failed to clear seats. Please try again.');
