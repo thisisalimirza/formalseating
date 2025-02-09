@@ -302,17 +302,17 @@ try {
                             <div class="mb-4">
                                 <form id="add-email-form" class="flex gap-2">
                                     <input type="email" id="new-email" placeholder="Enter email address" required
-                                        class="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500">
+                                        class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                     <button type="submit"
                                         class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
                                         Add Email
                                     </button>
+                                    <a href="bulk_import_emails.php"
+                                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700">
+                                        <i class="fas fa-upload mr-2"></i>
+                                        Bulk Import
+                                    </a>
                                 </form>
-                                <a href="bulk_import_emails.php"
-                                    class="mt-2 inline-flex w-full items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700">
-                                    <i class="fas fa-upload mr-2"></i>
-                                    Bulk Import
-                                </a>
                             </div>
                             <div class="overflow-y-auto max-h-[500px]">
                                 <table class="min-w-full divide-y divide-gray-200">
