@@ -181,14 +181,6 @@ try {
         </div>
     </main>
 
-    <!-- Toast notification -->
-    <div id="toast" class="fixed bottom-4 right-4 transform transition-all duration-300 translate-y-full">
-        <div class="bg-emerald-600 text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3">
-            <i class="fas fa-info-circle"></i>
-            <span id="toast-message"></span>
-        </div>
-    </div>
-
     <!-- Confirmation Modal -->
     <div id="confirmationModal" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm hidden items-center justify-center z-50">
         <div class="bg-white rounded-xl p-6 max-w-sm mx-4 shadow-xl transform transition-all duration-300">
@@ -337,8 +329,6 @@ try {
 
         // DOM Elements
         const seatingMap = document.getElementById('seating-map');
-        const toast = document.getElementById('toast');
-        const toastMessage = document.getElementById('toast-message');
         const confirmationModal = document.getElementById('confirmationModal');
         const deselectModal = document.getElementById('deselectModal');
         const seatDetails = document.getElementById('seatDetails');
@@ -439,10 +429,28 @@ try {
 
         // Show toast message
         function showToast(message, duration = 3000) {
-            toastMessage.textContent = message;
-            toast.classList.remove('translate-y-full');
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-4 right-4 bg-emerald-600 text-white px-6 py-4 rounded-lg shadow-lg z-50 flex items-center gap-3 transform transition-transform duration-300';
+            toast.style.transform = 'translateY(100%)';
+            
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-info-circle';
+            toast.appendChild(icon);
+            
+            const messageSpan = document.createElement('span');
+            messageSpan.textContent = message;
+            toast.appendChild(messageSpan);
+            
+            document.body.appendChild(toast);
+            
+            // Trigger animation
+            requestAnimationFrame(() => {
+                toast.style.transform = 'translateY(0)';
+            });
+            
             setTimeout(() => {
-                toast.classList.add('translate-y-full');
+                toast.style.transform = 'translateY(100%)';
+                setTimeout(() => toast.remove(), 300);
             }, duration);
         }
 
