@@ -257,6 +257,31 @@ try {
             </div>
         </div>
 
+        <!-- Users Without Seats Section -->
+        <div class="bg-white shadow rounded-lg p-6 mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-medium text-gray-900">Users Without Seats</h2>
+                <span id="unseated-count" class="bg-orange-100 text-orange-800 text-sm font-medium px-3 py-1 rounded-full"></span>
+            </div>
+            <p class="text-sm text-gray-600 mb-4">Users who haven't selected all their available seats.</p>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead>
+                        <tr>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plus One</th>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Missing Seats</th>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="unseated-users-list" class="bg-white divide-y divide-gray-200">
+                        <!-- Users without seats will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- Table Assignments Section -->
         <div class="bg-white shadow rounded-lg p-6 mb-6">
             <h3 class="text-lg font-medium text-gray-900 mb-4">Table Assignments</h3>
@@ -623,10 +648,66 @@ UCHC Formal Committee`;
             window.location.href = mailtoLink;
         }
 
+        // Load users without seats
+        async function loadUnseatedUsers() {
+            try {
+                const response = await fetch('api/get_unseated_users.php');
+                if (!response.ok) throw new Error('Failed to load unseated users');
+                
+                const users = await response.json();
+                const tbody = document.getElementById('unseated-users-list');
+                const unseatedCount = document.getElementById('unseated-count');
+                
+                // Update the count badge
+                unseatedCount.textContent = `${users.length} Users`;
+                
+                tbody.innerHTML = users.map(user => {
+                    const maxSeats = user.plus_one ? 2 : 1;
+                    const missingSeats = maxSeats - user.selected_seats;
+                    
+                    return `
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${user.name}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.email}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.plus_one ? 'Yes' : 'No'}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                ${missingSeats} seat${missingSeats > 1 ? 's' : ''} to select
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <button onclick="sendSeatReminder('${user.email}', ${missingSeats})" class="text-blue-600 hover:text-blue-900">
+                                    Send Reminder
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading unseated users:', error);
+            }
+        }
+
+        // Send seat selection reminder email
+        function sendSeatReminder(email, missingSeats) {
+            const subject = "UCHC Formal 2025 - Seat Selection Reminder";
+            const body = `Hello,
+
+This is a reminder that you still need to select ${missingSeats} seat${missingSeats > 1 ? 's' : ''} for the UCHC Formal 2025.
+
+Please visit the following link to select your seats:
+${window.location.origin}
+
+Best regards,
+UCHC Formal Committee`;
+
+            const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+        }
+
         // Initialize
         loadUsers();
         loadApprovedEmails();
         loadPendingRegistrations();
+        loadUnseatedUsers();
     </script>
 </body>
 </html> 
