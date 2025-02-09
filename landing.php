@@ -37,6 +37,7 @@
                     <a href="#features" class="text-gray-600 hover:text-gray-900">Features</a>
                     <a href="#benefits" class="text-gray-600 hover:text-gray-900">Benefits</a>
                     <a href="#how-it-works" class="text-gray-600 hover:text-gray-900">How It Works</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-gray-900">Pricing</a>
                     <a href="login.php" class="text-blue-600 hover:text-blue-700">Log in</a>
                 </div>
                 <!-- Mobile menu button -->
@@ -297,6 +298,151 @@
                         <p class="mt-2 text-base text-gray-500">
                             Select your seats and receive instant confirmation of your choices.
                         </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:text-center">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    Simple, Transparent Pricing
+                </h2>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                    Choose the perfect plan for your event size and needs
+                </p>
+            </div>
+
+            <div class="mt-20">
+                <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                    <!-- Basic Plan -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-t-4 border-gray-400">
+                        <div class="px-6 py-8">
+                            <div class="text-center">
+                                <h3 class="text-2xl font-bold text-gray-900">Basic</h3>
+                                <p class="mt-2 text-gray-500">Perfect for small events</p>
+                                <div class="mt-4">
+                                    <span class="text-4xl font-bold text-gray-900">$99</span>
+                                    <span class="text-gray-500">/event</span>
+                                </div>
+                            </div>
+                            <div class="mt-8">
+                                <ul class="space-y-4">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>Up to 100 guests</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>Interactive seating map</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>Real-time updates</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>Email support</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-8">
+                                <a href="register.php" class="block w-full text-center px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors">
+                                    Get Started
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pro Plan -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-t-4 border-blue-500 transform scale-105">
+                        <div class="px-6 py-8">
+                            <div class="absolute top-0 right-0 mt-4 mr-4">
+                                <span class="bg-blue-500 text-white text-sm px-3 py-1 rounded-full">Popular</span>
+                            </div>
+                            <div class="text-center">
+                                <h3 class="text-2xl font-bold text-gray-900">Pro</h3>
+                                <p class="mt-2 text-gray-500">For medium-sized events</p>
+                                <div class="mt-4">
+                                    <span class="text-4xl font-bold text-gray-900">$199</span>
+                                    <span class="text-gray-500">/event</span>
+                                </div>
+                            </div>
+                            <div class="mt-8">
+                                <ul class="space-y-4">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>Up to 300 guests</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>All Basic features</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>Guest management tools</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>Priority support</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>Custom branding</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-8">
+                                <a href="register.php" class="block w-full text-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                    Get Started
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enterprise Plan -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-t-4 border-gray-800">
+                        <div class="px-6 py-8">
+                            <div class="text-center">
+                                <h3 class="text-2xl font-bold text-gray-900">Enterprise</h3>
+                                <p class="mt-2 text-gray-500">For large events</p>
+                                <div class="mt-4">
+                                    <span class="text-4xl font-bold text-gray-900">Custom</span>
+                                </div>
+                            </div>
+                            <div class="mt-8">
+                                <ul class="space-y-4">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>Unlimited guests</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>All Pro features</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>Dedicated support</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>Custom integrations</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-3"></i>
+                                        <span>Advanced analytics</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-8">
+                                <a href="register.php" class="block w-full text-center px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors">
+                                    Contact Sales
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
