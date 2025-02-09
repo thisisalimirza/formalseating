@@ -58,8 +58,8 @@ try {
                 <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-6 mb-2 sm:mb-0">
                     <div class="flex items-center gap-2">
                         <h1 class="text-xl font-bold text-gray-900">UCHC Formal 2025</h1>
-                        <span class="text-sm text-gray-400">|</span>
-                        <span class="sitr-gradient text-sm font-medium">Powered by Sitr</span>
+                        <!--<span class="text-sm text-gray-400">|</span>-->
+                        <!--<span class="sitr-gradient text-sm font-medium">Powered by Sitr</span>-->
                     </div>
                     <p class="text-gray-600 text-sm sm:border-l sm:border-gray-300 sm:pl-6">Welcome, <?php echo htmlspecialchars($user['name']); ?></p>
                 </div>
