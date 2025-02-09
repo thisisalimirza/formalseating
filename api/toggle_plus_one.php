@@ -23,11 +23,14 @@ try {
     // Begin transaction
     $pdo->beginTransaction();
 
-    // Get current plus_one status and seat count
+    // Get current plus_one status and seat information
     $stmt = $pdo->prepare("
-        SELECT u.plus_one, COUNT(s.seat_id) as seat_count
+        SELECT 
+            u.plus_one,
+            array_agg(s.seat_id ORDER BY s.seat_id DESC) FILTER (WHERE s.occupied = true) as seat_ids,
+            COUNT(s.seat_id) FILTER (WHERE s.occupied = true) as seat_count
         FROM users u
-        LEFT JOIN seats s ON u.id = s.user_id AND s.occupied = true
+        LEFT JOIN seats s ON u.id = s.user_id
         WHERE u.id = ?
         GROUP BY u.id, u.plus_one
     ");
@@ -41,10 +44,15 @@ try {
         exit();
     }
 
-    // If turning off plus_one and user has 2 seats, clear their seats
+    // If turning off plus_one and user has 2 seats, clear only the most recently selected seat
     if ($user['plus_one'] && $user['seat_count'] > 1) {
-        $stmt = $pdo->prepare("UPDATE seats SET occupied = false WHERE user_id = ?");
-        $stmt->execute([$userId]);
+        // Convert PostgreSQL array to PHP array
+        $seatIds = substr($user['seat_ids'], 1, -1); // Remove { and }
+        $seatIds = explode(',', $seatIds);
+        $lastSeatId = $seatIds[0]; // Get the most recent seat (ordered DESC above)
+        
+        $stmt = $pdo->prepare("UPDATE seats SET occupied = false WHERE user_id = ? AND seat_id = ?");
+        $stmt->execute([$userId, $lastSeatId]);
     }
 
     // Toggle plus_one status
