@@ -292,59 +292,61 @@ try {
                 <div x-show="currentSection === 'registrations'" x-cloak>
                     <h2 class="text-2xl font-bold text-gray-900 mb-6">Registration Management</h2>
                     
-                    <!-- Approved Emails -->
-                    <div class="bg-white shadow rounded-lg p-6 mb-6">
-                        <h3 class="text-lg font-medium text-gray-900 mb-4">Approved Emails</h3>
-                        <div class="mb-4">
-                            <form id="add-email-form" class="flex gap-2">
-                                <input type="email" id="new-email" placeholder="Enter email address" required
-                                    class="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500">
-                                <button type="submit"
-                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-                                    Add Email
-                                </button>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Approved Emails -->
+                        <div class="bg-white shadow rounded-lg p-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">Approved Emails</h3>
+                            <div class="mb-4">
+                                <form id="add-email-form" class="flex gap-2">
+                                    <input type="email" id="new-email" placeholder="Enter email address" required
+                                        class="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500">
+                                    <button type="submit"
+                                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                                        Add Email
+                                    </button>
+                                </form>
                                 <a href="bulk_import_emails.php"
-                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700">
+                                    class="mt-2 inline-flex w-full items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700">
                                     <i class="fas fa-upload mr-2"></i>
                                     Bulk Import
                                 </a>
-                            </form>
+                            </div>
+                            <div class="overflow-y-auto max-h-[500px]">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50 sticky top-0">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="approved-emails-list" class="bg-white divide-y divide-gray-200">
+                                        <!-- Approved emails will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead>
-                                    <tr>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="approved-emails-list" class="bg-white divide-y divide-gray-200">
-                                    <!-- Approved emails will be loaded here -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
 
-                    <!-- Pending Registrations -->
-                    <div class="bg-white shadow rounded-lg p-6">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-medium text-gray-900">Pending Registrations</h3>
-                            <span id="pending-count" class="bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded-full"></span>
-                        </div>
-                        <p class="text-sm text-gray-600 mb-4">These emails have been approved but haven't registered an account yet.</p>
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead>
-                                    <tr>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Approved Date</th>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="pending-registrations-list" class="bg-white divide-y divide-gray-200">
-                                    <!-- Pending registrations will be loaded here -->
-                                </tbody>
-                            </table>
+                        <!-- Pending Registrations -->
+                        <div class="bg-white shadow rounded-lg p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-medium text-gray-900">Pending Registrations</h3>
+                                <span id="pending-count" class="bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded-full"></span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-4">These emails have been approved but haven't registered an account yet.</p>
+                            <div class="overflow-y-auto max-h-[500px]">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50 sticky top-0">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Approved Date</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pending-registrations-list" class="bg-white divide-y divide-gray-200">
+                                        <!-- Pending registrations will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
