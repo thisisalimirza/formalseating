@@ -48,96 +48,139 @@ try {
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        .bg-pattern {
+            background-image: radial-gradient(#E5E7EB 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .hover-scale {
+            transition: transform 0.2s ease;
+        }
+        .hover-scale:hover {
+            transform: scale(1.02);
+        }
+        .legend-item {
+            transition: all 0.2s ease;
+        }
+        .legend-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
     <!-- Navigation -->
-    <nav class="bg-white shadow fixed top-0 left-0 right-0 z-50">
+    <nav class="bg-white shadow-md fixed top-0 left-0 right-0 z-50 backdrop-blur-sm bg-white/95">
         <div class="container mx-auto px-4">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between py-4">
-                <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-6 mb-2 sm:mb-0">
-                    <div class="flex items-center gap-2">
-                        <h1 class="text-xl font-bold text-gray-900">UCHC Formal 2025</h1>
-                        <!--<span class="text-sm text-gray-400">|</span>-->
-                        <!--<span class="sitr-gradient text-sm font-medium">Powered by Sitr</span>-->
+                <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-8 mb-2 sm:mb-0">
+                    <div class="flex items-center gap-3">
+                        <h1 class="text-xl font-bold text-gray-900 tracking-tight">UCHC Formal 2025</h1>
+                        <span class="hidden sm:block h-6 w-px bg-gray-200"></span>
+                        <span class="sitr-gradient text-sm font-medium">Powered by Sitr</span>
                     </div>
-                    <p class="text-gray-600 text-sm sm:border-l sm:border-gray-300 sm:pl-6">Welcome, <?php echo htmlspecialchars($user['name']); ?></p>
+                    <p class="text-gray-600 text-sm sm:border-l sm:border-gray-200 sm:pl-8">Welcome, <?php echo htmlspecialchars($user['name']); ?></p>
                 </div>
-                <div class="flex gap-2 w-full sm:w-auto">
+                <div class="flex gap-3 w-full sm:w-auto">
                     <?php if ($user['is_admin']): ?>
-                    <a href="admin.php" class="flex-1 sm:flex-initial bg-emerald-600 hover:bg-emerald-700 text-white px-4 sm:px-6 py-2 rounded text-center text-sm font-medium transition-colors">Admin Panel</a>
+                    <a href="admin.php" class="flex-1 sm:flex-initial bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-lg text-center text-sm font-medium transition-all duration-200 hover:shadow-lg">
+                        <i class="fas fa-cog mr-2"></i>Admin Panel
+                    </a>
                     <?php endif; ?>
-                    <a href="api/logout.php" class="flex-1 sm:flex-initial border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 sm:px-6 py-2 rounded text-center text-sm font-medium transition-colors">Sign out</a>
+                    <a href="api/logout.php" class="flex-1 sm:flex-initial border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-2.5 rounded-lg text-center text-sm font-medium transition-all duration-200">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Sign out
+                    </a>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Main content -->
-    <main class="container mx-auto px-4 pt-32 pb-4">
+    <main class="container mx-auto px-4 pt-32 pb-8">
         <!-- Seat selection section -->
-        <div class="mb-6">
-            <h2 class="text-2xl font-bold mb-2 text-gray-900">Select Your Seat</h2>
-            <p class="text-gray-600 text-base mb-1">Click on an available seat to select it.</p>
-            <p class="text-gray-600 text-base">You can select up to <?php echo $user['plus_one'] ? '2' : '1'; ?> seat<?php echo $user['plus_one'] ? 's' : ''; ?>.</p>
+        <div class="mb-8 fade-in">
+            <h2 class="text-2xl font-bold mb-4 text-gray-900 flex items-center gap-3">
+                <i class="fas fa-chair text-emerald-600"></i>
+                Select Your Seat
+            </h2>
+            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4">
+                <p class="text-gray-600 text-base mb-2 flex items-center gap-2">
+                    <i class="fas fa-info-circle text-emerald-600"></i>
+                    Click on an available seat to select it.
+                </p>
+                <p class="text-gray-600 text-base flex items-center gap-2">
+                    <i class="fas fa-user-plus text-emerald-600"></i>
+                    You can select up to <?php echo $user['plus_one'] ? '2' : '1'; ?> seat<?php echo $user['plus_one'] ? 's' : ''; ?>.
+                </p>
+            </div>
         </div>
 
         <!-- Legend and stats -->
-        <div class="bg-white shadow rounded-lg p-6 mb-6">
-            <div class="flex flex-col gap-4">
-                <div class="flex flex-wrap gap-6 justify-center">
-                    <div class="flex items-center">
-                        <span class="w-4 h-4 bg-gray-200 rounded-full mr-2"></span>
-                        <span class="text-sm">Available</span>
+        <div class="bg-white shadow-sm rounded-lg p-6 mb-8 fade-in border border-gray-100">
+            <div class="flex flex-col gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="legend-item flex items-center justify-center p-3 rounded-lg bg-gray-50 hover-scale">
+                        <span class="w-4 h-4 bg-gray-200 rounded-full mr-3"></span>
+                        <span class="text-sm font-medium">Available</span>
                     </div>
-                    <div class="flex items-center">
-                        <span class="w-4 h-4 bg-emerald-500 rounded-full mr-2"></span>
-                        <span class="text-sm">Your Selection</span>
+                    <div class="legend-item flex items-center justify-center p-3 rounded-lg bg-gray-50 hover-scale">
+                        <span class="w-4 h-4 bg-emerald-500 rounded-full mr-3"></span>
+                        <span class="text-sm font-medium">Your Selection</span>
                     </div>
-                    <div class="flex items-center">
-                        <span class="w-4 h-4 bg-red-500 rounded-full mr-2"></span>
-                        <span class="text-sm">Occupied</span>
+                    <div class="legend-item flex items-center justify-center p-3 rounded-lg bg-gray-50 hover-scale">
+                        <span class="w-4 h-4 bg-red-500 rounded-full mr-3"></span>
+                        <span class="text-sm font-medium">Occupied</span>
                     </div>
                 </div>
-                <div class="text-sm text-gray-600 text-center border-t pt-4 mt-2">
-                    <span class="inline-flex items-center gap-2">
-                        <i class="fas fa-table text-emerald-600"></i>
-                        Tables: 45
-                    </span>
-                    <span class="mx-3">|</span>
-                    <span class="inline-flex items-center gap-2">
-                        <i class="fas fa-chair text-emerald-600"></i>
-                        Seats per table: 10
-                    </span>
+                <div class="flex justify-center items-center gap-8 pt-4 border-t border-gray-100">
+                    <div class="flex items-center gap-2 text-sm text-gray-600">
+                        <i class="fas fa-table text-emerald-600 text-lg"></i>
+                        <span class="font-medium">45 Tables</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-gray-600">
+                        <i class="fas fa-chair text-emerald-600 text-lg"></i>
+                        <span class="font-medium">10 Seats per table</span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Seating map -->
-        <div class="bg-white shadow rounded-lg p-6">
-            <div id="seating-map" class="relative mx-auto bg-gray-50 rounded-lg p-6">
+        <div class="bg-white shadow-sm rounded-lg p-6 border border-gray-100 fade-in">
+            <div id="seating-map" class="relative mx-auto bg-pattern rounded-lg p-6">
                 <!-- Tables and seats will be dynamically added here by JavaScript -->
+                <div class="absolute inset-0 bg-gradient-to-br from-emerald-50/20 to-transparent rounded-lg"></div>
             </div>
         </div>
     </main>
 
     <!-- Toast notification -->
-    <div id="toast" class="fixed bottom-4 right-4 transform transition-transform duration-300 translate-y-full">
-        <div class="bg-emerald-600 text-white px-6 py-3 rounded-lg shadow-lg">
+    <div id="toast" class="fixed bottom-4 right-4 transform transition-all duration-300 translate-y-full">
+        <div class="bg-emerald-600 text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3">
+            <i class="fas fa-info-circle"></i>
             <span id="toast-message"></span>
         </div>
     </div>
 
     <!-- Confirmation Modal -->
-    <div id="confirmationModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-lg p-6 max-w-sm mx-4">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Confirm Seat Selection</h3>
-            <p class="text-gray-600 mb-6">Are you sure you want to select this seat? <span id="seatDetails" class="font-medium"></span></p>
+    <div id="confirmationModal" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 max-w-sm mx-4 shadow-xl transform transition-all duration-300 scale-95 opacity-0">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <i class="fas fa-check-circle text-emerald-600"></i>
+                Confirm Seat Selection
+            </h3>
+            <p class="text-gray-600 mb-6">Are you sure you want to select this seat? <span id="seatDetails" class="font-medium text-gray-900"></span></p>
             <div class="flex justify-end gap-3">
-                <button id="cancelSeatBtn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors">
+                <button id="cancelSeatBtn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200">
                     Cancel
                 </button>
-                <button id="confirmSeatBtn" class="px-4 py-2 text-sm font-medium text-white bg-emerald-600 rounded-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors">
+                <button id="confirmSeatBtn" class="px-4 py-2 text-sm font-medium text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200">
                     Confirm
                 </button>
             </div>
@@ -145,15 +188,18 @@ try {
     </div>
 
     <!-- Deselection Confirmation Modal -->
-    <div id="deselectModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-lg p-6 max-w-sm mx-4">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Confirm Seat Removal</h3>
-            <p class="text-gray-600 mb-6">Are you sure you want to remove yourself from this seat? <span id="deselectSeatDetails" class="font-medium"></span></p>
+    <div id="deselectModal" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 max-w-sm mx-4 shadow-xl transform transition-all duration-300 scale-95 opacity-0">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <i class="fas fa-times-circle text-red-600"></i>
+                Confirm Seat Removal
+            </h3>
+            <p class="text-gray-600 mb-6">Are you sure you want to remove yourself from this seat? <span id="deselectSeatDetails" class="font-medium text-gray-900"></span></p>
             <div class="flex justify-end gap-3">
-                <button id="cancelDeselectBtn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors">
+                <button id="cancelDeselectBtn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200">
                     Cancel
                 </button>
-                <button id="confirmDeselectBtn" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
+                <button id="confirmDeselectBtn" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200">
                     Remove
                 </button>
             </div>
@@ -596,4 +642,5 @@ try {
         loadSeatStatus();
     </script>
 </body>
+</html> 
 </html> 
