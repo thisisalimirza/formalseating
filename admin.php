@@ -148,7 +148,7 @@ try {
                     class="mt-1 group flex items-center px-2 py-2 text-base font-medium rounded-md"
                     :class="currentSection === 'users' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50'">
                     <i class="fas fa-users mr-3 w-6"></i>
-                    Attendee Management
+                    User Management
                 </a>
                 <a @click.prevent="currentSection = 'registrations'" href="#registrations"
                     class="mt-1 group flex items-center px-2 py-2 text-base font-medium rounded-md"
@@ -267,7 +267,7 @@ try {
 
                 <!-- User Management Section -->
                 <div x-show="currentSection === 'users'" x-cloak>
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Attendee Management</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">User Management</h2>
         <div class="bg-white shadow rounded-lg p-6">
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
@@ -295,7 +295,10 @@ try {
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Approved Emails -->
                         <div class="bg-white shadow rounded-lg p-6">
-                            <h3 class="text-lg font-medium text-gray-900 mb-4">Approved Emails</h3>
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-medium text-gray-900">Approved Emails</h3>
+                                <span id="approved-count" class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full"></span>
+                            </div>
                             <div class="mb-4">
                                 <form id="add-email-form" class="flex gap-2">
                                     <input type="email" id="new-email" placeholder="Enter email address" required
@@ -662,6 +665,11 @@ try {
                 
                 const emails = await response.json();
                 const tbody = document.getElementById('approved-emails-list');
+                const approvedCount = document.getElementById('approved-count');
+                
+                // Update the count badge
+                approvedCount.textContent = `${emails.length} Approved`;
+                
                 tbody.innerHTML = emails.map(email => `
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${email}</td>
