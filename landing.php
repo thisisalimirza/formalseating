@@ -124,23 +124,38 @@
 
     <!-- Hero Section -->
     <header class="relative min-h-screen flex items-center bg-gradient-to-br from-zircon via-white to-mint/20 overflow-hidden">
-        <div class="absolute inset-0 z-0 opacity-10 bg-[url('path/to/pattern.svg')]"></div>
+        <div class="absolute inset-0 z-0 opacity-10 bg-[radial-gradient(circle_at_1px_1px,#00D37F_1px,transparent_0)]" style="background-size: 40px 40px;"></div>
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 grid lg:grid-cols-2 gap-12 items-center">
             <div class="max-w-xl">
-                <h1 class="text-5xl sm:text-6xl font-bold tracking-tight mb-6">
-                    <span class="block text-firefly">Seamless Event</span>
-                    <span class="block gradient-text">Seating Made Simple</span>
-                </h1>
-                <p class="text-xl text-firefly/80 mb-8">
-                    Sitr transforms event seating management with an intuitive platform that makes selecting and managing seats effortless for any formal event or gathering.
-                </p>
+                <div class="mb-8">
+                    <span class="inline-block px-4 py-2 rounded-full bg-brand-green/10 text-brand-green font-semibold text-sm mb-4">Stop the Seating Chaos</span>
+                    <h1 class="text-5xl sm:text-6xl font-bold tracking-tight mb-6">
+                        <span class="block text-firefly">Still Using</span>
+                        <span class="block gradient-text">Spreadsheets?</span>
+                    </h1>
+                    <p class="text-xl text-firefly/80 mb-6">
+                        Event seating management is a nightmare. Double bookings, confused guests, and endless email chains are costing you precious time and causing unnecessary stress.
+                    </p>
+                    <p class="text-xl font-semibold text-brand-green mb-8">
+                        There's a better way.
+                    </p>
+                </div>
                 <div class="flex flex-col sm:flex-row gap-4">
                     <a href="register.php" class="inline-flex justify-center items-center px-8 py-3 rounded-lg bg-brand-green text-white font-medium hover:bg-emerald transition-colors">
-                        Get Started
+                        Transform Your Events
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
                     </a>
                     <a href="#how-it-works" class="inline-flex justify-center items-center px-8 py-3 rounded-lg bg-emerald/10 text-emerald font-medium hover:bg-emerald/20 transition-colors">
-                        Learn More
+                        See How It Works
                     </a>
+                </div>
+                <div class="mt-8 flex items-center space-x-4 text-firefly/60">
+                    <div class="flex -space-x-2">
+                        <img class="w-8 h-8 rounded-full border-2 border-white" src="https://ui-avatars.com/api/?name=John+D&background=random" alt="User">
+                        <img class="w-8 h-8 rounded-full border-2 border-white" src="https://ui-avatars.com/api/?name=Sarah+M&background=random" alt="User">
+                        <img class="w-8 h-8 rounded-full border-2 border-white" src="https://ui-avatars.com/api/?name=Mike+R&background=random" alt="User">
+                    </div>
+                    <span class="text-sm">Trusted by 1000+ event planners</span>
                 </div>
             </div>
             <div class="relative hidden lg:block">
@@ -152,15 +167,30 @@
         </div>
     </header>
 
+    <!-- Section Divider -->
+    <div class="relative">
+        <div class="absolute inset-0 flex items-center" aria-hidden="true">
+            <div class="w-full border-t border-emerald/10"></div>
+        </div>
+        <div class="relative flex justify-center">
+            <div class="bg-white px-4 flex items-center space-x-2">
+                <div class="w-2 h-2 rounded-full bg-brand-green"></div>
+                <div class="w-3 h-3 rounded-full bg-emerald"></div>
+                <div class="w-2 h-2 rounded-full bg-brand-green"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Features Section -->
     <section id="features" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center">
+                <span class="inline-block px-4 py-2 rounded-full bg-emerald/10 text-emerald font-semibold text-sm mb-4">The Solution You Need</span>
                 <h2 class="text-3xl font-extrabold text-firefly sm:text-4xl">
-                    Everything You Need for Perfect Event Seating
+                    Say Goodbye to Seating Headaches
                 </h2>
                 <p class="mt-4 max-w-2xl text-xl text-firefly/70 lg:mx-auto">
-                    Our comprehensive platform offers all the tools you need to manage event seating arrangements with ease.
+                    Sitr transforms chaotic spreadsheets into a streamlined system that makes event seating a breeze.
                 </p>
             </div>
 
@@ -271,144 +301,251 @@
         </div>
     </section>
 
+    <!-- Wave Divider -->
+    <div class="relative -mt-20 mb-20">
+        <svg class="w-full h-24 fill-current text-white" viewBox="0 0 1440 74" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,32L60,37.3C120,43,240,53,360,58.7C480,64,600,64,720,58.7C840,53,960,43,1080,37.3C1200,32,1320,32,1380,32L1440,32L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+        </svg>
+    </div>
+
     <!-- Benefits Section -->
     <section id="benefits" class="py-20 bg-gradient-to-br from-zircon to-mint/20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center">
+                <span class="inline-block px-4 py-2 rounded-full bg-brand-green/10 text-brand-green font-semibold text-sm mb-4">The Pain Points We Solve</span>
                 <h2 class="text-3xl font-extrabold text-firefly sm:text-4xl">
-                    Why Choose Sitr?
+                    Event Planning Shouldn't Be This Hard
                 </h2>
                 <p class="mt-4 max-w-2xl text-xl text-firefly/70 lg:mx-auto">
-                    Experience the advantages of our modern seating management system.
+                    We've reimagined event seating management from the ground up
                 </p>
             </div>
 
             <div class="mt-20">
                 <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
-                    <!-- Benefit cards with updated styling -->
+                    <!-- Problem Card 1 -->
                     <div class="benefit-card bg-white rounded-xl shadow-lg overflow-hidden p-6">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
                                 <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center text-white">
-                                    <i class="fas fa-smile text-lg"></i>
+                                    <i class="fas fa-exclamation-circle text-lg"></i>
                                 </div>
                             </div>
                             <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-firefly">Stress-Free Selection</h3>
+                                <h3 class="text-lg font-semibold text-firefly">Manual Chaos</h3>
                             </div>
                         </div>
                         <p class="mt-4 text-firefly/70">
-                            No more confusion or double-bookings. Our system ensures a smooth and organized seating selection process.
+                            <span class="text-red-500 font-semibold">Before Sitr:</span> Hours spent managing spreadsheets, emails, and phone calls just to handle seating arrangements.
+                        </p>
+                        <p class="mt-2 text-brand-green font-medium">
+                            ↓ Now: Automated system handles everything in minutes
                         </p>
                     </div>
 
-                    <!-- Benefit 2 -->
+                    <!-- Problem Card 2 -->
                     <div class="benefit-card bg-white rounded-xl shadow-lg overflow-hidden p-6">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
                                 <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center text-white">
-                                    <i class="fas fa-bolt text-lg"></i>
+                                    <i class="fas fa-users-slash text-lg"></i>
                                 </div>
                             </div>
                             <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-firefly">Instant Confirmation</h3>
+                                <h3 class="text-lg font-semibold text-firefly">Guest Confusion</h3>
                             </div>
                         </div>
                         <p class="mt-4 text-firefly/70">
-                            Get immediate confirmation of your seat selection with real-time updates and notifications.
+                            <span class="text-red-500 font-semibold">Before Sitr:</span> Guests unsure about their seats, leading to day-of confusion and frustration.
+                        </p>
+                        <p class="mt-2 text-brand-green font-medium">
+                            ↓ Now: Clear, instant confirmations for everyone
                         </p>
                     </div>
 
-                    <!-- Benefit 3 -->
+                    <!-- Problem Card 3 -->
                     <div class="benefit-card bg-white rounded-xl shadow-lg overflow-hidden p-6">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
                                 <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center text-white">
-                                    <i class="fas fa-sync text-lg"></i>
+                                    <i class="fas fa-clock text-lg"></i>
                                 </div>
                             </div>
                             <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-firefly">Flexible Changes</h3>
+                                <h3 class="text-lg font-semibold text-firefly">Last-Minute Changes</h3>
                             </div>
                         </div>
                         <p class="mt-4 text-firefly/70">
-                            Need to make changes? Easily modify your seat selection at any time before the event.
+                            <span class="text-red-500 font-semibold">Before Sitr:</span> Panic when guests need to change seats or cancel, causing a ripple of manual updates.
+                        </p>
+                        <p class="mt-2 text-brand-green font-medium">
+                            ↓ Now: Real-time updates and flexible changes
                         </p>
                     </div>
                 </div>
             </div>
+
+            <!-- Success Stats -->
+            <div class="mt-20 grid grid-cols-1 gap-8 sm:grid-cols-3">
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-brand-green">98%</div>
+                    <div class="mt-2 text-firefly">Time Saved vs Manual</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-brand-green">10,000+</div>
+                    <div class="mt-2 text-firefly">Events Managed</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-brand-green">4.9/5</div>
+                    <div class="mt-2 text-firefly">Customer Rating</div>
+                </div>
+            </div>
         </div>
     </section>
+
+    <!-- Curved Divider -->
+    <div class="relative">
+        <svg class="w-full h-24 fill-current text-mint/20" viewBox="0 0 1440 74" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,32L60,37.3C120,43,240,53,360,58.7C480,64,600,64,720,58.7C840,53,960,43,1080,37.3C1200,32,1320,32,1380,32L1440,32L1440,74L1380,74C1320,74,1200,74,1080,74C960,74,840,74,720,74C600,74,480,74,360,74C240,74,120,74,60,74L0,74Z"></path>
+        </svg>
+    </div>
 
     <!-- How It Works Section -->
     <section id="how-it-works" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center">
+                <span class="inline-block px-4 py-2 rounded-full bg-emerald/10 text-emerald font-semibold text-sm mb-4">Simple & Intuitive</span>
                 <h2 class="text-3xl font-extrabold text-firefly sm:text-4xl">
-                    How It Works
+                    Three Steps to Seating Success
                 </h2>
                 <p class="mt-4 max-w-2xl text-xl text-firefly/70 lg:mx-auto">
-                    Get started in three simple steps
+                    Transform your event seating from chaos to clarity in minutes
                 </p>
             </div>
 
             <div class="mt-20">
                 <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-                    <!-- Steps with updated styling -->
-                    <div class="text-center">
+                    <!-- Step 1 -->
+                    <div class="relative">
                         <div class="flex items-center justify-center h-20 w-20 rounded-full bg-gradient-to-br from-brand-green to-mint text-white text-2xl font-bold mx-auto">
                             1
                         </div>
-                        <h3 class="mt-8 text-lg font-semibold text-firefly">Register Your Account</h3>
-                        <p class="mt-2 text-firefly/70">
-                            Create your account using your approved email address and set your preferences.
+                        <div class="absolute top-10 left-full w-full hidden md:block">
+                            <div class="h-0.5 w-full bg-gradient-to-r from-brand-green to-transparent"></div>
+                        </div>
+                        <h3 class="mt-8 text-xl font-semibold text-firefly text-center">Quick Setup</h3>
+                        <p class="mt-2 text-firefly/70 text-center">
+                            Create your event in 60 seconds. Import your guest list, set your tables, and you're ready to go.
                         </p>
+                        <div class="mt-4 flex justify-center">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
+                                </svg>
+                                60-second setup
+                            </span>
+                        </div>
                     </div>
 
                     <!-- Step 2 -->
-                    <div class="text-center">
+                    <div class="relative">
                         <div class="flex items-center justify-center h-20 w-20 rounded-full bg-gradient-to-br from-brand-green to-mint text-white text-2xl font-bold mx-auto">
                             2
                         </div>
-                        <h3 class="mt-8 text-lg font-semibold text-firefly">Browse Available Seats</h3>
-                        <p class="mt-2 text-firefly/70">
-                            Explore our interactive seating map and find your preferred location.
+                        <div class="absolute top-10 left-full w-full hidden md:block">
+                            <div class="h-0.5 w-full bg-gradient-to-r from-brand-green to-transparent"></div>
+                        </div>
+                        <h3 class="mt-8 text-xl font-semibold text-firefly text-center">Share & Manage</h3>
+                        <p class="mt-2 text-firefly/70 text-center">
+                            Send invites with our beautiful interface. Guests select their seats with ease.
                         </p>
+                        <div class="mt-4 flex justify-center">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
+                                </svg>
+                                Real-time updates
+                            </span>
+                        </div>
                     </div>
 
                     <!-- Step 3 -->
-                    <div class="text-center">
+                    <div class="relative">
                         <div class="flex items-center justify-center h-20 w-20 rounded-full bg-gradient-to-br from-brand-green to-mint text-white text-2xl font-bold mx-auto">
                             3
                         </div>
-                        <h3 class="mt-8 text-lg font-semibold text-firefly">Confirm Your Selection</h3>
-                        <p class="mt-2 text-firefly/70">
-                            Select your seats and receive instant confirmation of your choices.
+                        <h3 class="mt-8 text-xl font-semibold text-firefly text-center">Relax & Enjoy</h3>
+                        <p class="mt-2 text-firefly/70 text-center">
+                            Watch as your seating plan comes together automatically. No stress, no mess.
                         </p>
+                        <div class="mt-4 flex justify-center">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
+                                </svg>
+                                100% automated
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Demo Video Placeholder -->
+            <div class="mt-20 relative rounded-2xl overflow-hidden bg-gradient-to-r from-emerald/5 to-brand-green/5 p-8">
+                <div class="aspect-w-16 aspect-h-9">
+                    <img src="assets/images/seating-demo.png" alt="Sitr Demo" class="rounded-xl shadow-2xl w-full h-full object-cover">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <a href="#" class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white shadow-lg hover:scale-110 transition-transform duration-300">
+                            <svg class="w-8 h-8 text-brand-green" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-brand-green/10 rounded-full filter blur-2xl"></div>
+                <div class="absolute -top-4 -left-4 w-32 h-32 bg-mint/20 rounded-full filter blur-2xl"></div>
+            </div>
         </div>
     </section>
+
+    <!-- Zigzag Divider -->
+    <div class="relative">
+        <svg class="w-full h-24" viewBox="0 0 1440 48" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,0 L1440,0 L1440,48 L0,48 L0,0 Z M1440,48 L1440,0 L0,48 L1440,48 Z" fill="url(#grad1)"></path>
+            <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#014751;stop-opacity:0.1" />
+                    <stop offset="50%" style="stop-color:#00D37F;stop-opacity:0.1" />
+                    <stop offset="100%" style="stop-color:#014751;stop-opacity:0.1" />
+                </linearGradient>
+            </defs>
+        </svg>
+    </div>
 
     <!-- Pricing Section -->
     <section id="pricing" class="py-20 bg-gradient-to-br from-zircon to-mint/20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center">
+                <span class="inline-block px-4 py-2 rounded-full bg-brand-green/10 text-brand-green font-semibold text-sm mb-4">Affordable & Transparent</span>
                 <h2 class="text-3xl font-extrabold text-firefly sm:text-4xl">
-                    Simple, Transparent Pricing
+                    Investment That Pays For Itself
                 </h2>
                 <p class="mt-4 max-w-2xl text-xl text-firefly/70 lg:mx-auto">
-                    Choose the perfect plan for your event size and needs
+                    Save countless hours and eliminate stress with our cost-effective plans
                 </p>
             </div>
 
             <!-- Pricing calculator with updated styling -->
             <div class="mt-12 max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
-                <h3 class="text-lg font-semibold text-firefly mb-4">Make Sitr Free for Your Event</h3>
+                <div class="flex items-center space-x-2 mb-4">
+                    <svg class="w-6 h-6 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    <h3 class="text-lg font-semibold text-firefly">ROI Calculator</h3>
+                </div>
                 <div class="space-y-6">
                     <div class="text-sm text-firefly/70">
-                        <p class="mb-2"><span class="font-semibold text-brand-green">Pro Tip:</span> Add the small per-ticket amount shown below to your ticket price, and Sitr pays for itself while giving your attendees a fantastic seating experience!</p>
+                        <p class="mb-2"><span class="font-semibold text-brand-green">Smart Pricing:</span> See how Sitr pays for itself by saving you time and reducing stress!</p>
                     </div>
                     <div>
                         <label for="attendees" class="block text-sm font-medium text-firefly/70">
@@ -611,24 +748,42 @@
         </div>
     </section>
 
+    <!-- Wavy Divider -->
+    <div class="relative">
+        <svg class="w-full h-24" viewBox="0 0 1440 74" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,37.3C48,46.7,144,74,240,74C336,74,432,46.7,528,37.3C624,28,720,37.3,816,42C912,46.7,1008,46.7,1104,42C1200,37.3,1296,28,1344,23.3L1392,18.7L1440,14L1440,0L0,0Z" fill="url(#grad2)"></path>
+            <defs>
+                <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#014751;stop-opacity:0.1" />
+                    <stop offset="50%" style="stop-color:#00D37F;stop-opacity:0.1" />
+                    <stop offset="100%" style="stop-color:#014751;stop-opacity:0.1" />
+                </linearGradient>
+            </defs>
+        </svg>
+    </div>
+
     <!-- CTA Section -->
     <section class="bg-gradient-to-r from-emerald to-brand-green">
         <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
-            <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-                <span class="block">Ready to simplify your event seating?</span>
-                <span class="block text-mint">Get started with Sitr today.</span>
-            </h2>
-            <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
-                <div class="inline-flex rounded-md shadow">
-                    <a href="register.php" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald bg-white hover:bg-zircon">
-                        Get Started
-                    </a>
-                </div>
-                <div class="ml-3 inline-flex rounded-md shadow">
-                    <a href="login.php" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-brand-green hover:bg-emerald">
-                        Sign In
-                    </a>
-                </div>
+            <div class="max-w-2xl">
+                <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                    <span class="block">Ready to End Seating Chaos?</span>
+                    <span class="block text-mint mt-2">Join 1000+ Event Planners Who Love Sitr</span>
+                </h2>
+                <p class="mt-4 text-lg text-white/80">
+                    Start your journey to stress-free event planning today. Set up your first event in just 60 seconds!
+                </p>
+            </div>
+            <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0 space-x-4">
+                <a href="register.php" class="inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-lg text-emerald bg-white hover:bg-zircon transition-all transform hover:scale-105">
+                    Get Started Free
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                </a>
+                <a href="#how-it-works" class="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-lg font-medium rounded-lg text-white hover:bg-white/10 transition-all">
+                    See How It Works
+                </a>
             </div>
         </div>
     </section>
