@@ -207,43 +207,42 @@ try {
     </div>
 
     <!-- Admin Seat Assignment Modal -->
-    <div id="adminAssignModal" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm hidden items-center justify-center z-50">
-        <div class="bg-white rounded-xl p-6 max-w-md mx-4 shadow-xl transform transition-all duration-300">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                <i class="fas fa-user-plus text-blue-600"></i>
-                Assign Seat
-            </h3>
-            <p class="text-gray-600 mb-4">Select who you want to assign to this seat: <span id="adminSeatDetails" class="font-medium text-gray-900"></span></p>
-            
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Choose an option:</label>
-                <div class="space-y-2">
-                    <button id="assignToSelfBtn" class="w-full text-left px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200">
-                        Assign to myself
-                    </button>
-                    <button id="showUserListBtn" class="w-full text-left px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200">
-                        Assign to another user
-                    </button>
-                </div>
-            </div>
-
-            <div id="userListSection" class="hidden">
-                <div class="mb-4">
-                    <label for="userSearch" class="block text-sm font-medium text-gray-700 mb-2">Search users:</label>
-                    <input type="text" id="userSearch" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                </div>
-                <div class="max-h-48 overflow-y-auto mb-4">
-                    <div id="userList" class="space-y-2">
-                        <!-- Users will be loaded here -->
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex justify-end gap-3">
-                <button id="cancelAdminAssignBtn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200">
-                    Cancel
+    <div id="admin-assign-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-medium text-gray-900">Assign Seat <span id="admin-seat-details" class="text-sm text-gray-500"></span></h3>
+                <button onclick="hideAdminModal()" class="text-gray-400 hover:text-gray-500">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
                 </button>
-                <button id="confirmAdminAssignBtn" class="hidden px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200">
+            </div>
+
+            <div class="space-y-4">
+                <button onclick="assignToSelf()" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    Assign to myself
+                </button>
+                
+                <button onclick="showUserList()" class="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                    Assign to another user
+                </button>
+
+                <button onclick="clearSeat()" class="w-full bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
+                    Clear Seat
+                </button>
+            </div>
+
+            <!-- User selection section -->
+            <div id="user-list-section" class="hidden mt-4">
+                <div class="mb-4">
+                    <input type="text" id="user-search" placeholder="Search users..." 
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div id="user-list" class="space-y-2 max-h-60 overflow-y-auto">
+                    <!-- User list will be populated here -->
+                </div>
+                <button id="confirm-admin-assign" onclick="confirmAssignment()" 
+                    class="hidden w-full mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                     Confirm Assignment
                 </button>
             </div>
@@ -286,15 +285,15 @@ try {
 
         // New variables for admin functionality
         const isAdmin = <?php echo json_encode($user['is_admin']); ?>;
-        const adminAssignModal = document.getElementById('adminAssignModal');
-        const adminSeatDetails = document.getElementById('adminSeatDetails');
+        const adminAssignModal = document.getElementById('admin-assign-modal');
+        const adminSeatDetails = document.getElementById('admin-seat-details');
         const assignToSelfBtn = document.getElementById('assignToSelfBtn');
         const showUserListBtn = document.getElementById('showUserListBtn');
-        const userListSection = document.getElementById('userListSection');
-        const userSearch = document.getElementById('userSearch');
-        const userList = document.getElementById('userList');
+        const userListSection = document.getElementById('user-list-section');
+        const userSearch = document.getElementById('user-search');
+        const userList = document.getElementById('user-list');
         const cancelAdminAssignBtn = document.getElementById('cancelAdminAssignBtn');
-        const confirmAdminAssignBtn = document.getElementById('confirmAdminAssignBtn');
+        const confirmAdminAssignBtn = document.getElementById('confirm-admin-assign');
         let selectedUserId = null;
         let unseatedUsers = [];
 
@@ -863,6 +862,33 @@ try {
                 hideAdminModal();
             }
         });
+
+        async function clearSeat() {
+            if (!pendingSeatId) return;
+            
+            try {
+                const response = await fetch('api/clear_seat.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `seat_id=${pendingSeatId}`
+                });
+
+                if (!response.ok) {
+                    const data = await response.json();
+                    throw new Error(data.error || 'Failed to clear seat');
+                }
+
+                // Hide modal and refresh seats
+                hideAdminModal();
+                await loadSeatStatus();
+                showToast('Seat cleared successfully');
+            } catch (error) {
+                console.error('Error clearing seat:', error);
+                showToast(error.message || 'Failed to clear seat');
+            }
+        }
     </script>
 </body>
 </html> 
