@@ -338,7 +338,7 @@
                         <ul class="mt-2 space-y-2 text-sm text-blue-800">
                             <li class="flex items-center">
                                 <i class="fas fa-plus text-green-500 mr-2"></i>
-                                Add just <span id="exampleCost" class="font-bold">$1.00</span> to each ticket price
+                                Add just <span id="exampleCost" class="font-bold"> $1.00 </span> to each ticket price
                             </li>
                             <li class="flex items-center">
                                 <i class="fas fa-check text-green-500 mr-2"></i>
