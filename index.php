@@ -116,6 +116,22 @@ try {
         </div>
     </div>
 
+    <!-- Deselection Confirmation Modal -->
+    <div id="deselectModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 max-w-sm mx-4">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Confirm Seat Removal</h3>
+            <p class="text-gray-600 mb-6">Are you sure you want to remove yourself from this seat? <span id="deselectSeatDetails" class="font-medium"></span></p>
+            <div class="flex justify-end gap-3">
+                <button id="cancelDeselectBtn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                    Cancel
+                </button>
+                <button id="confirmDeselectBtn" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                    Remove
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Configuration
         const userId = <?php echo json_encode($user['id']); ?>;
@@ -142,40 +158,68 @@ try {
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toast-message');
         const confirmationModal = document.getElementById('confirmationModal');
+        const deselectModal = document.getElementById('deselectModal');
         const seatDetails = document.getElementById('seatDetails');
+        const deselectSeatDetails = document.getElementById('deselectSeatDetails');
         const confirmSeatBtn = document.getElementById('confirmSeatBtn');
         const cancelSeatBtn = document.getElementById('cancelSeatBtn');
+        const confirmDeselectBtn = document.getElementById('confirmDeselectBtn');
+        const cancelDeselectBtn = document.getElementById('cancelDeselectBtn');
 
         // Show/hide modal functions
-        function showModal(seatId) {
+        function showModal(seatId, isDeselect = false) {
             const tableNum = Math.floor((seatId - 1) / 10) + 1;
             const seatNum = ((seatId - 1) % 10) + 1;
-            seatDetails.textContent = `(Table ${tableNum}, Seat ${seatNum})`;
-            confirmationModal.classList.remove('hidden');
-            confirmationModal.classList.add('flex');
+            const details = `(Table ${tableNum}, Seat ${seatNum})`;
+            
+            if (isDeselect) {
+                deselectSeatDetails.textContent = details;
+                deselectModal.classList.remove('hidden');
+                deselectModal.classList.add('flex');
+            } else {
+                seatDetails.textContent = details;
+                confirmationModal.classList.remove('hidden');
+                confirmationModal.classList.add('flex');
+            }
             pendingSeatId = seatId;
         }
 
-        function hideModal() {
+        function hideModals() {
             confirmationModal.classList.add('hidden');
             confirmationModal.classList.remove('flex');
+            deselectModal.classList.add('hidden');
+            deselectModal.classList.remove('flex');
             pendingSeatId = null;
         }
 
         // Modal event listeners
         confirmSeatBtn.addEventListener('click', async () => {
             if (pendingSeatId !== null) {
-                await updateSeat(pendingSeatId);
-                hideModal();
+                await updateSeat(pendingSeatId, true);
+                hideModals();
             }
         });
 
-        cancelSeatBtn.addEventListener('click', hideModal);
+        confirmDeselectBtn.addEventListener('click', async () => {
+            if (pendingSeatId !== null) {
+                await updateSeat(pendingSeatId, false);
+                hideModals();
+            }
+        });
 
-        // Close modal when clicking outside
+        cancelSeatBtn.addEventListener('click', hideModals);
+        cancelDeselectBtn.addEventListener('click', hideModals);
+
+        // Close modals when clicking outside
         confirmationModal.addEventListener('click', (e) => {
             if (e.target === confirmationModal) {
-                hideModal();
+                hideModals();
+            }
+        });
+
+        deselectModal.addEventListener('click', (e) => {
+            if (e.target === deselectModal) {
+                hideModals();
             }
         });
 
@@ -403,19 +447,13 @@ try {
                 return;
             }
 
-            if (isSelected) {
-                // If deselecting, no need for confirmation
-                await updateSeat(seatId);
-            } else {
-                // Show confirmation modal for selecting a seat
-                showModal(seatId);
-            }
+            // Show appropriate confirmation modal
+            showModal(seatId, isSelected);
         }
 
         // Update seat in database
-        async function updateSeat(seatId) {
+        async function updateSeat(seatId, isSelecting) {
             const seat = document.querySelector(`[data-seat-id="${seatId}"]`);
-            const isSelected = selectedSeats.includes(seatId);
 
             try {
                 const response = await fetch('api/update_seat.php', {
@@ -423,7 +461,7 @@ try {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `seat_id=${seatId}&occupied=${!isSelected ? 1 : 0}`,
+                    body: `seat_id=${seatId}&occupied=${isSelecting ? 1 : 0}`,
                 });
 
                 if (!response.ok) {
@@ -431,7 +469,7 @@ try {
                     throw new Error(data.message || 'Failed to update seat');
                 }
 
-                if (isSelected) {
+                if (!isSelecting) {
                     selectedSeats = selectedSeats.filter(id => id !== seatId);
                     seat.classList.remove('bg-blue-500', 'hover:bg-blue-600');
                     seat.classList.add('bg-gray-200', 'hover:bg-gray-300');
