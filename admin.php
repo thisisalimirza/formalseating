@@ -177,6 +177,61 @@ try {
                 <!-- Dashboard Section -->
                 <div x-show="currentSection === 'dashboard'" x-cloak>
                     <h2 class="text-2xl font-bold text-gray-900 mb-6">Dashboard</h2>
+                    
+                    <!-- Registration Funnel -->
+                    <div class="bg-white shadow rounded-lg p-6 mb-6">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Registration Funnel</h3>
+                        <div class="relative">
+                            <!-- Funnel Visualization -->
+                            <div class="space-y-4">
+                                <!-- Approved Emails -->
+                                <div class="bg-blue-50 rounded-lg p-4 relative">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <h4 class="font-medium text-blue-900">Approved Emails</h4>
+                                            <p class="text-sm text-blue-700" id="approved-emails-count">Loading...</p>
+                                        </div>
+                                        <div class="text-2xl font-bold text-blue-900" id="approved-emails-number">-</div>
+                                    </div>
+                                    <!-- Arrow -->
+                                    <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2">
+                                        <svg class="h-4 w-4 text-blue-200" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 16l-6-6h12l-6 6z"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                
+                                <!-- Registered Accounts -->
+                                <div class="bg-green-50 rounded-lg p-4 relative">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <h4 class="font-medium text-green-900">Registered Accounts</h4>
+                                            <p class="text-sm text-green-700" id="registered-accounts-count">Loading...</p>
+                                        </div>
+                                        <div class="text-2xl font-bold text-green-900" id="registered-accounts-number">-</div>
+                                    </div>
+                                    <!-- Arrow -->
+                                    <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2">
+                                        <svg class="h-4 w-4 text-green-200" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 16l-6-6h12l-6 6z"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                
+                                <!-- Selected Seats -->
+                                <div class="bg-purple-50 rounded-lg p-4">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <h4 class="font-medium text-purple-900">Selected Seats</h4>
+                                            <p class="text-sm text-purple-700" id="selected-seats-count">Loading...</p>
+                                        </div>
+                                        <div class="text-2xl font-bold text-purple-900" id="selected-seats-number">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <!-- User Statistics -->
                         <div class="bg-white shadow rounded-lg p-6">
@@ -761,11 +816,48 @@ UCHC Formal Committee`;
             window.location.href = mailtoLink;
         }
 
+        // Add this to your existing JavaScript, after the other function definitions
+        async function updateFunnelStats() {
+            try {
+                // Get approved emails count
+                const approvedEmailsResponse = await fetch('api/get_approved_emails.php');
+                const approvedEmails = await approvedEmailsResponse.json();
+                const approvedEmailsCount = approvedEmails.length;
+                
+                // Get registered users count
+                const usersResponse = await fetch('api/get_users.php');
+                const users = await usersResponse.json();
+                const registeredUsersCount = users.length;
+                
+                // Get selected seats count
+                const seatsResponse = await fetch('api/get_seats.php');
+                const seats = await seatsResponse.json();
+                const selectedSeatsCount = seats.length;
+                
+                // Update the funnel visualization
+                document.getElementById('approved-emails-number').textContent = approvedEmailsCount;
+                document.getElementById('approved-emails-count').textContent = 
+                    `${((registeredUsersCount / approvedEmailsCount) * 100).toFixed(1)}% conversion to registration`;
+                
+                document.getElementById('registered-accounts-number').textContent = registeredUsersCount;
+                document.getElementById('registered-accounts-count').textContent = 
+                    `${((selectedSeatsCount / (registeredUsersCount * 1.5)) * 100).toFixed(1)}% seat selection rate`;
+                
+                document.getElementById('selected-seats-number').textContent = selectedSeatsCount;
+                document.getElementById('selected-seats-count').textContent = 
+                    `${selectedSeatsCount} out of ${registeredUsersCount * 1.5} possible seats selected`;
+                
+            } catch (error) {
+                console.error('Error updating funnel stats:', error);
+            }
+        }
+
         // Initialize
         loadUsers();
         loadApprovedEmails();
         loadPendingRegistrations();
         loadUnseatedUsers();
+        updateFunnelStats();
     </script>
 </body>
 </html> 
