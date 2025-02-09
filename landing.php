@@ -427,6 +427,90 @@
         </div>
     </div>
 
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:text-center mb-16">
+                <span class="inline-block px-4 py-2 rounded-full bg-brand-green/10 text-brand-green font-semibold text-sm">What Our Users Say</span>
+                <h2 class="mt-4 text-3xl font-extrabold text-firefly sm:text-4xl">Loved by Event Planners</h2>
+                <p class="mt-4 max-w-2xl text-xl text-firefly/70 lg:mx-auto">Don't just take our word for it - hear from event planners who've transformed their seating management</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-zircon rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=random" alt="Sarah J." class="w-12 h-12 rounded-full">
+                        <div class="ml-4">
+                            <h4 class="text-firefly font-semibold">Sarah Johnson</h4>
+                            <p class="text-sm text-firefly/70">Wedding Planner</p>
+                        </div>
+                    </div>
+                    <div class="flex text-yellow-400 mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-firefly/80">"Sitr has completely transformed how I handle wedding seating. What used to take days now takes minutes. My clients love the interactive seating chart!"</p>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-zircon rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <img src="https://ui-avatars.com/api/?name=Michael+Chen&background=random" alt="Michael C." class="w-12 h-12 rounded-full">
+                        <div class="ml-4">
+                            <h4 class="text-firefly font-semibold">Michael Chen</h4>
+                            <p class="text-sm text-firefly/70">Corporate Event Manager</p>
+                        </div>
+                    </div>
+                    <div class="flex text-yellow-400 mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-firefly/80">"The ROI is incredible. We've eliminated seating conflicts entirely, and the time saved on each event more than pays for the service."</p>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-zircon rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <img src="https://ui-avatars.com/api/?name=Emma+Davis&background=random" alt="Emma D." class="w-12 h-12 rounded-full">
+                        <div class="ml-4">
+                            <h4 class="text-firefly font-semibold">Emma Davis</h4>
+                            <p class="text-sm text-firefly/70">Gala Coordinator</p>
+                        </div>
+                    </div>
+                    <div class="flex text-yellow-400 mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-firefly/80">"The real-time updates and guest management features are game-changers. I can't imagine going back to spreadsheets after using Sitr."</p>
+                </div>
+            </div>
+
+            <!-- Trust Badges -->
+            <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center opacity-70">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" class="h-8">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" class="h-8">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-lock text-emerald text-xl"></i>
+                    <span class="text-firefly font-medium">256-bit SSL Encryption</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-shield-alt text-emerald text-xl"></i>
+                    <span class="text-firefly font-medium">100% Secure Payments</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- How It Works Section -->
     <section id="how-it-works" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -820,7 +904,34 @@
         </div>
     </footer>
 
-    <!-- Add this before the closing </body> tag -->
+    <!-- Sticky CTA Bar -->
+    <div id="sticky-cta" class="fixed bottom-0 left-0 right-0 bg-white shadow-lg transform translate-y-full transition-transform duration-300 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="hidden md:block">
+                    <p class="text-firefly font-semibold">Ready to transform your event seating?</p>
+                    <p class="text-firefly/70 text-sm">Join 1000+ event planners using Sitr</p>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-check-circle text-green-500"></i>
+                    <span class="text-sm text-firefly/70">60-second setup</span>
+                </div>
+                <div class="hidden sm:flex items-center space-x-2">
+                    <i class="fas fa-check-circle text-green-500"></i>
+                    <span class="text-sm text-firefly/70">No credit card required</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="register.php" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-brand-green hover:bg-emerald transition-colors">
+                    Get Started Free
+                    <svg class="ml-2 -mr-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Pricing calculator
         const attendeeSlider = document.getElementById('attendees');
@@ -890,6 +1001,36 @@
 
         attendeeSlider.addEventListener('input', updatePricing);
         updatePricing(); // Initial calculation
+
+        // Sticky CTA functionality
+        const stickyCta = document.getElementById('sticky-cta');
+        let lastScrollPosition = 0;
+        const showOffset = 300; // Show after scrolling 300px
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > showOffset) {
+                stickyCta.classList.remove('translate-y-full');
+            } else {
+                stickyCta.classList.add('translate-y-full');
+            }
+            
+            lastScrollPosition = currentScroll;
+        });
+    </script>
+
+    <!-- Live Chat Widget -->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/YOUR_TAWK_TO_ID/default';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+        })();
     </script>
 </body>
 </html> 
