@@ -559,7 +559,27 @@
             basicPerTicket.textContent = `$${basicCost}`;
             proPerTicket.textContent = `$${proCost}`;
             enterprisePerTicket.textContent = `$${enterpriseCost}`;
-            exampleCost.textContent = `$${proCost}`;
+
+            // Determine which plan to show in the example based on attendee count
+            let examplePlanName = '';
+            let examplePlanCost = '';
+
+            if (attendees <= 100) {
+                examplePlanName = 'Basic';
+                examplePlanCost = basicCost;
+            } else if (attendees <= 300) {
+                examplePlanName = 'Pro';
+                examplePlanCost = proCost;
+            } else {
+                examplePlanName = 'Enterprise';
+                examplePlanCost = enterpriseCost;
+            }
+
+            // Update the example text
+            document.querySelector('.text-blue-800').innerHTML = `
+                For example, with <span id="exampleAttendees">${attendees}</span> attendees on our ${examplePlanName} plan:
+            `;
+            exampleCost.textContent = `$${examplePlanCost}`;
 
             // Update max attendee warnings
             if (attendees > 100) {
