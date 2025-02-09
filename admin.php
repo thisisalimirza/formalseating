@@ -276,7 +276,8 @@ try {
                             <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                             <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                             <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plus One</th>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Selected Seats</th>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Admin</th>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Selected Seats</th>
                             <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
@@ -562,6 +563,11 @@ try {
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             <button onclick="togglePlusOne(${user.id})" class="text-sm">
                                 ${user.plus_one ? 'Yes' : 'No'}
+                            </button>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            <button onclick="toggleAdmin(${user.id})" class="text-sm">
+                                ${user.is_admin ? 'Yes' : 'No'}
                             </button>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">

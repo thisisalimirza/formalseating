@@ -31,6 +31,7 @@ try {
             u.name,
             u.email,
             u.plus_one,
+            u.is_admin,
             array_agg(s.seat_id ORDER BY s.seat_id) FILTER (WHERE s.seat_id IS NOT NULL) as seats,
             array_agg(s.table_id ORDER BY s.seat_id) FILTER (WHERE s.table_id IS NOT NULL) as table_ids,
             array_agg(s.seat_number ORDER BY s.seat_id) FILTER (WHERE s.seat_number IS NOT NULL) as seat_numbers
@@ -40,7 +41,7 @@ try {
             FROM seats
             WHERE occupied = true
         ) s ON u.id = s.user_id
-        GROUP BY u.id, u.name, u.email, u.plus_one
+        GROUP BY u.id, u.name, u.email, u.plus_one, u.is_admin
         ORDER BY u.name
     ");
 
