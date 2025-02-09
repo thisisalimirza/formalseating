@@ -596,7 +596,7 @@ try {
                                 Remove Approval
                             </button>
                             <button onclick="resendInvite('${email.email}')" class="text-blue-600 hover:text-blue-900 ml-4">
-                                Resend Invite
+                                Send Invite Email
                             </button>
                         </td>
                     </tr>
@@ -606,33 +606,21 @@ try {
             }
         }
 
-        // Resend invite function (if you want to implement this feature)
-        async function resendInvite(email) {
-            try {
-                const response = await fetch('api/resend_invite.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `email=${encodeURIComponent(email)}`
-                });
+        // Open default email client with pre-filled invite email
+        function resendInvite(email) {
+            const subject = "UCHC Formal 2025 - Seat Selection Registration";
+            const body = `Hello,
 
-                if (!response.ok) throw new Error('Failed to resend invite');
-                
-                // Show success message
-                const successMessage = document.createElement('div');
-                successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg';
-                successMessage.textContent = 'Invitation sent successfully';
-                document.body.appendChild(successMessage);
-                
-                // Remove success message after 3 seconds
-                setTimeout(() => {
-                    successMessage.remove();
-                }, 3000);
-            } catch (error) {
-                console.error('Error resending invite:', error);
-                alert('Failed to resend invite. Please try again.');
-            }
+You have been approved to register for seat selection for the UCHC Formal 2025.
+
+Please visit the following link to create your account and select your seats:
+${window.location.origin}
+
+Best regards,
+UCHC Formal Committee`;
+
+            const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
         }
 
         // Initialize
