@@ -303,6 +303,11 @@ try {
                                     class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
                                     Add Email
                                 </button>
+                                <a href="bulk_import_emails.php"
+                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700">
+                                    <i class="fas fa-upload mr-2"></i>
+                                    Bulk Import
+                                </a>
                             </form>
                         </div>
                         <div class="overflow-x-auto">
