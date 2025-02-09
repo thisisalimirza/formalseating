@@ -555,11 +555,6 @@
             const proCost = (199 / attendees).toFixed(2);
             const enterpriseCost = ((299 + (attendees * 0.25)) / attendees).toFixed(2);
 
-            // Update display
-            basicPerTicket.textContent = `$${basicCost}`;
-            proPerTicket.textContent = `$${proCost}`;
-            enterprisePerTicket.textContent = `$${enterpriseCost}`;
-
             // Determine which plan to show in the example based on attendee count
             let examplePlanName = '';
             let examplePlanCost = '';
@@ -575,27 +570,32 @@
                 examplePlanCost = enterpriseCost;
             }
 
-            // Update the example text
-            document.querySelector('.text-blue-800').innerHTML = `
-                For example, with <span id="exampleAttendees">${attendees}</span> attendees on our ${examplePlanName} plan:
-            `;
-            exampleCost.textContent = `$${examplePlanCost}`;
-
-            // Update max attendee warnings
+            // Update display for Basic plan
             if (attendees > 100) {
                 basicPerTicket.parentElement.innerHTML = `<span class="text-red-500">Exceeds plan limit<br/>(max 100 attendees)</span>`;
             } else {
                 basicPerTicket.parentElement.innerHTML = `Add just <span id="basicPerTicket" class="font-semibold">$${basicCost}</span> per ticket`;
+                // Re-assign element since we recreated it
+                basicPerTicket = document.getElementById('basicPerTicket');
             }
+
+            // Update display for Pro plan
             if (attendees > 300) {
                 proPerTicket.parentElement.innerHTML = `<span class="text-red-500">Exceeds plan limit<br/>(max 300 attendees)</span>`;
             } else {
                 proPerTicket.parentElement.innerHTML = `Add just <span id="proPerTicket" class="font-semibold">$${proCost}</span> per ticket`;
+                // Re-assign element since we recreated it
+                proPerTicket = document.getElementById('proPerTicket');
             }
 
-            // Re-assign elements since we recreated them
-            basicPerTicket = document.getElementById('basicPerTicket');
-            proPerTicket = document.getElementById('proPerTicket');
+            // Always update Enterprise plan since it has no limit
+            enterprisePerTicket.textContent = `$${enterpriseCost}`;
+
+            // Update the example text and cost
+            document.querySelector('.text-blue-800').innerHTML = `
+                For example, with <span id="exampleAttendees">${attendees}</span> attendees on our ${examplePlanName} plan:
+            `;
+            exampleCost.textContent = `$${examplePlanCost}`;
         }
 
         attendeeSlider.addEventListener('input', updatePricing);
