@@ -441,8 +441,6 @@ try {
         function showToast(message, duration = 3000) {
             toastMessage.textContent = message;
             toast.classList.remove('translate-y-full');
-            
-            // Hide toast after duration
             setTimeout(() => {
                 toast.classList.add('translate-y-full');
             }, duration);
@@ -696,13 +694,35 @@ try {
                     seat.classList.remove('bg-emerald-500', 'hover:bg-emerald-600');
                     seat.classList.add('bg-gray-200', 'hover:bg-gray-300');
                     delete occupiedSeats[seatId];
-                    showToast('Seat removed successfully');
+                    
+                    // Show success message for seat deselection
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-transform duration-300';
+                    successMessage.textContent = 'Seat removed successfully';
+                    document.body.appendChild(successMessage);
+                    
+                    // Remove success message after 3 seconds with fade out animation
+                    setTimeout(() => {
+                        successMessage.style.transform = 'translateY(100%)';
+                        setTimeout(() => successMessage.remove(), 300);
+                    }, 3000);
                 } else {
                     selectedSeats.push(seatId);
                     seat.classList.remove('bg-gray-200', 'hover:bg-gray-300');
                     seat.classList.add('bg-emerald-500', 'hover:bg-emerald-600');
                     occupiedSeats[seatId] = userId;
-                    showToast('Seat selected successfully');
+                    
+                    // Show success message for seat selection
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-transform duration-300';
+                    successMessage.textContent = 'Seat selected successfully';
+                    document.body.appendChild(successMessage);
+                    
+                    // Remove success message after 3 seconds with fade out animation
+                    setTimeout(() => {
+                        successMessage.style.transform = 'translateY(100%)';
+                        setTimeout(() => successMessage.remove(), 300);
+                    }, 3000);
                 }
             } catch (error) {
                 showToast(error.message);
