@@ -316,6 +316,23 @@
                 </p>
             </div>
 
+            <!-- Attendee Calculator -->
+            <div class="mt-12 max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Calculate Per-Ticket Cost</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label for="attendees" class="block text-sm font-medium text-gray-700">
+                            Expected Number of Attendees: <span id="attendeeCount">200</span>
+                        </label>
+                        <input type="range" id="attendees" name="attendees" min="50" max="500" value="200" step="10"
+                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-2">
+                    </div>
+                    <p class="text-sm text-gray-500">
+                        Adjust the slider to see how much to add to each ticket to include Sitr at no cost to you as an organizer.
+                    </p>
+                </div>
+            </div>
+
             <div class="mt-20">
                 <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
                     <!-- Basic Plan -->
@@ -327,6 +344,9 @@
                                 <div class="mt-4">
                                     <span class="text-4xl font-bold text-gray-900">$99</span>
                                     <span class="text-gray-500">/event</span>
+                                </div>
+                                <div class="mt-2 text-sm text-gray-500">
+                                    <span id="basicPerTicket">$0.50</span> per ticket
                                 </div>
                             </div>
                             <div class="mt-8">
@@ -370,6 +390,9 @@
                                     <span class="text-4xl font-bold text-gray-900">$199</span>
                                     <span class="text-gray-500">/event</span>
                                 </div>
+                                <div class="mt-2 text-sm text-gray-500">
+                                    <span id="proPerTicket">$0.66</span> per ticket
+                                </div>
                             </div>
                             <div class="mt-8">
                                 <ul class="space-y-4">
@@ -411,6 +434,9 @@
                                 <p class="mt-2 text-gray-500">For large events</p>
                                 <div class="mt-4">
                                     <span class="text-4xl font-bold text-gray-900">Custom</span>
+                                </div>
+                                <div class="mt-2 text-sm text-gray-500">
+                                    <span id="enterprisePerTicket">$0.99</span> per ticket
                                 </div>
                             </div>
                             <div class="mt-8">
@@ -483,5 +509,41 @@
             </div>
         </div>
     </footer>
+
+    <!-- Add this before the closing </body> tag -->
+    <script>
+        // Pricing calculator
+        const attendeeSlider = document.getElementById('attendees');
+        const attendeeCount = document.getElementById('attendeeCount');
+        const basicPerTicket = document.getElementById('basicPerTicket');
+        const proPerTicket = document.getElementById('proPerTicket');
+        const enterprisePerTicket = document.getElementById('enterprisePerTicket');
+
+        function updatePricing() {
+            const attendees = parseInt(attendeeSlider.value);
+            attendeeCount.textContent = attendees;
+
+            // Calculate per-ticket costs
+            const basicCost = (99 / attendees).toFixed(2);
+            const proCost = (199 / attendees).toFixed(2);
+            const enterpriseCost = ((299 + (attendees * 0.25)) / attendees).toFixed(2);
+
+            // Update display
+            basicPerTicket.textContent = `$${basicCost}`;
+            proPerTicket.textContent = `$${proCost}`;
+            enterprisePerTicket.textContent = `$${enterpriseCost}`;
+
+            // Update max attendee warnings
+            if (attendees > 100) {
+                basicPerTicket.innerHTML = `<span class="text-red-500">Exceeds plan limit (max 100)</span>`;
+            }
+            if (attendees > 300) {
+                proPerTicket.innerHTML = `<span class="text-red-500">Exceeds plan limit (max 300)</span>`;
+            }
+        }
+
+        attendeeSlider.addEventListener('input', updatePricing);
+        updatePricing(); // Initial calculation
+    </script>
 </body>
 </html> 
