@@ -567,7 +567,7 @@ try {
                             ${user.is_admin ? 'Yes' : 'No'}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            ${user.seats.join('<br>')}
+                            ${user.seats ? user.seats.join('<br>') : ''}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                             <button onclick="togglePlusOne(${user.id})" class="text-blue-600 hover:text-blue-900">
@@ -587,6 +587,7 @@ try {
                 `).join('');
             } catch (error) {
                 console.error('Error loading users:', error);
+                alert('Failed to load users. Please try again.');
             }
         }
 
@@ -873,23 +874,26 @@ UCHC Formal Committee`;
             window.location.href = mailtoLink;
         }
 
-        // Add this to your existing JavaScript, after the other function definitions
+        // Update funnel stats
         async function updateFunnelStats() {
             try {
                 // Get approved emails count
                 const approvedEmailsResponse = await fetch('api/get_approved_emails.php');
+                if (!approvedEmailsResponse.ok) throw new Error('Failed to load approved emails');
                 const approvedEmails = await approvedEmailsResponse.json();
                 const approvedEmailsCount = approvedEmails.length;
                 
                 // Get registered users count
                 const usersResponse = await fetch('api/get_users.php');
+                if (!usersResponse.ok) throw new Error('Failed to load users');
                 const users = await usersResponse.json();
                 const registeredUsersCount = users.length;
                 
                 // Get selected seats count
                 const seatsResponse = await fetch('api/get_seats.php');
+                if (!seatsResponse.ok) throw new Error('Failed to load seats');
                 const seats = await seatsResponse.json();
-                const selectedSeatsCount = seats.length;
+                const selectedSeatsCount = seats.filter(seat => seat.occupied).length;
                 
                 // Update the funnel visualization
                 document.getElementById('approved-emails-number').textContent = approvedEmailsCount;
@@ -906,6 +910,7 @@ UCHC Formal Committee`;
                 
             } catch (error) {
                 console.error('Error updating funnel stats:', error);
+                alert('Failed to update dashboard stats. Please try again.');
             }
         }
 
@@ -988,49 +993,62 @@ UCHC Formal Committee`;
             selectedUserId = <?php echo getCurrentUser()['id']; ?>;
             document.getElementById('user-list-section').classList.add('hidden');
             document.getElementById('confirm-section').classList.remove('hidden');
-            confirmAdminAssignBtn.click(); // Automatically trigger the confirmation
-        }
-
-        // Function to confirm assignment
-        function confirmAssignment() {
-            if (!selectedUserId || !selectedSeatId) return;
-
-            fetch('api/admin_assign_seat.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `seat_id=${selectedSeatId}&user_id=${selectedUserId}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Close modal and refresh seats
-                    adminAssignModal.classList.add('hidden');
-                    loadSeats();
-                    loadUsers();
-                } else {
-                    throw new Error(data.error || 'Failed to assign seat');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert(error.message);
-            });
+            document.getElementById('confirm-admin-assign').click(); // Automatically trigger the confirmation
         }
 
         // Event listeners for admin modal
-        document.getElementById('confirm-admin-assign').addEventListener('click', confirmAssignment);
+        document.getElementById('confirm-admin-assign').addEventListener('click', async () => {
+            if (!selectedUserId || !selectedSeatId) return;
+
+            try {
+                const response = await fetch('api/admin_assign_seat.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `seat_id=${selectedSeatId}&user_id=${selectedUserId}`
+                });
+
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to assign seat');
+                }
+
+                // Close modal and refresh data
+                adminAssignModal.classList.add('hidden');
+                await Promise.all([
+                    loadSeats(),
+                    loadUsers(),
+                    updateFunnelStats()
+                ]);
+
+                // Show success message
+                const successMessage = document.createElement('div');
+                successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                successMessage.textContent = 'Seat assigned successfully';
+                document.body.appendChild(successMessage);
+                
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 3000);
+            } catch (error) {
+                console.error('Error:', error);
+                alert(error.message);
+            }
+        });
+
         document.getElementById('cancel-admin-assign')?.addEventListener('click', () => {
             adminAssignModal.classList.add('hidden');
         });
 
         // Initialize
-        loadUsers();
-        loadApprovedEmails();
-        loadPendingRegistrations();
-        loadUnseatedUsers();
-        updateFunnelStats();
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUsers();
+            loadApprovedEmails();
+            loadPendingRegistrations();
+            loadUnseatedUsers();
+            updateFunnelStats();
+        });
     </script>
 </body>
 </html> 
