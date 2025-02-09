@@ -171,7 +171,7 @@ try {
             </nav>
         </div>
 
-        <!-- Main content -->
+    <!-- Main content -->
         <div class="flex-1 pl-64">
             <main class="py-6 px-4 sm:px-6 lg:px-8">
                 <!-- Dashboard Section -->
@@ -179,7 +179,7 @@ try {
                     <h2 class="text-2xl font-bold text-gray-900 mb-6">Dashboard</h2>
                     
                     <!-- Registration Funnel -->
-                    <div class="bg-white shadow rounded-lg p-6 mb-6">
+        <div class="bg-white shadow rounded-lg p-6 mb-6">
                         <h3 class="text-lg font-medium text-gray-900 mb-4">Registration Funnel</h3>
                         <div class="relative">
                             <!-- Funnel Visualization -->
@@ -190,17 +190,17 @@ try {
                                         <div>
                                             <h4 class="font-medium text-blue-900">Approved Emails</h4>
                                             <p class="text-sm text-blue-700" id="approved-emails-count">Loading...</p>
-                                        </div>
+                        </div>
                                         <div class="text-2xl font-bold text-blue-900" id="approved-emails-number">-</div>
-                                    </div>
+                </div>
                                     <!-- Arrow -->
                                     <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2">
                                         <svg class="h-4 w-4 text-blue-200" fill="currentColor" viewBox="0 0 24 24">
                                             <path d="M12 16l-6-6h12l-6 6z"></path>
                                         </svg>
-                                    </div>
-                                </div>
-                                
+            </div>
+        </div>
+
                                 <!-- Registered Accounts -->
                                 <div @click="currentSection = 'registrations'" class="bg-green-50 rounded-lg p-4 relative cursor-pointer hover:bg-green-100 transition-colors duration-200">
                                     <div class="flex justify-between items-center">
@@ -232,58 +232,58 @@ try {
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                        <!-- User Statistics -->
-                        <div class="bg-white shadow rounded-lg p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <!-- User Statistics -->
+            <div class="bg-white shadow rounded-lg p-6">
                             <h3 class="text-lg font-medium text-gray-900 mb-4">User Statistics</h3>
-                            <dl class="grid grid-cols-1 gap-4">
-                                <div>
-                                    <dt class="text-sm font-medium text-gray-500">Total Users</dt>
-                                    <dd class="mt-1 text-3xl font-semibold text-gray-900"><?php echo $userStats['total_users']; ?></dd>
-                                </div>
-                                <div>
-                                    <dt class="text-sm font-medium text-gray-500">Users with Plus One</dt>
-                                    <dd class="mt-1 text-3xl font-semibold text-gray-900"><?php echo $userStats['plus_one_count']; ?></dd>
-                                </div>
-                            </dl>
-                        </div>
+                <dl class="grid grid-cols-1 gap-4">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Total Users</dt>
+                        <dd class="mt-1 text-3xl font-semibold text-gray-900"><?php echo $userStats['total_users']; ?></dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Users with Plus One</dt>
+                        <dd class="mt-1 text-3xl font-semibold text-gray-900"><?php echo $userStats['plus_one_count']; ?></dd>
+                    </div>
+                </dl>
+            </div>
 
                         <!-- Seat Statistics -->
-                        <div class="bg-white shadow rounded-lg p-6">
+            <div class="bg-white shadow rounded-lg p-6">
                             <h3 class="text-lg font-medium text-gray-900 mb-4">Seat Statistics</h3>
                             <dl class="grid grid-cols-1 gap-4">
-                                <div>
+                    <div>
                                     <dt class="text-sm font-medium text-gray-500">Occupied Seats</dt>
                                     <dd class="mt-1 text-3xl font-semibold text-gray-900"><?php echo $seatStats['occupied_seats']; ?></dd>
-                                </div>
-                                <div>
+                            </div>
+                            <div>
                                     <dt class="text-sm font-medium text-gray-500">Unique Users with Seats</dt>
                                     <dd class="mt-1 text-3xl font-semibold text-gray-900"><?php echo $seatStats['unique_users']; ?></dd>
-                                </div>
-                            </dl>
+                            </div>
+                        </dl>
                         </div>
-                    </div>
-                </div>
+            </div>
+        </div>
 
                 <!-- User Management Section -->
                 <div x-show="currentSection === 'users'" x-cloak>
                     <h2 class="text-2xl font-bold text-gray-900 mb-6">Attendee Management</h2>
-                    <div class="bg-white shadow rounded-lg p-6">
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead>
-                                    <tr>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plus One</th>
+        <div class="bg-white shadow rounded-lg p-6">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead>
+                        <tr>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plus One</th>
                                         <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Selected Seats</th>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200" id="user-list">
-                                    <!-- User rows will be dynamically loaded here -->
-                                </tbody>
-                            </table>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200" id="user-list">
+                        <!-- User rows will be dynamically loaded here -->
+                    </tbody>
+                </table>
                         </div>
                     </div>
                 </div>
@@ -489,9 +489,9 @@ try {
                                 </label>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </main>
+            </div>
+        </div>
+    </main>
         </div>
     </div>
 
@@ -527,7 +527,7 @@ try {
 
                 // Reload the page after a short delay to show the animation
                 setTimeout(() => {
-                    window.location.reload();
+                window.location.reload();
                 }, 300);
             } catch (error) {
                 console.error('Error updating setting:', error);

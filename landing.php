@@ -8,9 +8,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: '#014751',
+                        firefly: '#0F2830',
+                        zircon: '#F8FBFF',
+                        'brand-green': '#00D37F',
+                        mint: '#AFF8CB',
+                        banana: '#FFEEB4',
+                        lilac: '#D2C4FB',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         .gradient-text {
-            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            background: linear-gradient(135deg, #00D37F, #014751);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -25,20 +42,36 @@
                 height: 400px;
             }
         }
+        .feature-icon {
+            background: linear-gradient(135deg, #00D37F, #AFF8CB);
+        }
+        .benefit-card {
+            transition: transform 0.2s;
+        }
+        .benefit-card:hover {
+            transform: translateY(-5px);
+        }
+        .pricing-card {
+            transition: all 0.2s;
+        }
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
     </style>
 </head>
-<body class="bg-white">
+<body class="bg-zircon">
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-emerald/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <a href="#" class="text-2xl font-bold text-blue-600">Sitr</a>
+                <a href="#" class="text-2xl font-bold text-emerald">Sitr</a>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#features" class="text-gray-600 hover:text-gray-900">Features</a>
-                    <a href="#benefits" class="text-gray-600 hover:text-gray-900">Benefits</a>
-                    <a href="#how-it-works" class="text-gray-600 hover:text-gray-900">How It Works</a>
-                    <a href="#pricing" class="text-gray-600 hover:text-gray-900">Pricing</a>
-                    <a href="login.php" class="text-blue-600 hover:text-blue-700">Log in</a>
+                    <a href="#features" class="text-firefly hover:text-emerald transition-colors">Features</a>
+                    <a href="#benefits" class="text-firefly hover:text-emerald transition-colors">Benefits</a>
+                    <a href="#how-it-works" class="text-firefly hover:text-emerald transition-colors">How It Works</a>
+                    <a href="#pricing" class="text-firefly hover:text-emerald transition-colors">Pricing</a>
+                    <a href="login.php" class="text-brand-green hover:text-emerald transition-colors font-medium">Log in</a>
                 </div>
                 <!-- Mobile menu button -->
                 <div class="md:hidden">
@@ -53,28 +86,22 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="relative min-h-screen flex items-center">
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" 
-                 alt="Elegant event venue" 
-                 class="hero-image">
-            <div class="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-transparent"></div>
-        </div>
-
+    <header class="relative min-h-screen flex items-center bg-gradient-to-br from-zircon via-white to-mint/20">
+        <div class="absolute inset-0 z-0 opacity-10 bg-[url('path/to/pattern.svg')]"></div>
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
             <div class="max-w-xl">
-                <h1 class="text-5xl sm:text-6xl font-bold tracking-tight text-gray-900 mb-6">
-                    <span class="block">Seamless Event</span>
-                    <span class="block text-blue-600">Seating Made Simple</span>
+                <h1 class="text-5xl sm:text-6xl font-bold tracking-tight mb-6">
+                    <span class="block text-firefly">Seamless Event</span>
+                    <span class="block gradient-text">Seating Made Simple</span>
                 </h1>
-                <p class="text-xl text-gray-600 mb-8">
+                <p class="text-xl text-firefly/80 mb-8">
                     Sitr transforms event seating management with an intuitive platform that makes selecting and managing seats effortless for any formal event or gathering.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="register.php" class="inline-flex justify-center items-center px-8 py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors">
+                    <a href="register.php" class="inline-flex justify-center items-center px-8 py-3 rounded-lg bg-brand-green text-white font-medium hover:bg-emerald transition-colors">
                         Get Started
                     </a>
-                    <a href="#how-it-works" class="inline-flex justify-center items-center px-8 py-3 rounded-lg bg-blue-50 text-blue-600 font-medium hover:bg-blue-100 transition-colors">
+                    <a href="#how-it-works" class="inline-flex justify-center items-center px-8 py-3 rounded-lg bg-emerald/10 text-emerald font-medium hover:bg-emerald/20 transition-colors">
                         Learn More
                     </a>
                 </div>
@@ -86,89 +113,101 @@
     <section id="features" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center">
-                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                <h2 class="text-3xl font-extrabold text-firefly sm:text-4xl">
                     Everything You Need for Perfect Event Seating
                 </h2>
-                <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                <p class="mt-4 max-w-2xl text-xl text-firefly/70 lg:mx-auto">
                     Our comprehensive platform offers all the tools you need to manage event seating arrangements with ease.
                 </p>
             </div>
 
             <div class="mt-20">
                 <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                    <!-- Feature 1 -->
-                    <div class="relative">
-                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                            <i class="fas fa-map-marker-alt text-lg"></i>
+                    <!-- Feature cards with updated styling -->
+                    <div class="relative p-6 bg-zircon rounded-xl hover:shadow-lg transition-all">
+                        <div class="absolute -top-4 left-6">
+                            <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center text-white">
+                                <i class="fas fa-map-marker-alt text-lg"></i>
+                            </div>
                         </div>
-                        <div class="ml-16">
-                            <h3 class="text-lg font-medium text-gray-900">Interactive Seating Map</h3>
-                            <p class="mt-2 text-base text-gray-500">
+                        <div class="mt-8">
+                            <h3 class="text-lg font-semibold text-firefly">Interactive Seating Map</h3>
+                            <p class="mt-2 text-firefly/70">
                                 Visual, intuitive interface showing real-time seat availability and table layouts.
                             </p>
                         </div>
                     </div>
 
                     <!-- Feature 2 -->
-                    <div class="relative">
-                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                            <i class="fas fa-users text-lg"></i>
+                    <div class="relative p-6 bg-zircon rounded-xl hover:shadow-lg transition-all">
+                        <div class="absolute -top-4 left-6">
+                            <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center text-white">
+                                <i class="fas fa-users text-lg"></i>
+                            </div>
                         </div>
-                        <div class="ml-16">
-                            <h3 class="text-lg font-medium text-gray-900">Guest Management</h3>
-                            <p class="mt-2 text-base text-gray-500">
+                        <div class="mt-8">
+                            <h3 class="text-lg font-semibold text-firefly">Guest Management</h3>
+                            <p class="mt-2 text-firefly/70">
                                 Easily manage companion seating and group arrangements.
                             </p>
                         </div>
                     </div>
 
                     <!-- Feature 3 -->
-                    <div class="relative">
-                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                            <i class="fas fa-bell text-lg"></i>
+                    <div class="relative p-6 bg-zircon rounded-xl hover:shadow-lg transition-all">
+                        <div class="absolute -top-4 left-6">
+                            <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center text-white">
+                                <i class="fas fa-bell text-lg"></i>
+                            </div>
                         </div>
-                        <div class="ml-16">
-                            <h3 class="text-lg font-medium text-gray-900">Real-Time Updates</h3>
-                            <p class="mt-2 text-base text-gray-500">
+                        <div class="mt-8">
+                            <h3 class="text-lg font-semibold text-firefly">Real-Time Updates</h3>
+                            <p class="mt-2 text-firefly/70">
                                 Instant notifications and confirmations for all seating actions.
                             </p>
                         </div>
                     </div>
 
                     <!-- Feature 4 -->
-                    <div class="relative">
-                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                            <i class="fas fa-lock text-lg"></i>
+                    <div class="relative p-6 bg-zircon rounded-xl hover:shadow-lg transition-all">
+                        <div class="absolute -top-4 left-6">
+                            <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center text-white">
+                                <i class="fas fa-lock text-lg"></i>
+                            </div>
                         </div>
-                        <div class="ml-16">
-                            <h3 class="text-lg font-medium text-gray-900">Secure System</h3>
-                            <p class="mt-2 text-base text-gray-500">
+                        <div class="mt-8">
+                            <h3 class="text-lg font-semibold text-firefly">Secure System</h3>
+                            <p class="mt-2 text-firefly/70">
                                 Protected access with email verification and secure authentication.
                             </p>
                         </div>
                     </div>
 
                     <!-- Feature 5 -->
-                    <div class="relative">
-                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                            <i class="fas fa-mobile-alt text-lg"></i>
+                    <div class="relative p-6 bg-zircon rounded-xl hover:shadow-lg transition-all">
+                        <div class="absolute -top-4 left-6">
+                            <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center text-white">
+                                <i class="fas fa-mobile-alt text-lg"></i>
+                            </div>
                         </div>
-                        <div class="ml-16">
-                            <h3 class="text-lg font-medium text-gray-900">Mobile Friendly</h3>
-                            <p class="mt-2 text-base text-gray-500">
+                        <div class="mt-8">
+                            <h3 class="text-lg font-semibold text-firefly">Mobile Friendly</h3>
+                            <p class="mt-2 text-firefly/70">
                                 Fully responsive design works perfectly on all devices.
                             </p>
                         </div>
                     </div>
 
                     <!-- Feature 6 -->
-                    <div class="relative">
-                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                            <i class="fas fa-clock text-lg"></i>
+                    <div class="relative p-6 bg-zircon rounded-xl hover:shadow-lg transition-all">
+                        <div class="absolute -top-4 left-6">
+                            <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center text-white">
+                                <i class="fas fa-clock text-lg"></i>
+                            </div>
                         </div>
-                        <div class="ml-16">
-                            <h3 class="text-lg font-medium text-gray-900">24/7 Availability</h3>
-                            <p class="mt-2 text-base text-gray-500">
+                        <div class="mt-8">
+                            <h3 class="text-lg font-semibold text-firefly">24/7 Availability</h3>
+                            <p class="mt-2 text-firefly/70">
                                 Select and manage seats anytime, anywhere.
                             </p>
                         </div>
@@ -179,74 +218,68 @@
     </section>
 
     <!-- Benefits Section -->
-    <section id="benefits" class="py-20 bg-gray-50">
+    <section id="benefits" class="py-20 bg-gradient-to-br from-zircon to-mint/20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center">
-                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                <h2 class="text-3xl font-extrabold text-firefly sm:text-4xl">
                     Why Choose Sitr?
                 </h2>
-                <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                <p class="mt-4 max-w-2xl text-xl text-firefly/70 lg:mx-auto">
                     Experience the advantages of our modern seating management system.
                 </p>
             </div>
 
             <div class="mt-20">
                 <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
-                    <!-- Benefit 1 -->
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                        <div class="px-6 py-8">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0">
-                                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                                        <i class="fas fa-smile text-lg"></i>
-                                    </div>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="text-lg font-medium text-gray-900">Stress-Free Selection</h3>
+                    <!-- Benefit cards with updated styling -->
+                    <div class="benefit-card bg-white rounded-xl shadow-lg overflow-hidden p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center text-white">
+                                    <i class="fas fa-smile text-lg"></i>
                                 </div>
                             </div>
-                            <p class="mt-4 text-base text-gray-500">
-                                No more confusion or double-bookings. Our system ensures a smooth and organized seating selection process.
-                            </p>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-firefly">Stress-Free Selection</h3>
+                            </div>
                         </div>
+                        <p class="mt-4 text-firefly/70">
+                            No more confusion or double-bookings. Our system ensures a smooth and organized seating selection process.
+                        </p>
                     </div>
 
                     <!-- Benefit 2 -->
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                        <div class="px-6 py-8">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0">
-                                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                                        <i class="fas fa-bolt text-lg"></i>
-                                    </div>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="text-lg font-medium text-gray-900">Instant Confirmation</h3>
+                    <div class="benefit-card bg-white rounded-xl shadow-lg overflow-hidden p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center text-white">
+                                    <i class="fas fa-bolt text-lg"></i>
                                 </div>
                             </div>
-                            <p class="mt-4 text-base text-gray-500">
-                                Get immediate confirmation of your seat selection with real-time updates and notifications.
-                            </p>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-firefly">Instant Confirmation</h3>
+                            </div>
                         </div>
+                        <p class="mt-4 text-firefly/70">
+                            Get immediate confirmation of your seat selection with real-time updates and notifications.
+                        </p>
                     </div>
 
                     <!-- Benefit 3 -->
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                        <div class="px-6 py-8">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0">
-                                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                                        <i class="fas fa-sync text-lg"></i>
-                                    </div>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="text-lg font-medium text-gray-900">Flexible Changes</h3>
+                    <div class="benefit-card bg-white rounded-xl shadow-lg overflow-hidden p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center text-white">
+                                    <i class="fas fa-sync text-lg"></i>
                                 </div>
                             </div>
-                            <p class="mt-4 text-base text-gray-500">
-                                Need to make changes? Easily modify your seat selection at any time before the event.
-                            </p>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-firefly">Flexible Changes</h3>
+                            </div>
                         </div>
+                        <p class="mt-4 text-firefly/70">
+                            Need to make changes? Easily modify your seat selection at any time before the event.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -257,45 +290,45 @@
     <section id="how-it-works" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center">
-                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                <h2 class="text-3xl font-extrabold text-firefly sm:text-4xl">
                     How It Works
                 </h2>
-                <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                <p class="mt-4 max-w-2xl text-xl text-firefly/70 lg:mx-auto">
                     Get started in three simple steps
                 </p>
             </div>
 
             <div class="mt-20">
                 <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-                    <!-- Step 1 -->
+                    <!-- Steps with updated styling -->
                     <div class="text-center">
-                        <div class="flex items-center justify-center h-20 w-20 rounded-full bg-blue-100 text-blue-600 text-2xl font-bold mx-auto">
+                        <div class="flex items-center justify-center h-20 w-20 rounded-full bg-gradient-to-br from-brand-green to-mint text-white text-2xl font-bold mx-auto">
                             1
                         </div>
-                        <h3 class="mt-8 text-lg font-medium text-gray-900">Register Your Account</h3>
-                        <p class="mt-2 text-base text-gray-500">
+                        <h3 class="mt-8 text-lg font-semibold text-firefly">Register Your Account</h3>
+                        <p class="mt-2 text-firefly/70">
                             Create your account using your approved email address and set your preferences.
                         </p>
                     </div>
 
                     <!-- Step 2 -->
                     <div class="text-center">
-                        <div class="flex items-center justify-center h-20 w-20 rounded-full bg-blue-100 text-blue-600 text-2xl font-bold mx-auto">
+                        <div class="flex items-center justify-center h-20 w-20 rounded-full bg-gradient-to-br from-brand-green to-mint text-white text-2xl font-bold mx-auto">
                             2
                         </div>
-                        <h3 class="mt-8 text-lg font-medium text-gray-900">Browse Available Seats</h3>
-                        <p class="mt-2 text-base text-gray-500">
+                        <h3 class="mt-8 text-lg font-semibold text-firefly">Browse Available Seats</h3>
+                        <p class="mt-2 text-firefly/70">
                             Explore our interactive seating map and find your preferred location.
                         </p>
                     </div>
 
                     <!-- Step 3 -->
                     <div class="text-center">
-                        <div class="flex items-center justify-center h-20 w-20 rounded-full bg-blue-100 text-blue-600 text-2xl font-bold mx-auto">
+                        <div class="flex items-center justify-center h-20 w-20 rounded-full bg-gradient-to-br from-brand-green to-mint text-white text-2xl font-bold mx-auto">
                             3
                         </div>
-                        <h3 class="mt-8 text-lg font-medium text-gray-900">Confirm Your Selection</h3>
-                        <p class="mt-2 text-base text-gray-500">
+                        <h3 class="mt-8 text-lg font-semibold text-firefly">Confirm Your Selection</h3>
+                        <p class="mt-2 text-firefly/70">
                             Select your seats and receive instant confirmation of your choices.
                         </p>
                     </div>
@@ -305,37 +338,37 @@
     </section>
 
     <!-- Pricing Section -->
-    <section id="pricing" class="py-20 bg-gray-50">
+    <section id="pricing" class="py-20 bg-gradient-to-br from-zircon to-mint/20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center">
-                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                <h2 class="text-3xl font-extrabold text-firefly sm:text-4xl">
                     Simple, Transparent Pricing
                 </h2>
-                <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                <p class="mt-4 max-w-2xl text-xl text-firefly/70 lg:mx-auto">
                     Choose the perfect plan for your event size and needs
                 </p>
             </div>
 
-            <!-- Attendee Calculator -->
-            <div class="mt-12 max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-6">
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Make Sitr Free for Your Event</h3>
+            <!-- Pricing calculator with updated styling -->
+            <div class="mt-12 max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
+                <h3 class="text-lg font-semibold text-firefly mb-4">Make Sitr Free for Your Event</h3>
                 <div class="space-y-6">
-                    <div class="text-sm text-gray-600">
-                        <p class="mb-2"><span class="font-semibold text-blue-600">Pro Tip:</span> Add the small per-ticket amount shown below to your ticket price, and Sitr pays for itself while giving your attendees a fantastic seating experience!</p>
+                    <div class="text-sm text-firefly/70">
+                        <p class="mb-2"><span class="font-semibold text-brand-green">Pro Tip:</span> Add the small per-ticket amount shown below to your ticket price, and Sitr pays for itself while giving your attendees a fantastic seating experience!</p>
                     </div>
                     <div>
-                        <label for="attendees" class="block text-sm font-medium text-gray-700">
-                            Expected Number of Attendees: <span id="attendeeCount" class="text-blue-600 font-semibold">200</span>
+                        <label for="attendees" class="block text-sm font-medium text-firefly/70">
+                            Expected Number of Attendees: <span id="attendeeCount" class="text-brand-green font-semibold">200</span>
                         </label>
                         <input type="range" id="attendees" name="attendees" min="50" max="500" value="200" step="10"
                             class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-2">
                     </div>
-                    <div class="bg-blue-50 p-4 rounded-lg">
-                        <h4 class="font-medium text-blue-900 mb-2">How It Works:</h4>
-                        <p class="text-sm text-blue-800">
+                    <div class="bg-emerald/10 p-4 rounded-lg">
+                        <h4 class="font-medium text-emerald mb-2">How It Works:</h4>
+                        <p class="text-sm text-emerald">
                             For example, with <span id="exampleAttendees">200</span> attendees on our Pro plan:
                         </p>
-                        <ul class="mt-2 space-y-2 text-sm text-blue-800">
+                        <ul class="mt-2 space-y-2 text-sm text-emerald">
                             <li class="flex items-center">
                                 <i class="fas fa-plus text-green-500 mr-2"></i>
                                 Add just <span id="exampleCost" class="font-bold"> $1.00 </span> to each ticket price
@@ -357,18 +390,19 @@
                 </div>
             </div>
 
+            <!-- Pricing cards with updated styling -->
             <div class="mt-20">
                 <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
                     <!-- Basic Plan -->
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-gray-400 transition-transform hover:scale-[1.02]">
+                    <div class="pricing-card bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-emerald">
                         <div class="px-8 py-10">
                             <div class="text-center">
-                                <h3 class="text-2xl font-bold text-gray-900 mb-1">Basic</h3>
-                                <p class="text-gray-500 mb-6">Perfect for small events</p>
+                                <h3 class="text-2xl font-bold text-firefly mb-1">Basic</h3>
+                                <p class="text-firefly mb-6">Perfect for small events</p>
                                 <div class="mb-6">
                                     <div class="flex items-center justify-center">
-                                        <span class="text-5xl font-bold text-gray-900">$99</span>
-                                        <span class="text-gray-500 ml-2">/event</span>
+                                        <span class="text-5xl font-bold text-firefly">$99</span>
+                                        <span class="text-firefly ml-2">/event</span>
                                     </div>
                                     <div class="mt-4" id="basicPriceContainer">
                                         <div class="bg-green-50 border border-green-200 rounded-lg p-3">
@@ -386,19 +420,19 @@
                                 <div class="border-t border-gray-100 pt-6 mb-6"></div>
                                 <div class="flex items-center">
                                     <i class="fas fa-check text-green-500 mr-3 w-5"></i>
-                                    <span class="text-gray-600">Up to 100 guests</span>
+                                    <span class="text-firefly">Up to 100 guests</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-check text-green-500 mr-3 w-5"></i>
-                                    <span class="text-gray-600">Interactive seating map</span>
+                                    <span class="text-firefly">Interactive seating map</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-check text-green-500 mr-3 w-5"></i>
-                                    <span class="text-gray-600">Real-time updates</span>
+                                    <span class="text-firefly">Real-time updates</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-check text-green-500 mr-3 w-5"></i>
-                                    <span class="text-gray-600">Email support</span>
+                                    <span class="text-firefly">Email support</span>
                                 </div>
                             </div>
                             <div class="mt-8">
@@ -410,18 +444,18 @@
                     </div>
 
                     <!-- Pro Plan -->
-                    <div class="bg-white rounded-xl shadow-xl overflow-hidden border-t-4 border-blue-500 transform scale-105 relative">
+                    <div class="pricing-card bg-white rounded-xl shadow-xl overflow-hidden border-t-4 border-emerald transform scale-105 relative">
                         <div class="absolute top-0 right-0 mt-4 mr-4">
-                            <span class="bg-blue-500 text-white text-sm px-3 py-1 rounded-full font-medium">Popular</span>
+                            <span class="bg-emerald text-white text-sm px-3 py-1 rounded-full font-medium">Popular</span>
                         </div>
                         <div class="px-8 py-10">
                             <div class="text-center">
-                                <h3 class="text-2xl font-bold text-gray-900 mb-1">Pro</h3>
-                                <p class="text-gray-500 mb-6">For medium-sized events</p>
+                                <h3 class="text-2xl font-bold text-firefly mb-1">Pro</h3>
+                                <p class="text-firefly mb-6">For medium-sized events</p>
                                 <div class="mb-6">
                                     <div class="flex items-center justify-center">
-                                        <span class="text-5xl font-bold text-gray-900">$199</span>
-                                        <span class="text-gray-500 ml-2">/event</span>
+                                        <span class="text-5xl font-bold text-firefly">$199</span>
+                                        <span class="text-firefly ml-2">/event</span>
                                     </div>
                                     <div class="mt-4" id="proPriceContainer">
                                         <div class="bg-green-50 border border-green-200 rounded-lg p-3">
@@ -439,27 +473,27 @@
                                 <div class="border-t border-gray-100 pt-6 mb-6"></div>
                                 <div class="flex items-center">
                                     <i class="fas fa-check text-green-500 mr-3 w-5"></i>
-                                    <span class="text-gray-600">Up to 300 guests</span>
+                                    <span class="text-firefly">Up to 300 guests</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-check text-green-500 mr-3 w-5"></i>
-                                    <span class="text-gray-600">All Basic features</span>
+                                    <span class="text-firefly">All Basic features</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-check text-green-500 mr-3 w-5"></i>
-                                    <span class="text-gray-600">Guest management tools</span>
+                                    <span class="text-firefly">Guest management tools</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-check text-green-500 mr-3 w-5"></i>
-                                    <span class="text-gray-600">Priority support</span>
+                                    <span class="text-firefly">Priority support</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-check text-green-500 mr-3 w-5"></i>
-                                    <span class="text-gray-600">Custom branding</span>
+                                    <span class="text-firefly">Custom branding</span>
                                 </div>
                             </div>
                             <div class="mt-8">
-                                <a href="register.php" class="block w-full text-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                                <a href="register.php" class="block w-full text-center px-6 py-3 bg-emerald text-white rounded-lg hover:bg-emerald transition-colors font-medium">
                                     Get Started
                                 </a>
                             </div>
@@ -467,14 +501,14 @@
                     </div>
 
                     <!-- Enterprise Plan -->
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-gray-800 transition-transform hover:scale-[1.02]">
+                    <div class="pricing-card bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-gray-800 transition-transform hover:scale-[1.02]">
                         <div class="px-8 py-10">
                             <div class="text-center">
-                                <h3 class="text-2xl font-bold text-gray-900 mb-1">Enterprise</h3>
-                                <p class="text-gray-500 mb-6">For large events</p>
+                                <h3 class="text-2xl font-bold text-firefly mb-1">Enterprise</h3>
+                                <p class="text-firefly mb-6">For large events</p>
                                 <div class="mb-6">
                                     <div class="flex items-center justify-center">
-                                        <span class="text-5xl font-bold text-gray-900">Custom</span>
+                                        <span class="text-5xl font-bold text-firefly">Custom</span>
                                     </div>
                                     <div class="mt-4" id="enterprisePriceContainer">
                                         <div class="bg-green-50 border border-green-200 rounded-lg p-3">
@@ -492,23 +526,23 @@
                                 <div class="border-t border-gray-100 pt-6 mb-6"></div>
                                 <div class="flex items-center">
                                     <i class="fas fa-check text-green-500 mr-3 w-5"></i>
-                                    <span class="text-gray-600">Unlimited guests</span>
+                                    <span class="text-firefly">Unlimited guests</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-check text-green-500 mr-3 w-5"></i>
-                                    <span class="text-gray-600">All Pro features</span>
+                                    <span class="text-firefly">All Pro features</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-check text-green-500 mr-3 w-5"></i>
-                                    <span class="text-gray-600">Dedicated support</span>
+                                    <span class="text-firefly">Dedicated support</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-check text-green-500 mr-3 w-5"></i>
-                                    <span class="text-gray-600">Custom integrations</span>
+                                    <span class="text-firefly">Custom integrations</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-check text-green-500 mr-3 w-5"></i>
-                                    <span class="text-gray-600">Advanced analytics</span>
+                                    <span class="text-firefly">Advanced analytics</span>
                                 </div>
                             </div>
                             <div class="mt-8">
@@ -524,20 +558,20 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="bg-blue-600">
+    <section class="bg-gradient-to-r from-emerald to-brand-green">
         <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
             <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
                 <span class="block">Ready to simplify your event seating?</span>
-                <span class="block text-blue-200">Get started with Sitr today.</span>
+                <span class="block text-mint">Get started with Sitr today.</span>
             </h2>
             <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
                 <div class="inline-flex rounded-md shadow">
-                    <a href="register.php" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50">
+                    <a href="register.php" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald bg-white hover:bg-zircon">
                         Get Started
                     </a>
                 </div>
                 <div class="ml-3 inline-flex rounded-md shadow">
-                    <a href="login.php" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-500 hover:bg-blue-400">
+                    <a href="login.php" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-brand-green hover:bg-emerald">
                         Sign In
                     </a>
                 </div>
@@ -546,11 +580,11 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-800">
+    <footer class="bg-firefly">
         <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
-            <div class="mt-8 border-t border-gray-700 pt-8 md:flex md:items-center md:justify-between">
+            <div class="mt-8 border-t border-emerald/20 pt-8 md:flex md:items-center md:justify-between">
                 <div class="flex space-x-6 md:order-2">
-                    <p class="text-base text-gray-400">
+                    <p class="text-base text-mint">
                         &copy; 2024 Sitr. All rights reserved.
                     </p>
                 </div>
@@ -633,7 +667,7 @@
                 </div>`;
 
             // Update the example text and cost
-            document.querySelector('.text-blue-800').innerHTML = `
+            document.querySelector('.text-green-800').innerHTML = `
                 For example, with <span id="exampleAttendees">${attendees}</span> attendees on our ${examplePlanName} plan:
             `;
             exampleCost.textContent = `$${examplePlanCost}`;
