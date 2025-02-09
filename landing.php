@@ -557,8 +557,8 @@
                     </div>
                     <div class="bg-emerald/10 p-4 rounded-lg">
                         <h4 class="font-medium text-emerald mb-2">How It Works:</h4>
-                        <p class="text-sm text-emerald">
-                            For example, with <span id="exampleAttendees">200</span> attendees on our Pro plan:
+                        <p class="text-sm text-emerald pricing-example">
+                            For example, with <span id="pricing-example-attendees">200</span> attendees on our Pro plan:
                         </p>
                         <ul class="mt-2 space-y-2 text-sm text-emerald">
                             <li class="flex items-center">
@@ -810,33 +810,20 @@
         const basicPerTicket = document.getElementById('basicPerTicket');
         const proPerTicket = document.getElementById('proPerTicket');
         const enterprisePerTicket = document.getElementById('enterprisePerTicket');
-        const exampleAttendees = document.getElementById('exampleAttendees');
+        const pricingExampleAttendees = document.querySelector('#pricing #pricing-example-attendees');
         const exampleCost = document.getElementById('exampleCost');
 
         function updatePricing() {
             const attendees = parseInt(attendeeSlider.value);
             attendeeCount.textContent = attendees;
-            exampleAttendees.textContent = attendees;
+            if (pricingExampleAttendees) {
+                pricingExampleAttendees.textContent = attendees;
+            }
 
             // Calculate per-ticket costs
             const basicCost = (99 / attendees).toFixed(2);
             const proCost = (199 / attendees).toFixed(2);
             const enterpriseCost = ((299 + (attendees * 0.25)) / attendees).toFixed(2);
-
-            // Determine which plan to show in the example based on attendee count
-            let examplePlanName = '';
-            let examplePlanCost = '';
-
-            if (attendees <= 100) {
-                examplePlanName = 'Basic';
-                examplePlanCost = basicCost;
-            } else if (attendees <= 300) {
-                examplePlanName = 'Pro';
-                examplePlanCost = proCost;
-            } else {
-                examplePlanName = 'Enterprise';
-                examplePlanCost = enterpriseCost;
-            }
 
             // Update display for Basic plan
             const basicPriceContainer = document.querySelector('#basicPriceContainer');
@@ -878,9 +865,9 @@
 
             // Update the example text and cost
             document.querySelector('.text-green-800').innerHTML = `
-                For example, with <span id="exampleAttendees">${attendees}</span> attendees on our ${examplePlanName} plan:
+                For example, with <span id="pricing-example-attendees">${attendees}</span> attendees on our ${attendees <= 100 ? 'Basic' : attendees <= 300 ? 'Pro' : 'Enterprise'} plan:
             `;
-            exampleCost.textContent = `$${examplePlanCost}`;
+            exampleCost.textContent = `$${attendees <= 100 ? basicCost : attendees <= 300 ? proCost : enterpriseCost}`;
         }
 
         attendeeSlider.addEventListener('input', updatePricing);
