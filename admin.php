@@ -563,7 +563,10 @@ try {
                             ${user.seats.join('<br>')}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                            <button onclick="clearSeats(${user.id})" class="text-red-600 hover:text-red-900">
+                            <button onclick="togglePlusOne(${user.id})" class="text-blue-600 hover:text-blue-900">
+                                Toggle Plus One
+                            </button>
+                            <button onclick="clearSeats(${user.id})" class="text-red-600 hover:text-red-900 ml-4">
                                 Clear Seats
                             </button>
                             <button onclick="deleteUser(${user.id})" class="text-red-600 hover:text-red-900 ml-4">
