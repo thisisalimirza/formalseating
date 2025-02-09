@@ -975,6 +975,56 @@ UCHC Formal Committee`;
             }
         }
 
+        // Function to show user list
+        function showUserList() {
+            document.getElementById('user-list-section').classList.remove('hidden');
+            document.getElementById('confirm-section').classList.add('hidden');
+            selectedUserId = null;
+            loadUnseatedUsers();
+        }
+
+        // Function to assign to self
+        function assignToSelf() {
+            selectedUserId = <?php echo getCurrentUser()['id']; ?>;
+            document.getElementById('user-list-section').classList.add('hidden');
+            document.getElementById('confirm-section').classList.remove('hidden');
+            confirmAdminAssignBtn.click(); // Automatically trigger the confirmation
+        }
+
+        // Function to confirm assignment
+        function confirmAssignment() {
+            if (!selectedUserId || !selectedSeatId) return;
+
+            fetch('api/admin_assign_seat.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `seat_id=${selectedSeatId}&user_id=${selectedUserId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Close modal and refresh seats
+                    adminAssignModal.classList.add('hidden');
+                    loadSeats();
+                    loadUsers();
+                } else {
+                    throw new Error(data.error || 'Failed to assign seat');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(error.message);
+            });
+        }
+
+        // Event listeners for admin modal
+        document.getElementById('confirm-admin-assign').addEventListener('click', confirmAssignment);
+        document.getElementById('cancel-admin-assign')?.addEventListener('click', () => {
+            adminAssignModal.classList.add('hidden');
+        });
+
         // Initialize
         loadUsers();
         loadApprovedEmails();
