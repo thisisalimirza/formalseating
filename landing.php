@@ -14,56 +14,70 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        .hero-image {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            filter: brightness(0.8);
+        }
+        @media (max-width: 1024px) {
+            .hero-image {
+                height: 400px;
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Hero Section -->
-    <header class="relative overflow-hidden bg-white">
-        <div class="max-w-7xl mx-auto">
-            <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
-                <div class="relative pt-6 px-4 sm:px-6 lg:px-8">
-                    <nav class="relative flex items-center justify-between sm:h-10">
-                        <div class="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
-                            <div class="flex items-center justify-between w-full md:w-auto">
-                                <span class="text-2xl font-bold gradient-text">UCHC Formal 2025</span>
-                            </div>
-                        </div>
-                        <div class="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
-                            <a href="#features" class="font-medium text-gray-500 hover:text-gray-900">Features</a>
-                            <a href="#benefits" class="font-medium text-gray-500 hover:text-gray-900">Benefits</a>
-                            <a href="#how-it-works" class="font-medium text-gray-500 hover:text-gray-900">How It Works</a>
-                            <a href="login.php" class="font-medium text-blue-600 hover:text-blue-500">Log in</a>
-                        </div>
-                    </nav>
+<body class="bg-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="#" class="text-2xl font-bold text-blue-600">UCHC Formal 2025</a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-gray-600 hover:text-gray-900">Features</a>
+                    <a href="#benefits" class="text-gray-600 hover:text-gray-900">Benefits</a>
+                    <a href="#how-it-works" class="text-gray-600 hover:text-gray-900">How It Works</a>
+                    <a href="login.php" class="text-blue-600 hover:text-blue-700">Log in</a>
                 </div>
-
-                <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-                    <div class="sm:text-center lg:text-left">
-                        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                            <span class="block">Select Your Perfect</span>
-                            <span class="block gradient-text">Formal Seat</span>
-                        </h1>
-                        <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                            Experience the future of event seating. Our intuitive platform makes selecting and managing your formal seats effortless, ensuring you get the best spot for an unforgettable evening.
-                        </p>
-                        <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                            <div class="rounded-md shadow">
-                                <a href="register.php" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
-                                    Get Started
-                                </a>
-                            </div>
-                            <div class="mt-3 sm:mt-0 sm:ml-3">
-                                <a href="#how-it-works" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 md:py-4 md:text-lg md:px-10">
-                                    Learn More
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </main>
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button type="button" class="text-gray-600 hover:text-gray-900">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-            <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://images.unsplash.com/photo-1505236858219-8359eb29e329?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2062&q=80" alt="Elegant event venue">
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" 
+                 alt="Formal event with confetti" 
+                 class="hero-image">
+            <div class="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+            <div class="max-w-xl">
+                <h1 class="text-5xl sm:text-6xl font-bold tracking-tight text-gray-900 mb-6">
+                    <span class="block">Select Your Perfect</span>
+                    <span class="block text-blue-600">Formal Seat</span>
+                </h1>
+                <p class="text-xl text-gray-600 mb-8">
+                    Experience the future of event seating. Our intuitive platform makes selecting and managing your formal seats effortless, ensuring you get the best spot for an unforgettable evening.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="register.php" class="inline-flex justify-center items-center px-8 py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors">
+                        Get Started
+                    </a>
+                    <a href="#how-it-works" class="inline-flex justify-center items-center px-8 py-3 rounded-lg bg-blue-50 text-blue-600 font-medium hover:bg-blue-100 transition-colors">
+                        Learn More
+                    </a>
+                </div>
+            </div>
         </div>
     </header>
 
