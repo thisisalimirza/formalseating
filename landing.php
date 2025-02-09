@@ -368,7 +368,7 @@
                                 <div class="mt-4">
                                     <span class="text-4xl font-bold text-gray-900">$99</span>
                                     <span class="text-gray-500">/event</span>
-                                    <div class="mt-2 text-sm text-gray-500">
+                                    <div class="mt-2 text-sm text-gray-500" id="basicPriceContainer">
                                         Add just <span id="basicPerTicket" class="font-semibold">$1.65</span> per ticket
                                     </div>
                                 </div>
@@ -413,7 +413,7 @@
                                 <div class="mt-4">
                                     <span class="text-4xl font-bold text-gray-900">$199</span>
                                     <span class="text-gray-500">/event</span>
-                                    <div class="mt-2 text-sm text-gray-500">
+                                    <div class="mt-2 text-sm text-gray-500" id="proPriceContainer">
                                         Add just <span id="proPerTicket" class="font-semibold">$2.65</span> per ticket
                                     </div>
                                 </div>
@@ -458,7 +458,7 @@
                                 <p class="mt-2 text-gray-500">For large events</p>
                                 <div class="mt-4">
                                     <span class="text-4xl font-bold text-gray-900">Custom</span>
-                                    <div class="mt-2 text-sm text-gray-500">
+                                    <div class="mt-2 text-sm text-gray-500" id="enterprisePriceContainer">
                                         Add just <span id="enterprisePerTicket" class="font-semibold">$3.65</span> per ticket
                                     </div>
                                 </div>
@@ -571,25 +571,24 @@
             }
 
             // Update display for Basic plan
+            const basicPriceContainer = document.querySelector('#basicPriceContainer');
             if (attendees > 100) {
-                basicPerTicket.parentElement.innerHTML = `<span class="text-red-500">Exceeds plan limit<br/>(max 100 attendees)</span>`;
+                basicPriceContainer.innerHTML = `<span class="text-red-500">Exceeds plan limit<br/>(max 100 attendees)</span>`;
             } else {
-                basicPerTicket.parentElement.innerHTML = `Add just <span id="basicPerTicket" class="font-semibold">$${basicCost}</span> per ticket`;
-                // Re-assign element since we recreated it
-                basicPerTicket = document.getElementById('basicPerTicket');
+                basicPriceContainer.innerHTML = `Add just <span id="basicPerTicket" class="font-semibold">$${basicCost}</span> per ticket`;
             }
 
             // Update display for Pro plan
+            const proPriceContainer = document.querySelector('#proPriceContainer');
             if (attendees > 300) {
-                proPerTicket.parentElement.innerHTML = `<span class="text-red-500">Exceeds plan limit<br/>(max 300 attendees)</span>`;
+                proPriceContainer.innerHTML = `<span class="text-red-500">Exceeds plan limit<br/>(max 300 attendees)</span>`;
             } else {
-                proPerTicket.parentElement.innerHTML = `Add just <span id="proPerTicket" class="font-semibold">$${proCost}</span> per ticket`;
-                // Re-assign element since we recreated it
-                proPerTicket = document.getElementById('proPerTicket');
+                proPriceContainer.innerHTML = `Add just <span id="proPerTicket" class="font-semibold">$${proCost}</span> per ticket`;
             }
 
             // Always update Enterprise plan since it has no limit
-            enterprisePerTicket.textContent = `$${enterpriseCost}`;
+            const enterprisePriceContainer = document.querySelector('#enterprisePriceContainer');
+            enterprisePriceContainer.innerHTML = `Add just <span id="enterprisePerTicket" class="font-semibold">$${enterpriseCost}</span> per ticket`;
 
             // Update the example text and cost
             document.querySelector('.text-blue-800').innerHTML = `
