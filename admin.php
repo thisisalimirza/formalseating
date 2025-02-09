@@ -683,7 +683,23 @@ try {
                 if (!response.ok) throw new Error('Failed to add email');
                 
                 emailInput.value = '';
-                loadApprovedEmails();
+                // Update both lists
+                await Promise.all([
+                    loadApprovedEmails(),
+                    loadPendingRegistrations(),
+                    updateFunnelStats()
+                ]);
+                
+                // Show success message
+                const successMessage = document.createElement('div');
+                successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                successMessage.textContent = 'Email added successfully';
+                document.body.appendChild(successMessage);
+                
+                // Remove success message after 3 seconds
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 3000);
             } catch (error) {
                 console.error('Error adding email:', error);
                 alert('Failed to add email. Please try again.');
