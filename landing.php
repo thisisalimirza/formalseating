@@ -694,7 +694,7 @@
                                 <p class="text-firefly mb-6">Perfect for small events</p>
                                 <div class="mb-6">
                                     <div class="flex items-center justify-center">
-                                        <span class="text-5xl font-bold text-firefly">$99</span>
+                                        <span class="text-5xl font-bold text-firefly">$49</span>
                                         <span class="text-firefly ml-2">/event</span>
                                     </div>
                                     <div class="mt-4" id="basicPriceContainer">
@@ -747,7 +747,7 @@
                                 <p class="text-firefly mb-6">For medium-sized events</p>
                                 <div class="mb-6">
                                     <div class="flex items-center justify-center">
-                                        <span class="text-5xl font-bold text-firefly">$199</span>
+                                        <span class="text-5xl font-bold text-firefly">$99</span>
                                         <span class="text-firefly ml-2">/event</span>
                                     </div>
                                     <div class="mt-4" id="proPriceContainer">
@@ -1074,9 +1074,9 @@
             }
 
             // Calculate per-ticket costs
-            const basicCost = (99 / attendees).toFixed(2);
-            const proCost = (199 / attendees).toFixed(2);
-            const enterpriseCost = ((299 + (attendees * 0.25)) / attendees).toFixed(2);
+            const basicCost = (49 / attendees).toFixed(2);
+            const proCost = (99 / attendees).toFixed(2);
+            const enterpriseCost = ((199 + (attendees * 0.25)) / attendees).toFixed(2);
 
             // Update display for Basic plan
             const basicPriceContainer = document.querySelector('#basicPriceContainer');
