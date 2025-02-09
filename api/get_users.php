@@ -11,19 +11,6 @@ if (!isAuthenticated() || !getCurrentUser()['is_admin']) {
 }
 
 try {
-    $dbUrl = parse_url(getenv("DATABASE_URL"));
-    $pdo = new PDO(
-        "pgsql:" . sprintf(
-            "host=%s;port=%s;user=%s;password=%s;dbname=%s",
-            $dbUrl["host"],
-            $dbUrl["port"],
-            $dbUrl["user"],
-            $dbUrl["pass"],
-            ltrim($dbUrl["path"], "/")
-        )
-    );
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Get users with their seat information
     $stmt = $pdo->query("
         SELECT 
