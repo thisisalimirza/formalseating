@@ -19,38 +19,13 @@ if (!$email) {
 }
 
 try {
-    // Begin transaction
-    $pdo->beginTransaction();
-
-    // First, get the user ID if they have an account
-    $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
-    $stmt->execute([$email]);
-    $userId = $stmt->fetchColumn();
-
-    if ($userId) {
-        // Delete their seat selections first (due to foreign key constraints)
-        $stmt = $pdo->prepare("DELETE FROM seats WHERE user_id = ?");
-        $stmt->execute([$userId]);
-
-        // Delete the user account
-        $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
-        $stmt->execute([$userId]);
-    }
-
     // Remove email from approved list
     $stmt = $pdo->prepare("DELETE FROM approved_emails WHERE email = ?");
     $stmt->execute([$email]);
     
-    // Commit transaction
-    $pdo->commit();
-    
     header('Content-Type: application/json');
     echo json_encode(['success' => true]);
 } catch (PDOException $e) {
-    if ($pdo->inTransaction()) {
-        $pdo->rollBack();
-    }
-    error_log("Database error in remove_approved_email.php: " . $e->getMessage());
     http_response_code(500);
     echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
 } 

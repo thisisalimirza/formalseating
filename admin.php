@@ -552,8 +552,8 @@ try {
                 const tbody = document.getElementById('user-list');
                 tbody.innerHTML = users.map(user => `
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 name-cell">${user.name}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 email-cell">${user.email}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${user.name}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.email}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.plus_one ? 'Yes' : 'No'}</td>
                         <td class="px-6 py-4 text-sm text-gray-500">
                             ${user.seats ? user.seats.map(seat => `
@@ -561,20 +561,12 @@ try {
                             `).join('') : 'None'}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <div class="flex items-center gap-2">
-                                <button onclick="togglePlusOne('${user.id}')" class="inline-flex items-center px-3 py-1 text-blue-600 hover:text-blue-700 border border-blue-600 rounded">
-                                    <i class="fas fa-user-plus mr-1"></i>
-                                    Toggle Plus One
-                                </button>
-                                <button onclick="clearSeats('${user.id}')" class="inline-flex items-center px-3 py-1 text-yellow-600 hover:text-yellow-700 border border-yellow-600 rounded">
-                                    <i class="fas fa-chair mr-1"></i>
-                                    Clear Seats
-                                </button>
-                                <button onclick="deleteUser('${user.email}')" class="inline-flex items-center px-3 py-1 text-red-600 hover:text-red-700 border border-red-600 rounded">
-                                    <i class="fas fa-trash-alt mr-1"></i>
-                                    Delete User
-                                </button>
-                            </div>
+                            <button onclick="togglePlusOne(${user.id})" class="text-blue-600 hover:text-blue-900 mr-2">
+                                Toggle Plus One
+                            </button>
+                            <button onclick="clearSeats(${user.id})" class="text-red-600 hover:text-red-900">
+                                Clear Seats
+                            </button>
                         </td>
                     </tr>
                 `).join('');
@@ -903,6 +895,6 @@ UCHC Formal Committee`;
         loadPendingRegistrations();
         loadUnseatedUsers();
         updateFunnelStats();
-
-        async function deleteUser(email) {
-            if (!confirm(`Are you sure you want to delete this user's account? This will also remove their approved email status and seat selections.`
+    </script>
+</body>
+</html> 
