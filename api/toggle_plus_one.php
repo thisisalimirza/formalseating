@@ -20,27 +20,14 @@ if (!isset($_POST['user_id'])) {
 $userId = (int)$_POST['user_id'];
 
 try {
-    $dbUrl = parse_url(getenv("DATABASE_URL"));
-    $pdo = new PDO(
-        "pgsql:" . sprintf(
-            "host=%s;port=%s;user=%s;password=%s;dbname=%s",
-            $dbUrl["host"],
-            $dbUrl["port"],
-            $dbUrl["user"],
-            $dbUrl["pass"],
-            ltrim($dbUrl["path"], "/")
-        )
-    );
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Begin transaction
     $pdo->beginTransaction();
 
     // Get current plus_one status and seat count
     $stmt = $pdo->prepare("
-        SELECT u.plus_one, COUNT(s.id) as seat_count
+        SELECT u.plus_one, COUNT(s.seat_id) as seat_count
         FROM users u
-        LEFT JOIN seats s ON u.id = s.user_id AND s.occupied = 1
+        LEFT JOIN seats s ON u.id = s.user_id AND s.occupied = true
         WHERE u.id = ?
         GROUP BY u.id, u.plus_one
     ");
@@ -56,7 +43,7 @@ try {
 
     // If turning off plus_one and user has 2 seats, clear their seats
     if ($user['plus_one'] && $user['seat_count'] > 1) {
-        $stmt = $pdo->prepare("UPDATE seats SET occupied = 0 WHERE user_id = ?");
+        $stmt = $pdo->prepare("UPDATE seats SET occupied = false WHERE user_id = ?");
         $stmt->execute([$userId]);
     }
 
@@ -72,7 +59,8 @@ try {
     if ($pdo->inTransaction()) {
         $pdo->rollBack();
     }
+    error_log("Database error in toggle_plus_one.php: " . $e->getMessage());
     http_response_code(500);
-    echo json_encode(['error' => 'Database error']);
+    echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
 }
 ?> 
